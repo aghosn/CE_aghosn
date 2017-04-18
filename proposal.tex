@@ -1,0 +1,74 @@
+\title{Proposal}
+
+\documentclass[12pt]{article}
+
+\begin{document}
+\maketitle
+
+\section{Abstract}
+%Age of big data and explosion of applications
+%new ways to develop applications, event-driven and lambdas.
+%Sandboxing therefore needs to adapt to that new paradigm.
+%per function/lambda for isolated stateless routines.
+%Cheap isolation cost equal to switch of cr3?
+
+%trial 1
+%Mobile and web applications followed an exponential growth over the past decade.
+%The play store, for example, went from 16 000 applications in 2009, to nearly 2 600 000 in 2016.
+%As a new privileged way to reach customers.
+
+%mobile platforms -> user interaction.
+%Success overnight, require scaling etc. so cloud services and hosting solutions blabla.
+%Also the fact that they have to run untrusted code.
+
+%trial 2
+%Web service providers had to adapt to the growing number of web applications during the past decade.
+%In order to stay competitive, they had to provide new abstractions to their customer by exposing simple %abstractions that allow flexible development, integration, and deployment of mobile and web applications backend %logic.
+
+%trial 3
+%Web services providers strive to provide flexible ways to develop, deploy, and maintain mobile and web %applications.
+%As these applications have, nowadays, heterogeneous sources, often.
+
+%trial 4
+%Cloud services integration of new solution that allow application developers to focus on the app's logic, rather %than deployment etc.%
+%out-of-the-box.%
+%The logic is broken down to executing stateless routines in response to defined events.
+%As a result, such services needs to run untrusted code etc.
+
+%Cloud services provide application developers with frameworks and eco-systems that take care of server %management, application deployment, and guarantees such as automatic scaling of computational resources% and %availability.%
+%Hence, application developers only need to implement routines that handle application's events and requ%ests.
+%Such routines are stateless functions that are executed on the server side whenever the application triggers an %event.
+\subsection{version 1}
+The apparition of the recent cloud-based model to develop mobile and web applications requires to re-evaluate the granularity of existing sandboxing mechanisms.
+%Cloud services provide ecosystems in which user inputs and requests generate pre-defined events.
+Developers can execute stand-alone functions that run on the backend servers and handle requests, while the cloud service provider takes care of server management, resource allocation, and runtime environments.
+
+While very attractive to application developers, this function-based model presents a new security and availability challenges for cloud service providers.
+Arbitrary and untrusted code needs to be executed on servers, while enforcing isolation among co-located applications and preserving the servers integrity.
+Common sandboxing techniques, such as virtual machines and containers, are, however, inadequate to this per-function isolation model.
+
+This paper presents NAME, a function sandboxing mechanism that relies on hardware features to ensure isolation between untrusted user-defined functions.
+Our solution leverages hardware support for virtualization to efficiently generate virtual address spaces for each stateless function.
+We claim that our solution presents a smaller overhead, both in terms of execution and resource consumption, than standard sandboxing mechanisms for per-function isolation.\\
+
+
+\subsection{version 2}
+%Existing sandboxing mechanisms need to be reevaluated in order to better fit the recent models used to develop mobile and web applications.
+%Giant tech companies, such as Google and Amazon, compete to provide out-of-the-box solutions for application developers that generate a new development model, i.e., developers are responsible for implementing the application's logic as a set of functions, and do not have to consider operational apsects such as server deployment, resource management, and runtime environments.
+
+Sandboxing mechanisms need to be re-evaluated to better fit the emergence of new programming models for mobile and web applications.
+Nowadays, application developers outsource operational apsects, such as server deployment, resource management, and runtime environments by relying on out-of-the-box solutions.
+Such OOTBs handle function rather than machine abstractions and hence require isolation between co-located applications and to preserve the host's integrity.
+
+However, common sandboxing techniques, such as virtual machines or containers, are inadequate to provide a per-function isolation mechanism.
+A new abstraction, with smaller overheads, is therefore required to isolate functions from each other and prevent them from hurting the underlying host.
+
+This paper presents NAME, a function sandboxing mechanism that relies on hardware features to ensure isolation between untrusted user-defined functions.
+Our solution leverages hardware support for virtualization to efficiently generate virtual address spaces for each stateless function.
+We claim that our solution presents a smaller overhead, both in terms of execution and resource consumption, than standard sandboxing mechanisms for per-function isolation.
+
+
+
+
+
+\end{document}
