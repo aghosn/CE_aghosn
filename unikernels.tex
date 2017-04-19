@@ -1,6 +1,17 @@
 \section{Unikernels: Library Operating Systems for the Cloud}
 
 \subsection{Overview}
+%TO SAY
+%Keywords: Specialization (of the kernel itself)
+%1. Goal is to have secured, small sized, efficient applications easy to deploy in cloud.
+%2. The application is the kernel. Strip down and seal the app to only what is needed.
+%3. Relies on PL and compiler techniques, e.g., static analysis, static type-safety etc.
+%4. Single address space !!! have to put that somewhere.
+\textit{Unikernels} are defined as small sized sealed single-purpose appliances that can easily be deployed over cloud services.
+More specifically, a unikernel encapsulate an application's logic as well as the required system libraries and language runtime.
+However, unlike regular general-purpose VMs, unused functionalities are stripped-away at compile-time therefore yielding a small sized bootable image while reducing the potential attack surface exposed by said image.
+%\textit{Unikernels} are small sized images that can be efficiently deployed on cloud services.
+%The philosophy behind unikernels is to rely on high-level programming language features, such as static analysis and compile time dead-code elimination, to generate standalone kernels that are really single purpose appliances.
 
 \subsection{Evaluation}
 
