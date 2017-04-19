@@ -7,12 +7,59 @@
 %2. The application is the kernel. Strip down and seal the app to only what is needed.
 %3. Relies on PL and compiler techniques, e.g., static analysis, static type-safety etc.
 %4. Single address space !!! have to put that somewhere.
+This should be a high level overview of the paper.
+
 \textit{Unikernels} are defined as small sized sealed single-purpose appliances that can easily be deployed over cloud services.
 More specifically, a unikernel encapsulate an application's logic as well as the required system libraries and language runtime.
-However, unlike regular general-purpose VMs, unused functionalities are stripped-away at compile-time therefore yielding a small sized bootable image while reducing the potential attack surface exposed by said image.
-%\textit{Unikernels} are small sized images that can be efficiently deployed on cloud services.
-%The philosophy behind unikernels is to rely on high-level programming language features, such as static analysis and compile time dead-code elimination, to generate standalone kernels that are really single purpose appliances.
+However, unlike regular general-purpose VMs, unused functionalities are stripped-away at compile-time therefore yielding a small sized bootable image while reducing the potential attack surface exposed by said image.\\
+
+Describe the overall architecture and design.\\
+
+\subsection{Specialization through a unified common language.}
+The application is the OS.
+This goes further than before.\\
+
+Specialising benefits are smaller deployable things.
+A common lower level interface that relies on the supervisor.
+Smaller attack surface.
+Reconfiguration require re-compilation so hard to modify behaviour?\\
+
+Single high level language means that we can leverage modern techniques, e.g. type safety, static analysis, compiler optimizations to boost performance.
+At the same time, single address space is enough because we have the functionalities from the language that act as barriers.
 
 \subsection{Evaluation}
+TODO: redac this\\
+
+Main goals and claims: since supposed to be deployed on the cloud, both size and boot time are relevant.
+This is evaluated qualitatively by comparing LOCs between unikernels and VMs, and by measuring boot time required when deploying the appliances.
+Result is that can boot in less than 50 ms (how does it compare to Linxu?)\\
+
+Threading is efficient because no kernel and user space separation, hence avoid the mode switch overheads.\\
+
+Network and Storage type safety does not introduce significant delays.
+Thanks to single address space, 0-copy for receive so faster.
+Transmission is, however, slower because requires extra cpu processing (high level language).\\
+
+Application is DNS.
 
 \subsection{Discussion}
+
+Comparison with exokernel: different approach regarding the abstraction level.
+Still trusts the hypervisor, could we use the SGX to protect it somehow?
+Argument that hypervisor enables to get compatibility with drivers is good, but still need to reimplement all the system libraries...
+Still suffers from the same problems as any LibOS, you need to reimplement the libraries.
+Other problem is that you limit the flexibility by requiring them to be implemented in OCaml.
+Compatibility with other applications is ensured by having a network communication between the appliance and a VM that runs the service.
+Not good because shared memory etc. is not really straight forward.\\
+
+What is better than exokernel? 
+The fact that we can rely on high-level pl tools like verification, dead-code elimination etc.
+Packageable (which is not really the case for an app in exokernel and not a considered concern).\\
+
+What is not as good?
+Everything needs to be implemented in OCaml, because we have the runtime environment and all of that.
+In exokernel, you have an interface, and it could be enough to somehow communicate with it.\\
+
+What is bad as well?
+Can you actually snapshot an appliance and migrate it?
+Check in the paper if this is the case because I'm really not sure.

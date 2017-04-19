@@ -2,5 +2,34 @@
 
 \subsection{Overview}
 
+\subsection{Application knows best}
+Application can manage ressources.
+Kernel attack surface is smaller and should be less prone to bugs because it simply safely exposes resources.
+Kernel and application responsabilities are better defined.
+Crossing from user to kernel can be reduced to a strict minimum.
+Avoid all the kernel bypass etc.
+Reusability of libraries?\\
+
+Allows for new abstractions closer to application's logic.
+How hard would it be to implement lwc in exokernel? Not hard at all.\\
+
+relevant to dataplanes as well.\\
+
+How is scheduling implemented?
+
 \subsection{Evaluation}
+
+Must prove that it improves performance.
+Security aspect of it?
+
 \subsection{Discussion}
+Main critic is how can you trust libOS?
+Drivers reimplementation?
+Application code is not enough sufficient, need the libOS as well.
+Can we have a POSIX and Linux default set of LibOSes?
+Debugging requires to understand the LibOS as well, which is bad...
+\\
+
+We can inject haven's solution for example with the set of guaranteed pages.
+The application can put them into an enclave.
+Find an attack scenario from corrupted host, and how we can prevent it.\\
