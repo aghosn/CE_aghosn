@@ -4,16 +4,54 @@
 %Define shieldied application.
 %Give general goal and design.
 
-\subsection{The SGX extension}
+Shielded application.
+New problem is that you colocate applications in cloud services and want to be protected against a potentially corrupted host.
+Sandbox usually act the other way around.
+Rely on hardware mechanisms to do so by using the Intel SGX extension.\\
 
+Whole system is based on the libOS drawbridge.\\
+
+\subsection{The SGX extension}
+What is the SGX, what's an enclave, what can you do with it.
+Special pages that cannot be accessed or that trigger notification if accessed from outside of the enclave.
+How much pages can you put in there?\\
+
+Conclusion of this part must be that it's useful but cannot be enough to provide shielded execution.
 
 \subsection{Design}
+The entire "stack" of Haven.
+This complicated thing where they have the special untrusted runtime as well.
+Things that must be explained:
+\begin{itemize}
+	\item picoprocess (to protect the host from the guest)
+	\item the enclave
+	\item the library operating system.
+	\item the shield module (how does it verify that host is actually correctly serving a system call?)
+	\item untrusted runtime
+	\item SGX driver and drawbridge host.
+\end{itemize}
 
 \subsection{Evaluation}
-
+Important to see the overhead introduced.
+There is a security insentive, but the performance is also important because it is sacrificed here.
+Running unmodified binaries is really an advantage.
+Disk is still a limitation.
 \subsection{Discussion}
 %Untrusted time
 %VM exits.
 %Cannot move as easily as a VM.
 %Performance.
 %Monitoring is hard when needed.
+
+Still untrusted parts like the time.
+Vm exits are a problem.
+Cannot move it as easily as a VM, which is a problem since they target cloud deployement.
+The performance penalty is pretty high, it improves security but degrades application performance significantely.
+Cannot monitor, when on cloud services this is actually required and very important.\\
+
+What we can take away from this paper is actually that applications deployment changed significantely.
+Before, we could deploy on our own trusted servers.
+Now multiple mutually untrusted applications are colocated on the host and we have this new bidirectional lack of trust between host and guest.
+We need to address this issue.
+Relying on hardware is an interesting solution because, compared to software, it is less amenable to bugs and hard to attack or circumvent.
+The whole libOS thing is also interesting because it shows that by reimplementing the abstractions that regular applications rely on, we can run unmodified applications.

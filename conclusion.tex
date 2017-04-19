@@ -1,0 +1,11 @@
+\section{conclusion}
+Applications have evolved, both in the way they are written, and the way they are executed and deployed.
+Need new solutions and to redefine the role of operating systems.
+Library operating systems proposed a design that can be modified to both enable management of resources closer to the application's logic, as well as including new features that allow mutual distrust between the host and the guest in the case of applications deployed over the cloud.
+More than that, sandboxing, dataplanes, user-level implementation of system libraries, all of them can be rendered more efficient by simply providing a common base kernel that exposes flexible abstractions.
+We know that the problem is the huge reimplementation of both libs and drivers, as well as extending the amount of untrusted code (i.e., the libraries in the OS themselves).
+Taking a step by step approach as done with projects based on Dune is a first thing.
+Can the same efforts done by Microsoft can be done for Linux? 
+Sandboxes are going to become more and more complicated if the os does not become simpler.
+More and more kernel bypass is also to be expected.
+Virtualization and kernel modules allows to do just this, but still incure some overhead.

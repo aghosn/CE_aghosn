@@ -1,1 +1,16 @@
 \section{Research Proposal}
+
+What is my research proposal?
+
+We see the same problems appearing again and again, while the LibOS seems to come back everytime.
+Maybe it is time to realize that the current situation is no longer viable.
+That the separation between application and kernel needs to be redefined.
+That, by applying the end-to-end principle, the application knows best how to manage resources.\\
+
+At the same time, we have a growing distrust between host and guest because of the explosion of cloud services.
+Allowing the kernel to have complete power over resource management is just not good anymore.
+Most of the efforts done in the past was to shield host from guest, but now the opposite is also needed.
+See how many compromised cloud services (Find a cool example of such situation).\\
+
+Proposition is to reevalute the design and respective role of kernel and application such that we can both provide bidirectional isolation while allowing applications to achieve better performance by removing limitations due to system libraries implementations.
+Believe that this could provide good contribution in security, by allowing sandboxes to rely on hardware support to implement their logic, for example, instead of emulating functionalities on-top of the OS.
