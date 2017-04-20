@@ -1,6 +1,18 @@
 \documentclass[10pt,journal,a4paper]{IEEEtran}
 
 
+\usepackage{amsmath}                        % extended math env
+\usepackage{amssymb}                        % more math symbols
+% \usepackage{balance}                      % balance coloumns on final page
+\usepackage{booktabs}                       % nicer tables + hline thickness
+% \usepackage{caption}                        % control of caption sizing
+\usepackage[usenames,dvipsnames]{color}     % color access
+
+\usepackage{comment}
+\let\labelindent\relax
+\usepackage[inline]{enumitem}
+
+\newcommand{\adrien}[1]{\noindent{\color{Green} {\bf \fbox{AG} {\it#1}}}}
 % *** CITATION PACKAGES ***
 %
 \ifCLASSOPTIONcompsoc
@@ -58,7 +70,7 @@ pdfkeywords={EDIC, candidacy exam, EPFL}}%<^!CHANGE!
 
 \begin{document}
 
-\title{Flexible memory management.}
+\title{Reviewing kernels \& applications roles}
 
 
 

@@ -1,7 +1,7 @@
 \section{Introduction}
 
 %1. Applications evolved
-%	1.1. Complicated multi-sourced peace of code.
+%	1.1. Complicated multi-sourced piece of code.
 %	1.2. Requirement for performance and security.
 %	1.3. Deployed in new ways (e.g., cloud services)
 %	
@@ -21,3 +21,91 @@
 %		3.2.1 Hardware mechanism with SGX.
 %		3.2.2. Kernel design.
 %		3.2.3 Software kernel packaged for an application. 
+
+%TODO remove afterwards
+%TODO should define that in the paper we say guest for app or vm or anything that runs on top of the host, i.e., the kernel
+\subsection{Applications evolved}
+Past decades have seen the appearance of new applications.
+Available online, spread everywhere, frameworks, libraries.
+Multiple source give code that makes current applications ALSO dynamically download code in browser.
+This means new security challenges, with fine-grained control over what's happening.
+At the same time, explosion of data that circulates, requirement for performance.
+Finally, deployed in new ways. Not only running on a personal hardware, but deployed on cloud services, co-located with other applications.
+Still requirement for security, isolation, non-trust of the host, performance.\\
+
+
+%In the past decades, software applications have multiplied, became more complex, and intertwined in new ways.%
+%A vast majority of modern applications rely on public API's, external libraries, or software frameworks, hence incorporating code from various, someti%mes untrusted, sources.%
+%The web has become the main distribution platform for such software, hence making it impractically hard to verify sources. %TODO reformulate this one.%
+%\adrien{Rephrase all of that}The emergence and explosion of such complex systems leads to new security challenges, as verification tools do not allow to ensure a bug free software, applications still need to be executed without being %trusted.
+%At the same time, 
+%\adrien{Not sure if should keep it or just forget about it}Targeting a framework is much more valuable for attackers as it can potentially affect a large number of applications.
+%
+%Unavoidable e.g., browsers require to execute javascript, run untrusted web applets etc.
+%Browsers need to rely on sandboxing mechanisms to isolate javascript code ran on each page, and download and execute untrusted web applets.
+%Another mechanism implemented by certain operating systems consists in maintaining a list of trusted software providers and warn users whenever code from an untrusted source is being executed (Microsoft mitigation mechanism).
+%
+%Not only did the way applications were developed and distributed changed, but also the way to deploy them.
+%Cloud services, for example, host and co-located applications that originate from different sources.
+%This new way to deploy applications requires to isolated untrusted applications and prevent them from harming both the underlying host and other co-located applications.
+%Still requires to trust the host.
+%
+%\adrien{Performance???}
+
+\adrien{Need to reformulate everything. Put emphasis on the mutual distrust (don't care about multiple sources) between host and application. Then talk about performance}\\
+
+Cloud computing providers enable even small organizations to deploy web-based services quickly, with low start-up costs, and efficiently adapt the amount of available resources to their current load.
+On a machine, the cloud service provider's host divides physical resources among co-located applications from different origins.
+While very attractive for their simplicity and adaptability, such services raise important security issues.
+From the service provider's point of view, co-locating mutually distrusted applications requires to
+\begin{enumerate*}
+	\item isolate applications from each other and
+	\item prevent an application from corrupting the host
+\end{enumerate*}.
+As a result, sandboxing mechanisms became a fundamental building block of today's cloud services.
+However, most of these solutions assume that the host itself is part of the trust chain.
+Most cloud service providers require application developers to trust the hypervisor running on the machine.
+\adrien{Take things from Haven}.
+
+\adrien{At the same time, it is not exactly the same as having access to your own hardware.
+The performance is tunable to the extent of the provided service abstractions.}
+
+\textit{Summary}: Applications more and more complex, deployed in new ways, require performance.
+
+\subsection{Operating systems did not}
+Meanwhile, operating system abstractions did not evolve.
+Unix was designed in the seventeens, and is a source of inspiration for the current operating systems.
+At the same time, it's the main source of inspiration for POSIX.
+Problem is, these abstraction do not take into account new challenges.
+That's why some papers break POSIX compatibility, or simply by-pass the kernel.
+NEED EXAMPLES (IX can be one for dataplanes, LWC for more flexible memory management).\\
+
+Kernel is responsible for resource protection and management at the same time.
+While protection makes sense, i.e., role is to share the resources and ensure each unit some amount,
+management seems to be bad, because the kernel is not aware of what the application needs.
+A good example is garbage collection (okay I need to find a paper about this, maybe in the exokernel).\\
+
+Finally kernels are all powerful. A compromised kernel can hurt any application.
+While denial of service seems unavoidable, what might be a problem is data leakage, corruption, or highjacking of an application.
+With more an more colocated applications on cloud services, this is a real problem.
+Past efforts were made to protect host from guest, but now we actually want some guarantees the other way around as well.\\
+
+\textit{Summary}: kernel abstractions did not follow the same evolution as applications.
+There's a requirement for more liberty in resource management for the application, we want to separate protection from management.
+At the same time, we also need to protect guest from host.
+
+\subsection{Objectives}
+ In this paper, we want to study existing designs that could better answer today's requirements imposed by the way applications are developped and deployed.
+ We want the kernel to focus on protection rather than management.
+ The application's knows best how to manage its resources, and should therefore be given access to such resources to do with as they want.
+ By leaving the application with most of the management, we de-involve the kernel and hence get a better separation between kern and application, that allows to more easily provide a symmetric isolation/protection mechanisms from host to guest and guest to host.
+ We also want to study how modern software tools and techniques can impact kernel design.
+ How can we leverage software verification, static analysis and all of that in kernels? 
+ C and C++ are the most used languages, we might want a completely type safe language.\\
+
+ \textit{Summary:}This requires modifictions at several levels.
+ We study a hardware solution, a kernel one, and a software one.
+ We first present the following papers, and then the research proposal.
+
+
+ 
