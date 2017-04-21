@@ -25,58 +25,30 @@
 %TODO remove afterwards
 %TODO should define that in the paper we say guest for app or vm or anything that runs on top of the host, i.e., the kernel
 \subsection{Applications evolved}
-Past decades have seen the appearance of new applications.
-Available online, spread everywhere, frameworks, libraries.
-Multiple source give code that makes current applications ALSO dynamically download code in browser.
-This means new security challenges, with fine-grained control over what's happening.
-At the same time, explosion of data that circulates, requirement for performance.
-Finally, deployed in new ways. Not only running on a personal hardware, but deployed on cloud services, co-located with other applications.
-Still requirement for security, isolation, non-trust of the host, performance.\\
 
-
-%In the past decades, software applications have multiplied, became more complex, and intertwined in new ways.%
-%A vast majority of modern applications rely on public API's, external libraries, or software frameworks, hence incorporating code from various, someti%mes untrusted, sources.%
-%The web has become the main distribution platform for such software, hence making it impractically hard to verify sources. %TODO reformulate this one.%
-%\adrien{Rephrase all of that}The emergence and explosion of such complex systems leads to new security challenges, as verification tools do not allow to ensure a bug free software, applications still need to be executed without being %trusted.
-%At the same time, 
-%\adrien{Not sure if should keep it or just forget about it}Targeting a framework is much more valuable for attackers as it can potentially affect a large number of applications.
-%
-%Unavoidable e.g., browsers require to execute javascript, run untrusted web applets etc.
-%Browsers need to rely on sandboxing mechanisms to isolate javascript code ran on each page, and download and execute untrusted web applets.
-%Another mechanism implemented by certain operating systems consists in maintaining a list of trusted software providers and warn users whenever code from an untrusted source is being executed (Microsoft mitigation mechanism).
-%
-%Not only did the way applications were developed and distributed changed, but also the way to deploy them.
-%Cloud services, for example, host and co-located applications that originate from different sources.
-%This new way to deploy applications requires to isolated untrusted applications and prevent them from harming both the underlying host and other co-located applications.
-%Still requires to trust the host.
-%
-%\adrien{Performance???}
-
-\adrien{Need to reformulate everything. Put emphasis on the mutual distrust (don't care about multiple sources) between host and application. Then talk about performance}\\
-
-Cloud computing providers enable even small organizations to deploy web-based services quickly, with low start-up costs, and efficiently adapt the amount of available resources to their current load.
-On a machine, the cloud service provider's host divides physical resources among co-located applications from different origins.
-While very attractive for their simplicity and adaptability, such services raise important security concerns.
-
-From the service provider's point of view, co-locating mutually distrusted applications requires to
+Modern applications for desktop PCs, mobile devices, and even web services incorporate multiple layers of software frameworks, interface with public APIs, and rely on external libraries, all of which might come from various, potentially untrusted, sources.
+As a consequence of their intrinsic heterogeneity, most applications cannot be trusted and require strong isolation to prevent them from corrupting their host, or impacting other services running on the same system.
+Sandboxing mechanisms are therefore an essential building block of today's systems: Cloud services run guest applications within containers or virtual machines, web browsers sandbox the JavasSript and web-applets executed while visiting web pages, and operating systems run untrusted applications in unprivileged mode.
+In this classical hierarchical security model, the host is part of the trusted privileged software stack, and must be protected from the untrusted guest (application).
+In other words, common sandboxes implement a single-sided isolation mechanism.
+This model, unfortunately, presents two main concerns with regards to modern applications' requirements
 \begin{enumerate*}
-	\item isolate applications from each other and
-	\item prevent an application from corrupting the host
+	\item sandboxing limits the application's performance by fixing rigid APIs and the implementation of underlying system services
+	\item modern applications generate and process sensitive data that must be protected from a compromised or flawed host
 \end{enumerate*}.
-\adrien{Take things from Haven}.
-As a result, sandboxing mechanisms became a fundamental building block of today's cloud services.
-These mechanisms often follow a classical hierarchical security model with a single-sided isolation mechanism, i.e., privileged trusted code (the host) is protected from the untrusted one (the guest) while retaining access to all the application's data.
+We successively develop both of these concerns in the following paragraphs.
 
-From the guest application's point of view, the lack of bidirectional isolation requires to either treat the entire host privileged software stack as a trusted part of the execution, or develop mitigation solutions (e.g., operate on encrypted data) to protect some parts of the user data from the host.
+Traditional operating systems
 
-While obvious for Cloud computing, such concerns can be generalized to standard computing systems?
+Even push further, provided abstractions do not work.
 
-\adrien{Pursue with the need for performance.}
 
-\adrien{At the same time, it is not exactly the same as having access to your own hardware.
-The performance is tunable to the extent of the provided service abstractions e.g. bare metal, hybrid or hosted, but with no real control of what is done by the host. Here I should argue more about the performance and the form taken by applications?}
+\adrien{Performance rigid APIs, kernel-by-pass etc., adding sandboxing is often very limiting}
+\adrien{Design to reconciliate performance and security}
+\adrien{Description of sandboxing}
+\adrien{Unfortunately two main concerns: not bidirectional, and impact performance too}
+Cloud or Microsoft or CIA
 
-\textit{Summary}: Applications more and more complex, deployed in new ways, require performance, 
 \subsection{Operating systems did not}
 \adrien{Use the paper sent by Marios for everything that is related to POSIX abstractions and new layered application.
 shift of paradigm where applications mostly interface with frameworks that either interact with os or by-pass it to re-implement some low-level features such as network.}
