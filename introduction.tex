@@ -56,23 +56,31 @@ Still requirement for security, isolation, non-trust of the host, performance.\\
 
 Cloud computing providers enable even small organizations to deploy web-based services quickly, with low start-up costs, and efficiently adapt the amount of available resources to their current load.
 On a machine, the cloud service provider's host divides physical resources among co-located applications from different origins.
-While very attractive for their simplicity and adaptability, such services raise important security issues.
+While very attractive for their simplicity and adaptability, such services raise important security concerns.
+
 From the service provider's point of view, co-locating mutually distrusted applications requires to
 \begin{enumerate*}
 	\item isolate applications from each other and
 	\item prevent an application from corrupting the host
 \end{enumerate*}.
-As a result, sandboxing mechanisms became a fundamental building block of today's cloud services.
-However, most of these solutions assume that the host itself is part of the trust chain.
-Most cloud service providers require application developers to trust the hypervisor running on the machine.
 \adrien{Take things from Haven}.
+As a result, sandboxing mechanisms became a fundamental building block of today's cloud services.
+These mechanisms often follow a classical hierarchical security model with a single-sided isolation mechanism, i.e., privileged trusted code (the host) is protected from the untrusted one (the guest) while retaining access to all the application's data.
+
+From the guest application's point of view, the lack of bidirectional isolation requires to either treat the entire host privileged software stack as a trusted part of the execution, or develop mitigation solutions (e.g., operate on encrypted data) to protect some parts of the user data from the host.
+
+While obvious for Cloud computing, such concerns can be generalized to standard computing systems?
+
+\adrien{Pursue with the need for performance.}
 
 \adrien{At the same time, it is not exactly the same as having access to your own hardware.
-The performance is tunable to the extent of the provided service abstractions.}
+The performance is tunable to the extent of the provided service abstractions e.g. bare metal, hybrid or hosted, but with no real control of what is done by the host. Here I should argue more about the performance and the form taken by applications?}
 
-\textit{Summary}: Applications more and more complex, deployed in new ways, require performance.
-
+\textit{Summary}: Applications more and more complex, deployed in new ways, require performance, 
 \subsection{Operating systems did not}
+\adrien{Use the paper sent by Marios for everything that is related to POSIX abstractions and new layered application.
+shift of paradigm where applications mostly interface with frameworks that either interact with os or by-pass it to re-implement some low-level features such as network.}
+
 Meanwhile, operating system abstractions did not evolve.
 Unix was designed in the seventeens, and is a source of inspiration for the current operating systems.
 At the same time, it's the main source of inspiration for POSIX.
@@ -87,7 +95,7 @@ A good example is garbage collection (okay I need to find a paper about this, ma
 
 Finally kernels are all powerful. A compromised kernel can hurt any application.
 While denial of service seems unavoidable, what might be a problem is data leakage, corruption, or highjacking of an application.
-With more an more colocated applications on cloud services, this is a real problem.
+With more an more co-located applications on cloud services, this is a real problem.
 Past efforts were made to protect host from guest, but now we actually want some guarantees the other way around as well.\\
 
 \textit{Summary}: kernel abstractions did not follow the same evolution as applications.
