@@ -16,6 +16,49 @@ This model, unfortunately, presents two main concerns
 \adrien{Unfortunately two main concerns: not bidirectional, and impact performance too}
 Cloud or Microsoft or CIA
 
+
+
+Applications and standardized operating systems abstractions evolved at different paces over the past decades, leading to an important mismatch that impedes both the security and performance of modern software.
+Application developers require ever-higher network throughputs, finer-grained memory management, access to various devices, increasingly demanding isolation guarantees, all of which is unachievable with the common standards (e.g., POSIX) defined decades ago.
+The rigidity of existing operating systems APIs and system services implementations lead to the appearance of ad-hoc solutions, that strive to provide applications with either more flexible or better specialized implementations.
+For example, such solutions include the re-implementations of the thread abstraction[CITE], IPC mechanisms[CITE], memory abstractions[CITE], or the networking stack[CITE IX and user-level impl].
+
+Traditional operating system designs lack the flexibility necessary to address modern security and privacy concerns.
+
+
+Modern applications for desktop PCs, mobile devices, and even web services incorporate multiple layers of software frameworks, interface with public APIs, and rely on external libraries, all of which might come from various, potentially untrusted, sources.
+As a consequence of their intrinsic heterogeneity, most applications cannot be trusted and require strong isolation to prevent them from corrupting their host, or impacting other services running on the same system.
+Sandboxing mechanisms are therefore an essential building block of today's systems: Cloud services run guest applications within containers or virtual machines, web browsers sandbox the JavasSript and web-applets executed while visiting web pages, and operating systems run untrusted applications in unprivileged mode.
+Regardless of the way the application is deployed (e.g., on a cloud service, on a personal computer etc.), the adopted hierarchical security model aims to protect a trusted privileged host from an untrusted guest.
+This model, however, seems obsolete.
+Recent evolutions in the way applications are deployed (e.g., Cloud services), as well as scandals revealing mainstream operating system's aggressive aggregation of user data, seems to suggest that the host cannot be trusted by the application.
+In the light of these observations, 
+
+Aggregation of data, increase of malware.
+
+Meanwhile, the strive for performance is still present, applications need to process ever increasing amounts of data in a timely fashion.
+
+
+In this classical hierarchical security model, the host is part of the trusted privileged software stack, and must be protected from the untrusted guest (application).
+In other words, common sandboxes implement a single-sided isolation mechanism.
+This model, unfortunately, presents two main concerns with regards to modern applications' requirements
+\begin{enumerate*}
+	\item sandboxing limits the application's performance by fixing rigid APIs and the implementation of underlying system services
+	\item modern applications generate and process sensitive data that must be protected from a compromised or flawed host
+\end{enumerate*}.
+We successively develop both of these concerns in the following paragraphs.
+
+Traditional operating systems
+
+Even push further, provided abstractions do not work.
+
+
+\adrien{Performance rigid APIs, kernel-by-pass etc., adding sandboxing is often very limiting}
+\adrien{Design to reconciliate performance and security}
+\adrien{Description of sandboxing}
+\adrien{Unfortunately two main concerns: not bidirectional, and impact performance too}
+Cloud or Microsoft or CIA
+
 %Past decades have seen the appearance of new applications.
 %Available online, spread everywhere, frameworks, libraries.
 %Multiple source give code that makes current applications ALSO dynamically download code in browser.

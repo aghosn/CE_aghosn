@@ -26,28 +26,31 @@
 %TODO should define that in the paper we say guest for app or vm or anything that runs on top of the host, i.e., the kernel
 \subsection{Applications evolved}
 
-Modern applications for desktop PCs, mobile devices, and even web services incorporate multiple layers of software frameworks, interface with public APIs, and rely on external libraries, all of which might come from various, potentially untrusted, sources.
-As a consequence of their intrinsic heterogeneity, most applications cannot be trusted and require strong isolation to prevent them from corrupting their host, or impacting other services running on the same system.
-Sandboxing mechanisms are therefore an essential building block of today's systems: Cloud services run guest applications within containers or virtual machines, web browsers sandbox the JavasSript and web-applets executed while visiting web pages, and operating systems run untrusted applications in unprivileged mode.
-In this classical hierarchical security model, the host is part of the trusted privileged software stack, and must be protected from the untrusted guest (application).
-In other words, common sandboxes implement a single-sided isolation mechanism.
-This model, unfortunately, presents two main concerns with regards to modern applications' requirements
-\begin{enumerate*}
-	\item sandboxing limits the application's performance by fixing rigid APIs and the implementation of underlying system services
-	\item modern applications generate and process sensitive data that must be protected from a compromised or flawed host
-\end{enumerate*}.
-We successively develop both of these concerns in the following paragraphs.
+Applications and traditional operating system designs and abstractions evolved at different paces over the past decades, leading to an important mismatch that impedes both security and performance of modern software.
+In an increasingly multi-tasked and web-oriented environment, application developers strive for ever higher network throughputs, finer-grained memory management, fast access to heterogeneous external devices, and strong isolation guarantees, all of which seems hardly achievable with the common standards (e.g., POSIX) defined decades ago.
+This mismatch lead to ad-hoc re-implementations of system services, closer to the application's logic and able to achieve either more flexibility or higher performances.
+Such solutions include user-level reimplementation of threads[CITE], IPC mechanisms[CITE], memory abstractions[CITE], or the networking stack[CITE].
+As a result, modern applications are built on top of multiple layers of software frameworks and libraries, rather than on top of the available OS abstractions.
 
-Traditional operating systems
-
-Even push further, provided abstractions do not work.
+%At the same time, the complexity inherent to the inclusion of code from various sources, as well as new deployment practices (e.g., Cloud services) and increasing concerns for privacy calls for a re-evaluation of operating systems' security models.
+At the same time, aging operating system designs fail to address contemporary security concerns.
+Present-day software incorporate code from various, potentially untrusted, sources.
+Consequently, sandboxing mechanisms became a fundamental building block of application's development.
+For example, web-browsers rely on such techniques to prevent web-applets, browser plug-ins, and web-pages's JavaScript from harming the host.
+Unfortunately, the lack of flexible system abstractions lead to heterogeneous and complex implementations of sandboxes.
 
 
-\adrien{Performance rigid APIs, kernel-by-pass etc., adding sandboxing is often very limiting}
-\adrien{Design to reconciliate performance and security}
-\adrien{Description of sandboxing}
-\adrien{Unfortunately two main concerns: not bidirectional, and impact performance too}
-Cloud or Microsoft or CIA
+Meanwhile, the widespread hierarchical security model that tends to protect a privileged host from an unprivileged guest is unable to fully answer present privacy concerns.
+Nowadays, applications generate and process sensitive user data that should only be available to the application.
+Regrettably, privileged code has unrestricted access to unprivileged code's resources, based on the assumption that it is part of the trusted software stack.
+This assumption, however, fails to address new deployment paradigms (e.g., Cloud services), where little is known about the software running on the host.
+Even worse, growing concerns have been voiced against user data aggregation by mainstream operating systems[CITE microsoft].
+Mutual distrust, between host (privileged code) and guest (unprivileged code) hence seems to appear better suited to address modern security and privacy requirements. 
+
+%%The advent of the Internet area lead to new application deployment paradigms and an incredible increase in the amount of sensitive user data transiting throughout the web.
+%%Cloud service providers enable even small companies to quickly deploy web-applications at a low starting cost.
+%%Applications from multiple, mutually distrusted sources, are co-located on the same machine.
+
 
 \subsection{Operating systems did not}
 \adrien{Use the paper sent by Marios for everything that is related to POSIX abstractions and new layered application.
