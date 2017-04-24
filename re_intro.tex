@@ -59,6 +59,49 @@ Even push further, provided abstractions do not work.
 \adrien{Unfortunately two main concerns: not bidirectional, and impact performance too}
 Cloud or Microsoft or CIA
 
+
+%%The advent of the Internet area lead to new application deployment paradigms and an incredible increase in the amount of sensitive user data transiting throughout the web.
+%%Cloud service providers enable even small companies to quickly deploy web-applications at a low starting cost.
+%%Applications from multiple, mutually distrusted sources, are co-located on the same machine.
+
+
+\subsection{Operating systems did not}
+\adrien{Use the paper sent by Marios for everything that is related to POSIX abstractions and new layered application.
+shift of paradigm where applications mostly interface with frameworks that either interact with os or by-pass it to re-implement some low-level features such as network.}
+
+Meanwhile, operating system abstractions did not evolve.
+Unix was designed in the seventeens, and is a source of inspiration for the current operating systems.
+At the same time, it's the main source of inspiration for POSIX.
+Problem is, these abstraction do not take into account new challenges.
+That's why some papers break POSIX compatibility, or simply by-pass the kernel.
+NEED EXAMPLES (IX can be one for dataplanes, LWC for more flexible memory management).\\
+
+Kernel is responsible for resource protection and management at the same time.
+While protection makes sense, i.e., role is to share the resources and ensure each unit some amount,
+management seems to be bad, because the kernel is not aware of what the application needs.
+A good example is garbage collection (okay I need to find a paper about this, maybe in the exokernel).\\
+
+Finally kernels are all powerful. A compromised kernel can hurt any application.
+While denial of service seems unavoidable, what might be a problem is data leakage, corruption, or highjacking of an application.
+With more an more co-located applications on cloud services, this is a real problem.
+Past efforts were made to protect host from guest, but now we actually want some guarantees the other way around as well.\\
+
+\textit{Summary}: kernel abstractions did not follow the same evolution as applications.
+There's a requirement for more liberty in resource management for the application, we want to separate protection from management.
+At the same time, we also need to protect guest from host.
+
+\subsection{Objectives}
+ In this paper, we want to study existing designs that could better answer today's requirements imposed by the way applications are developped and deployed.
+ We want the kernel to focus on protection rather than management.
+ The application's knows best how to manage its resources, and should therefore be given access to such resources to do with as they want.
+ By leaving the application with most of the management, we de-involve the kernel and hence get a better separation between kern and application, that allows to more easily provide a symmetric isolation/protection mechanisms from host to guest and guest to host.
+ We also want to study how modern software tools and techniques can impact kernel design.
+ How can we leverage software verification, static analysis and all of that in kernels? 
+ C and C++ are the most used languages, we might want a completely type safe language.\\
+
+ \textit{Summary:}This requires modifictions at several levels.
+ We study a hardware solution, a kernel one, and a software one.
+ We first present the following papers, and then the research proposal.
 %Past decades have seen the appearance of new applications.
 %Available online, spread everywhere, frameworks, libraries.
 %Multiple source give code that makes current applications ALSO dynamically download code in browser.
