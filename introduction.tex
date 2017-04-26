@@ -26,14 +26,14 @@
 %TODO should define that in the paper we say guest for app or vm or anything that runs on top of the host, i.e., the ker/su
 \subsection{The Problem}
 
-Applications and traditional operating system designs and abstractions evolved at different paces over the past decades, leading to an important mismatch that impedes both security and performance of modern software.
+Applications and traditional monolithic operating system designs and abstractions evolved at different paces over the past decades, leading to an important mismatch that impedes both security and performance of modern software.
 In an increasingly multi-tasked and web-oriented environment, application developers strive for ever higher network throughputs, finer-grained memory management, fast access to heterogeneous external devices, and strong isolation guarantees, all of which seems hardly achievable with the common standards (e.g., POSIX) defined decades ago.
-This mismatch lead to ad-hoc reimplementations of system services, closer to the application's logic, and able to achieve either more flexibility or higher performance.
+This mismatch lead to ad-hoc re-implementations of system services, closer to the application's logic, and able to achieve either more flexibility or higher performance.
 Such solutions include user-level reimplementation of threads[CITE], IPC mechanisms[CITE], memory abstractions[CITE], or the networking stack[CITE].
 As a result, modern applications are built on top of multiple layers of software frameworks and libraries, rather than on top of the available OS abstractions.
 
 %At the same time, the complexity inherent to the inclusion of code from various sources, as well as new deployment practices (e.g., Cloud services) and increasing concerns for privacy calls for a re-evaluation of operating systems' security models.
-At the same time, aging operating system designs fail to address contemporary security concerns.
+At the same time, aging commodity operating system designs fail to address contemporary security concerns.
 Present-day software incorporate code from various, potentially untrusted, sources.
 Consequently, sandboxing mechanisms became a fundamental building block of applications development.
 For example, web-browsers rely on such techniques to prevent web-applets, browser plug-ins, and web-pages's JavaScript from harming the host.
@@ -44,21 +44,20 @@ Nowadays, applications generate and process sensitive user data that should only
 Regrettably, privileged code has unrestricted access to unprivileged code's resources, based on the assumption that it is part of the trusted software stack.
 This assumption, however, fails to consider new deployment paradigms (e.g., Cloud services), where little is known about the software running on the host.
 Even worse, growing concerns have been voiced against user data aggregation by mainstream operating systems[CITE microsoft].
-Mutual distrust, between host (privileged code) and guest (unprivileged code) hence appears to be better suited to address modern security and privacy challenges. 
+More generally, a compromised monolithic operating system gives an attacker unlimited access to all application's resources.
+Mutual distrust, between host (privileged code) and guest (unprivileged code) hence appears to be better suited to address modern security and privacy challenges.
 
-\subsection{What we want}
 From the previous observations, we understand that current system abstractions need to evolve.
-We further argue that, due to the heterogeneity of the present software world, and the increasingly hard isolation requirements, general-purpose systems are doomed to fail at providing appropriate features to satisfy this large base of softwares.
-As others before us[CITE], we believe that A better design should allow efficient application's specific speicialization of resource management.
-As other before us[CITE], we call for a greater separation of concerns between the host system and guest applications.%TODO good but rephrase.
-Application developers should be responsible for resource management.
+As others before us[CITE], we believe that a better design should allow efficient application specific specialization of resource management.
+We further argue that, by redefining the respective roles of applications and operating systems, one could more easily provide bi-directional isolation and address present security and privacy concerns.\\
 
-We believe that two conclusions can be drawn from the previous observations:
-\begin{enumerate}
-	\item Hello 
-	\item Goodbye
-\end{enumerate}
-General operating system is unable to satisfy application's specific requirements, in terms of management of resources, to achieve proper performance.
+\adrien{To redact}
+TODO talk about different designs, such as monolithic kernels, 
+What is a libOS, how does it differ from existing monolithic kernels.
+In this paper, we study how previous attempts at providing libOS enable to answer today's challenges etc.
+Show that by combining existing solutions, we are able to provide a design that allows both performance and security according to modern requirements.
+
 
 \subsection{The papers}
- 
+In the rest of this document, we present three different approaches that aim at TODO.
+First describe Haven, that relies on a hardware extension to protect a guest application from a host.
