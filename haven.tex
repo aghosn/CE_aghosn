@@ -81,6 +81,18 @@ Data within an enclave is encrypted and integrity protected.
 %Allocate: host calls EAUG, enclave must EACCEPT.
 %Other instructions to change permissions, require cooperation as well since need TLB shootdowns.
  
+Conclusion of this part must be that it's useful but cannot be enough to provide shielded execution.
+\adrien{Start writing}.\\
+
+
+%The Intel software guard extension (SGX), defines a set of new instructions that enable to create \emph{enclaves}, i.e., private regions of the user-mode address space protected even against privileged code.
+%An enclave's data residing in memory is encrypted.
+%Any modification performed on an enclave's data residing in memory triggers a fault upon a subsequent load.
+%For data that has been loaded into the cache, the CPU access controls (the TLB) are enough to protect both integrity and confidentiality.
+
+The Intel Software Guard Extension (SGX) defines a set of new CPU instructions that allows to create and manipulate \emph{enclaves}.
+An enclave is a portion of the user address space protected against unauthorized access or modification by software running at a higher privileged level.
+Data within an enclave is encrypted and integrity protected.
 
 
 \subsection{Design}
