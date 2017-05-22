@@ -29,11 +29,12 @@ Haven[CITE] is a system that leverages Intel software guard extension (SGX) to p
 Shielded execution allows to protect the \emph{confidentiality} and \emph{integrity} of a program's data from the host (e.g., the OS) on which it runs.
 Confidentiality ensures that the program's intermediate states are not observable by the rest of the system, while integrity guarantees that if the program completes, the output is correct.
 
-Haven runs unmodified applications that do not incorporate in-depth defense against the host, i.e., they were written assuming that the underlying system is well-behaved.
-In order to preserve their integrity and protect against Iago attacks, i.e., a malicious host modifying the results of system calls to subvert an application, Haven integrates a library OS (LibOS) based on Microsoft Drawbridge[CITE] that exposes the Windows 8 API.
-The application runs on top of the LibOS, which in turns interacts with the untrusted host.
+%\adrien{Haven isolates against the host by running within an SGX enclave, a secure region of address space}
 
-\adrien{Should say SGX allows confidentiality and integrity, integrity also guaranteed by libOS.}
+%Haven runs unmodified applications that do not incorporate in-depth defense against the host, i.e., they were written assuming that the underlying system is well-behaved.
+%In order to preserve their integrity and protect against Iago attacks, i.e., a malicious host modifying the results of system calls to subvert an application, Haven integrates a library OS (LibOS) based on Microsoft Drawbridge[CITE] %that exposes the Windows 8 API.%
+%The application runs on top of the LibOS, which in turns interacts with the untrusted host.
+%\adrien{Should say SGX allow confidentiality and integrity, integrity also guaranteed by libOS.}
 
 \subsection{The SGX extension}
 What is the SGX, what's an enclave, what can you do with it.
@@ -41,6 +42,20 @@ Special pages that cannot be accessed or that trigger notification if accessed f
 How much pages can you put in there?\\
 
 Conclusion of this part must be that it's useful but cannot be enough to provide shielded execution.
+\adrien{Start writing}.\\
+
+
+%The Intel software guard extension (SGX), defines a set of new instructions that enable to create \emph{enclaves}, i.e., private regions of the user-mode address space protected even against privileged code.
+%An enclave's data residing in memory is encrypted.
+%Any modification performed on an enclave's data residing in memory triggers a fault upon a subsequent load.
+%For data that has been loaded into the cache, the CPU access controls (the TLB) are enough to protect both integrity and confidentiality.
+
+The Intel Software Guard Extension (SGX) defines a set of new CPU instructions that allows to create and manipulate \emph{enclaves}.
+An enclave is a portion of the user address space protected against unauthorized access or modification by software running at a higher privileged level.
+Data within an enclave is encrypted and integrity protected.
+
+ 
+
 
 \subsection{Design}
 The entire "stack" of Haven.
@@ -69,13 +84,13 @@ Disk is still a limitation.
 
 Still untrusted parts like the time.
 Vm exits are a problem.
-Cannot move it as easily as a VM, which is a problem since they target cloud deployement.
-The performance penalty is pretty high, it improves security but degrades application performance significantely.
+Cannot move it as easily as a VM, which is a problem since they target cloud deployment.
+The performance penalty is pretty high, it improves security but degrades application performance significantly.
 Cannot monitor, when on cloud services this is actually required and very important.\\
 
-What we can take away from this paper is actually that applications deployment changed significantely.
+What we can take away from this paper is actually that applications deployment changed significantly.
 Before, we could deploy on our own trusted servers.
-Now multiple mutually untrusted applications are colocated on the host and we have this new bidirectional lack of trust between host and guest.
+Now multiple mutually untrusted applications are co-located on the host and we have this new bidirectional lack of trust between host and guest.
 We need to address this issue.
 Relying on hardware is an interesting solution because, compared to software, it is less amenable to bugs and hard to attack or circumvent.
 The whole libOS thing is also interesting because it shows that by reimplementing the abstractions that regular applications rely on, we can run unmodified applications.
