@@ -28,19 +28,60 @@ Seeing as privacy and confidentiality are growing concerns, new techniques need 
 Haven[CITE] is a system that leverages Intel software guard extension (SGX) to provide shielded execution of unmodified legacy applications on a commodity OS (windows).
 Shielded execution allows to protect the \emph{confidentiality} and \emph{integrity} of a program's data from the host (e.g., the OS) on which it runs.
 Confidentiality ensures that the program's intermediate states are not observable by the rest of the system, while integrity guarantees that if the program completes, the output is correct.
+We briefly introduce the Intel SGX extension main features before presenting Haven's design.
 
-Haven runs unmodified applications that do not incorporate in-depth defense against the host, i.e., they were written assuming that the underlying system is well-behaved.
-In order to preserve their integrity and protect against Iago attacks, i.e., a malicious host modifying the results of system calls to subvert an application, Haven integrates a library OS (LibOS) based on Microsoft Drawbridge[CITE] that exposes the Windows 8 API.
-The application runs on top of the LibOS, which in turns interacts with the untrusted host.
+%\adrien{Haven isolates against the host by running within an SGX enclave, a secure region of address space}
 
-\adrien{Should say SGX allows confidentiality and integrity, integrity also guaranteed by libOS.}
+%Haven runs unmodified applications that do not incorporate in-depth defense against the host, i.e., they were written assuming that the underlying system is well-behaved.
+%In order to preserve their integrity and protect against Iago attacks, i.e., a malicious host modifying the results of system calls to subvert an application, Haven integrates a library OS (LibOS) based on Microsoft Drawbridge[CITE] %that exposes the Windows 8 API.%
+%The application runs on top of the LibOS, which in turns interacts with the untrusted host.
+%\adrien{Should say SGX allow confidentiality and integrity, integrity also guaranteed by libOS.}
 
 \subsection{The SGX extension}
-What is the SGX, what's an enclave, what can you do with it.
-Special pages that cannot be accessed or that trigger notification if accessed from outside of the enclave.
-How much pages can you put in there?\\
+%What is the SGX, what's an enclave, what can you do with it.
+%Special pages that cannot be accessed or that trigger notification if accessed from outside of the enclave.
+%How much pages can you put in there?\\
+%
+%Conclusion of this part must be that it's useful but cannot be enough to provide shielded execution.
+\adrien{Start writing}.\\
 
-Conclusion of this part must be that it's useful but cannot be enough to provide shielded execution.
+
+%The Intel software guard extension (SGX), defines a set of new instructions that enable to create \emph{enclaves}, i.e., private regions of the user-mode address space protected even against privileged code.
+%An enclave's data residing in memory is encrypted.
+%Any modification performed on an enclave's data residing in memory triggers a fault upon a subsequent load.
+%For data that has been loaded into the cache, the CPU access controls (the TLB) are enough to protect both integrity and confidentiality.
+
+The Intel Software Guard Extension (SGX) defines a set of new CPU instructions that allows to create and manipulate \emph{enclaves}.
+An enclave is a portion of the user address space protected against unauthorized access or modification by software running at a higher privileged level.
+Data within an enclave is encrypted and integrity protected.
+
+\adrien{Talk about State Save Area (SSA) (context save region.) and how to specify an enclave.}
+
+%Different ways to protect:
+%1. data in cache protected by TLB access.
+%2. upon modification outside of the enclave, next load triggers a fault.
+%3. maintains shadow page table.
+%
+%ECREATE init a structure in protected memory, EADD allows to add a page to enclave.
+%A page allocated by the OS but must come from a specific physical pool (EPC)
+%Hardware tracks type of EPC page, enclave it belongs to, checks type, current enclape maps the page at correct va, access okay with access rights.
+%Paging is allowed. Prevent rollback attack with versioning number
+%
+%SGX provides attestation CPU-based. Can be used to prove identity and communicate with other enclaves.
+%Processor manufacturer is root of trust for attestation.
+%
+%TCS to protect the enclave register file.
+%EENTER on idle TCS
+%Can read write outside of enclave but not execute.
+%EEXIT or interrupt or exception. Entry and exit points specified by enclave.
+%ERESUME on TCS to get back there. Also, state of enclave is saved and linked to TCS.
+%Imperfect because OS can still observe some stuff.
+%
+%Cooperation between host OS and enclave.
+%Allocate: host calls EAUG, enclave must EACCEPT.
+%Other instructions to change permissions, require cooperation as well since need TLB shootdowns.
+ 
+
 
 \subsection{Design}
 The entire "stack" of Haven.
@@ -55,11 +96,58 @@ Things that must be explained:
 	\item SGX driver and drawbridge host.
 \end{itemize}
 
+\adrien{Present from the optic of defending, show what needs to be done, cannot blindly trust the OS with services so need to reduce how much it is necessary to implicate it within the execution.}
+
+\adrien{Everybody obsessed with policy mechanism separation}
+
+\adrien{Maybe list all the problems somehow in the first remark.}
+
+
+%Drawbridge running on top of host kernel is responsible for the thing. 
+%%Insert image.
+%
+% Rely on drawbridge to sandbox the application and have a trusted LibOS (trusted by the app itself).
+% Exposes a narrower interface, and is verifiable by application. 
+% Reducing interface means less ways to exploit and easier to control.
+% 
+% Shield module within the TCB. Gives core OS operations
+% Also a bootloader for libos and application.
+% There to protect against Iago attacks.
+% 
+% Untrusted interface (not in enclave)
+% Policy mechanism separation
+\adrien{Worth putting as insight before everything else. Should probably list such things (policy etc.) first and then give details.}
+% Guest is responsible for virtual, host for physical
+% Untrusted runtime
+% create enclave, loading shield, forwarding calls to host
+% Decided to prevent app from allocating anything outside of the enclave.
+% Storage?
+% 
+% Threads and synchronization
+% user level scheduling
+% 
+% Deployement is weird because also need to verify the VHD.
+% Basically load and attest shield, then send the disk image.
+% 
+% Switching in and out of enclave requires specific mechanisms (clearing registers etc.)
+% Requires copy for parameters passed by reference
+% 
+% Exception handler not really interesting.
+% 
+% 
+% Requires to load all binaries directly because no demand loading possible.
+
 \subsection{Evaluation}
 Important to see the overhead introduced.
-There is a security insentive, but the performance is also important because it is sacrificed here.
+There is a security incentive, but the performance is also important because it is sacrificed here.
 Running unmodified binaries is really an advantage.
 Disk is still a limitation.
+
+% Hard to evaluate on simulator, but looks like main penalties come from X.
+% 31 to 54 percent slowdown comparend to VM 
+% Enclave crossing is what impacts the most.
+% They say it's gonna be acceptable but seems high.
+
 \subsection{Discussion}
 %Untrusted time
 %VM exits.
@@ -69,13 +157,19 @@ Disk is still a limitation.
 
 Still untrusted parts like the time.
 Vm exits are a problem.
-Cannot move it as easily as a VM, which is a problem since they target cloud deployement.
-The performance penalty is pretty high, it improves security but degrades application performance significantely.
+Cannot move it as easily as a VM, which is a problem since they target cloud deployment.
+The performance penalty is pretty high, it improves security but degrades application performance significantly.
 Cannot monitor, when on cloud services this is actually required and very important.\\
 
-What we can take away from this paper is actually that applications deployment changed significantely.
+What we can take away from this paper is actually that applications deployment changed significantly.
 Before, we could deploy on our own trusted servers.
-Now multiple mutually untrusted applications are colocated on the host and we have this new bidirectional lack of trust between host and guest.
+Now multiple mutually untrusted applications are co-located on the host and we have this new bidirectional lack of trust between host and guest.
 We need to address this issue.
 Relying on hardware is an interesting solution because, compared to software, it is less amenable to bugs and hard to attack or circumvent.
 The whole libOS thing is also interesting because it shows that by reimplementing the abstractions that regular applications rely on, we can run unmodified applications.
+Although authors claim that this design can be easily ported, I see the lack of support for fork as a problem.
+Why untrusted channel when SGX has a mechanism to attest a program?
+
+
+
+
