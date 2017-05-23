@@ -43,20 +43,34 @@ We briefly introduce the Intel SGX extension main features before presenting Hav
 %How much pages can you put in there?\\
 %
 %Conclusion of this part must be that it's useful but cannot be enough to provide shielded execution.
-\adrien{Start writing}.\\
-
-
-%The Intel software guard extension (SGX), defines a set of new instructions that enable to create \emph{enclaves}, i.e., private regions of the user-mode address space protected even against privileged code.
-%An enclave's data residing in memory is encrypted.
-%Any modification performed on an enclave's data residing in memory triggers a fault upon a subsequent load.
-%For data that has been loaded into the cache, the CPU access controls (the TLB) are enough to protect both integrity and confidentiality.
 
 The Intel Software Guard Extension (SGX) defines a set of new CPU instructions that allows to create and manipulate \emph{enclaves}.
-An enclave is a portion of the user address space protected against unauthorized access or modification by software running at a higher privileged level.
+An enclave is a portion of the user address space protected against unauthorized access or modification by software, even the ones running at a higher privileged level.
 Data within an enclave is encrypted and integrity protected.
+Any attempt to modify an enclave's data from outside of it results in a fault.
 
-\adrien{Talk about State Save Area (SSA) (context save region.) and how to specify an enclave.}
+\adrien{soften the transition by talking about shadow state for pages and dynamicity of the whole thing.}
 
+The processor relies on a secure storage, called the \emph{Enclave Page Cache} (EPC), to store and keep track of pages used by an executing enclave and metadata corresponding to these enclaves.
+An enclave is created by the \lstinline{ECREATE} instruction, which initializes fields in the corresponding \emph{SGX Enclave Control Structure} (SECS).
+SECS are not accessible by software and are stored within the EPC.
+Each enclave is associated with a single SECS that holds metadata used by hardware to track the type of a page, the enclave it belongs to, ensure that the page is mapped at the correct virtual address, and accessed with respect to its associated access rights.
+Memory pages are added to the enclave using the \lstinline{EADD} instruction.
+Thanks to SGX2 extensions, dynamic memory allocation/removal, i.e., adding pages after an enclave's creation, is rendered possible via a cooperation between the enclave and the host OS.
+The \lstinline{EAUG} allows the host to add a new page to the enclave, which in turns needs to acknowledge the new page with \lstinline{EACCEPT} before using it.
+In thee same way, modifying access permissions and removing a page from an enclave relies on cooperative protocols that involve both the enclave and the host.
+
+SGX threading relies on \emph{Thread Control Structure}s (TCS).
+Each enclave can contain one or more TCS's.
+A TCS specifies an entry point, \lstinline{OENTRY}, the starting point of the thread, and contains a special protected region, the \emph{State Save Area} (SSA), used to save and restore a thread context upon context switches.
+Entering and exiting an enclave is done by respectively calling the \lstinline{EENTER} instruction on a TCS, and the \lstinline{EEXIT} instruction.
+
+Asynchronous exits, on the other hand, are required to allow the underlying operating system to handle exceptions and interrupts.
+Upon an asynchronous exit, the current SGX thread state as well as information about the cause of the exit are saved within the associated TCS.
+Control can be given back to the enclave by either calling \lstinline{ERESUME}, which will resume the saved context, or \lstinline{EENTER}, which allows the enclave to inspect the exception, on the TCS.
+The latter option allows the OS to report exceptions to the enclave.
+
+\adrien{Maybe here for SGX2 where we can add and change permissions.}
 %Different ways to protect:
 %1. data in cache protected by TLB access.
 %2. upon modification outside of the enclave, next load triggers a fault.
@@ -80,40 +94,57 @@ Data within an enclave is encrypted and integrity protected.
 %Cooperation between host OS and enclave.
 %Allocate: host calls EAUG, enclave must EACCEPT.
 %Other instructions to change permissions, require cooperation as well since need TLB shootdowns.
- 
-Conclusion of this part must be that it's useful but cannot be enough to provide shielded execution.
-\adrien{Start writing}.\\
-
-
-%The Intel software guard extension (SGX), defines a set of new instructions that enable to create \emph{enclaves}, i.e., private regions of the user-mode address space protected even against privileged code.
-%An enclave's data residing in memory is encrypted.
-%Any modification performed on an enclave's data residing in memory triggers a fault upon a subsequent load.
-%For data that has been loaded into the cache, the CPU access controls (the TLB) are enough to protect both integrity and confidentiality.
-
-The Intel Software Guard Extension (SGX) defines a set of new CPU instructions that allows to create and manipulate \emph{enclaves}.
-An enclave is a portion of the user address space protected against unauthorized access or modification by software running at a higher privileged level.
-Data within an enclave is encrypted and integrity protected.
-
+%
+%SGX is very low level
 
 \subsection{Design}
-The entire "stack" of Haven.
-This complicated thing where they have the special untrusted runtime as well.
-Things that must be explained:
-\begin{itemize}
-	\item picoprocess (to protect the host from the guest)
-	\item the enclave
-	\item the library operating system.
-	\item the shield module (how does it verify that host is actually correctly serving a system call?)
-	\item untrusted runtime
-	\item SGX driver and drawbridge host.
-\end{itemize}
+%The entire "stack" of Haven.
+%This complicated thing where they have the special untrusted runtime as well.
+%Things that must be explained:
+%\begin{itemize}
+%	\item picoprocess (to protect the host from the guest)
+%	\item the enclave
+%	\item the library operating system.
+%	\item the shield module (how does it verify that host is actually correctly serving a system call?)
+%	\item untrusted runtime
+%	\item SGX driver and drawbridge host.
+%\end{itemize}
+%
+%\adrien{Present from the optic of defending, show what needs to be done, cannot blindly trust the OS with services so need to reduce how much it is necessary to implicate it within the execution.}
+%
+%\adrien{Everybody obsessed with policy mechanism separation}
+%
+%\adrien{Maybe list all the problems somehow in the first remark.}
+Haven leverages the low level isolation mechanisms provided by SGX to achieve shielded execution of legacy application binaries.
+Since the host OS cannot be trusted, Haven provides most of the operating system services required by the application and manages policies and mechanisms for virtual resources, while the host retains management over physical ones.
+This clear separation, coupled with defensive programming and careful interactions between guest and host, is supposed to facilitate Haven's resistance to Iago attacks, i.e., a malicious host exploiting the application's trust to achieve its goals.
 
-\adrien{Present from the optic of defending, show what needs to be done, cannot blindly trust the OS with services so need to reduce how much it is necessary to implicate it within the execution.}
+Haven's definition of shielded execution requires to
+\begin{enumerate*}
+	\item bootstrap and validate the execution environment within the enclave
+	\item implement virtual resource management within the enclave
+	\item defend against a misbehaving host by verifying the result of every service requested from it
+	\item prevent the host from gathering information on the enclave's state via exception handlers
+\end{enumerate*}.
+We now described how Haven's design addresses each of these concerns.
+Figure [REF] provides an overview of Haven's runtime stack.
+%We first present Haven's design before describing how each of these requirements is achieved.\\
 
-\adrien{Everybody obsessed with policy mechanism separation}
+Haven wraps the application within a sandbox provided by Drawbridge[CITE].
+The application executes within a secured container, called \emph{picoprocess}, that interacts with a narrow ABI to request OS services.
+A modified version of Windows 8 retrofitted into a LibOS implements the full OS API required by the application.
+The LibOS is under user control and can be inspected and verified by the application.
 
-\adrien{Maybe list all the problems somehow in the first remark.}
+In order to protect the application from Iago attacks, Haven relies on a \emph{shield module}.
+The shield module exposes the drawbridge ABI to the LibOS and implements kernel functionalities and primitives such as memory management and thread synchronization.
+It isolates the LibOS from a malicious host by validating all parameters and results that cross the border between trusted and untrusted parts of the runtime.
+Such validations depend on the specific service required from the host OS, but mostly consist in sanity checks and observably consistent results.
 
+The application, the LibOS, as well as the shield module execute within the enclave and are part of the trusted runtime, from the application's point of view.
+
+
+
+%The  requirements for Haven imply that the application must be able to verify and trust its entire software stack that is part of the enclave, that services still provided by the underlying host must be treated as potentially misbehaving,  
 
 %Drawbridge running on top of host kernel is responsible for the thing. 
 %%Insert image.
