@@ -69,8 +69,6 @@ Asynchronous exits, on the other hand, are required to allow the underlying oper
 Upon an asynchronous exit, the current SGX thread state as well as information about the cause of the exit are saved within the associated TCS.
 Control can be given back to the enclave by either calling \lstinline{ERESUME}, which will resume the saved context, or \lstinline{EENTER}, which allows the enclave to inspect the exception, on the TCS.
 The latter option allows the OS to report exceptions to the enclave.
-
-\adrien{Maybe here for SGX2 where we can add and change permissions.}
 %Different ways to protect:
 %1. data in cache protected by TLB access.
 %2. upon modification outside of the enclave, next load triggers a fault.
@@ -142,6 +140,12 @@ Such validations depend on the specific service required from the host OS, but m
 
 The application, the LibOS, as well as the shield module execute within the enclave and are part of the trusted runtime, from the application's point of view.
 
+The untrusted interface that lives at the boundary of the enclave was designed to allow correctness verification by the shield, while being flexible enough to attain an efficient implementation of services on both sides.
+In order to achieve both security and performance, Haven's authors decided to decouple policies from mechanisms.
+The host is responsible for managing physical resources while the guest handles virtual ones.
+
+Underneath the untrusted interface, and untrusted runtime module exists to forward calls between the guest and the host.
+This module also acts as a bootstrap to create the enclave and load the shield.
 
 
 %The  requirements for Haven imply that the application must be able to verify and trust its entire software stack that is part of the enclave, that services still provided by the underlying host must be treated as potentially misbehaving,  
