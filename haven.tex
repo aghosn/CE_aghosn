@@ -49,7 +49,8 @@ An enclave is a portion of the user address space protected against unauthorized
 Data within an enclave is encrypted and integrity protected.
 Any attempt to modify an enclave's data from outside of it results in a fault.
 
-\adrien{soften the transition by talking about shadow state for pages and dynamicity of the whole thing.}
+\adrien{Check the encrypted part above, it sounds weird.
+soften the transition by talking about shadow state for pages and dynamicity of the whole thing.}
 
 The processor relies on a secure storage, called the \emph{Enclave Page Cache} (EPC), to store and keep track of pages used by an executing enclave and metadata corresponding to these enclaves.
 An enclave is created by the \lstinline{ECREATE} instruction, which initializes fields in the corresponding \emph{SGX Enclave Control Structure} (SECS).
@@ -58,7 +59,7 @@ Each enclave is associated with a single SECS that holds metadata used by hardwa
 Memory pages are added to the enclave using the \lstinline{EADD} instruction.
 Thanks to SGX2 extensions, dynamic memory allocation/removal, i.e., adding pages after an enclave's creation, is rendered possible via a cooperation between the enclave and the host OS.
 The \lstinline{EAUG} allows the host to add a new page to the enclave, which in turns needs to acknowledge the new page with \lstinline{EACCEPT} before using it.
-In thee same way, modifying access permissions and removing a page from an enclave relies on cooperative protocols that involve both the enclave and the host.
+In the same way, modifying access permissions and removing a page from an enclave relies on cooperative protocols that involve both the enclave and the host.
 
 SGX threading relies on \emph{Thread Control Structure}s (TCS).
 Each enclave can contain one or more TCS's.
@@ -124,7 +125,7 @@ Haven's definition of shielded execution requires to
 	\item defend against a misbehaving host by verifying the result of every service requested from it
 	\item prevent the host from gathering information on the enclave's state via exception handlers
 \end{enumerate*}.
-We now described how Haven's design addresses each of these concerns.
+We now describe how Haven's design addresses each of these concerns.
 Figure [REF] provides an overview of Haven's runtime stack.
 %We first present Haven's design before describing how each of these requirements is achieved.\\
 
@@ -242,6 +243,8 @@ The whole libOS thing is also interesting because it shows that by reimplementin
 Also allows the application to verify most of the execution stack (e.g., inspect the libOS).
 Although authors claim that this design can be easily ported, I see the lack of support for fork as a problem.
 Why untrusted channel when SGX has a mechanism to attest a program?
+
+\adrien{Key insight + how to link to exokernel: separation between physical resources and virtual ones, and separation between policies and mechanisms.}
 
 
 

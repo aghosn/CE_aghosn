@@ -3,6 +3,40 @@
 \subsection{Overview}
 
 \subsection{Application knows best}
+%end to end
+%separation between policies and mechanisms
+%
+%
+%
+%Lib OS
+%LibOS abstractions can be simpler and more specialized, especially since doesn't need to multiplex resources among competing applications with different demands.
+%Can trust the application as well (since only one to be touched by it).
+%Less kernel crossing
+%Easy to get new standards
+%portability if implemented on top of posix or other standards.
+%OO and stuff like that to augment the libOS possibilities.
+% support for dynamic linking and shared libs would reduce space required.
+%
+% Exokernel Design
+% separate protection from management.
+% Goal is to multiplex the physical resources and isolate apps from each other
+% 
+% 3 tasks: 1) track ownership, 2) ensure protection 3) revoke access to resources.
+% secure bindings, visible revocation, abort protocol.
+% 
+% Design principles
+% securely expose hardware: physical memory, CPU, disk memory, TLB, addressing context identifiers.
+% interrupts, exceptions, cross-domain calls.
+% Well => exokernel should avoid resource management.
+% 
+% Expose allocation: request specific physical resources.
+% Expose Names: expose physical names, and also hardware things like disk position arm, TLB entries etc.
+% Expose revocation: good to have physical names for that
+% 
+% Secure bindings
+% 
+% 
+
 Application can manage ressources.
 Kernel attack surface is smaller and should be less prone to bugs because it simply safely exposes resources.
 Kernel and application responsabilities are better defined.
