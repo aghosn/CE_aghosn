@@ -138,18 +138,28 @@ The shield module exposes the drawbridge ABI to the LibOS and implements kernel 
 It isolates the LibOS from a malicious host by validating all parameters and results that cross the border between trusted and untrusted parts of the runtime.
 Such validations depend on the specific service required from the host OS, but mostly consist in sanity checks and observably consistent results.
 
-The application, the LibOS, as well as the shield module execute within the enclave and are part of the trusted runtime, from the application's point of view.
+The application, the LibOS, as well as the shield module, execute within the enclave and are part of the trusted runtime, from the application's point of view.
 
-The untrusted interface that lives at the boundary of the enclave was designed to allow correctness verification by the shield, while being flexible enough to attain an efficient implementation of services on both sides.
+The untrusted interface that lives at the boundary of the enclave was designed to allow correctness verification by the shield, while being flexible enough to permit an efficient implementation of services on both sides.
 In order to achieve both security and performance, Haven's authors decided to decouple policies from mechanisms.
 The host is responsible for managing physical resources while the guest handles virtual ones.
 
-Underneath the untrusted interface, and untrusted runtime module exists to forward calls between the guest and the host.
+Underneath the untrusted interface, an untrusted runtime module exists to forward calls between the guest and the host.
 This module also acts as a bootstrap to create the enclave and load the shield.
 
+Applications are deployed on the cloud as encrypted disk images that contain both the application and LibOS binaries.
+The cloud service provider is responsible for creating the picoprocess and loading the untrusted runtime, which in turns creates the enclave and loads the shield module.
+SGX attestation mechanism is used to compute a hash of the shield to verify its integrity.
+Afterwards, the shield generates asymmetric cryptography keys, securely sends its public key to a machine controlled by the user along with proof that it was correctly initialized.
+The user verifies the shield's integrity, encrypts the disk image with the public key, and sends it to the shield.
+The application is then ready to be loaded.
 
+As mentioned earlier, exception handling requires the host's intervention.
+When an exception occurs in enclave mode, SGX saves the content of the registers and information about the fault within the TCS.
+The exception is passed on to the host OS which can, as described earlier, either handle the fault, or report it back to the guest.
+In the latter case, the shield verifies the legitimacy of the exception before reporting it to the LibOS.
+Worth noting, as a context can only be resumed with \lstinline{EERESUME} from outside the enclave, an extra \lstinline{EEXIT} is required.
 %The  requirements for Haven imply that the application must be able to verify and trust its entire software stack that is part of the enclave, that services still provided by the underlying host must be treated as potentially misbehaving,  
-
 %Drawbridge running on top of host kernel is responsible for the thing. 
 %%Insert image.
 %
@@ -163,7 +173,6 @@ This module also acts as a bootstrap to create the enclave and load the shield.
 % 
 % Untrusted interface (not in enclave)
 % Policy mechanism separation
-\adrien{Worth putting as insight before everything else. Should probably list such things (policy etc.) first and then give details.}
 % Guest is responsible for virtual, host for physical
 % Untrusted runtime
 % create enclave, loading shield, forwarding calls to host
@@ -183,18 +192,34 @@ This module also acts as a bootstrap to create the enclave and load the shield.
 % 
 % 
 % Requires to load all binaries directly because no demand loading possible.
-
 \subsection{Evaluation}
-Important to see the overhead introduced.
-There is a security incentive, but the performance is also important because it is sacrificed here.
-Running unmodified binaries is really an advantage.
-Disk is still a limitation.
-
+%Important to see the overhead introduced.
+%There is a security incentive, but the performance is also important because it is sacrificed here.
+%Running unmodified binaries is really an advantage.
+%Disk is still a limitation.
+%
 % Hard to evaluate on simulator, but looks like main penalties come from X.
 % 31 to 54 percent slowdown comparend to VM 
 % Enclave crossing is what impacts the most.
 % They say it's gonna be acceptable but seems high.
+The performance evaluation is done within a simulation that emulates SGX performance for critical instructions such as: \lstinline{EENTER}, \lstinline{EEXIT}, \lstinline{ERESUME}, and asynchronous exits.
+EPC access time is artificially modified by reducing the DRAM frequency on the test machine.
+Haven's performance is measured against a Microsoft SQL Server benchmark and an Apache HTTP server one.
+The measurements are compared with the performance achieved by running the application natively, in a Hyper-V VM, and in Drawbridge.
+We note that Haven performs less efficiently than all other configuration for database benchmark, with a 13\% slowdown compared to Drawbridge.
+On the HTTP server evaluation, with a dedicated filesystem, Haven is less efficient than other configurations but out-performs Drawbridge thanks to the read intensive nature of the workload that accesses pages located within the buffer cache inside the enclave.
+Without the private filesystem, Haven incurs a 40\% slowdown compared to Drawbridge.
 
+The authors experimented with synthetic delays for memory allocation and enclave crossing and reported how these affect Haven's performance.
+This method enables to evaluate how these applications react to varying SGX instruction delays.
+The database benchmark is unaffected by dynamic memory allocation overheads as a very small number of them occur during the execution.
+Enclave crossing overheads are, however, impacting the overall performance.
+For the HTTP server benchmark, both overheads seem to have an impact on the performance.
+
+Varying the EPCL performance shows that memory-intensive workloads would see their performance decrease, although not proportionally as not all accesses are going to the EPC.
+For example, the database benchmark suffered a 21\% slowdown when the memory system was slowed down by a third.
+
+More generally, Haven's authors conservatively expect the performance slow down compared to a virtual machine to range from 31\% to 54\%.
 \subsection{Discussion}
 %Untrusted time
 %VM exits.
@@ -214,6 +239,7 @@ Now multiple mutually untrusted applications are co-located on the host and we h
 We need to address this issue.
 Relying on hardware is an interesting solution because, compared to software, it is less amenable to bugs and hard to attack or circumvent.
 The whole libOS thing is also interesting because it shows that by reimplementing the abstractions that regular applications rely on, we can run unmodified applications.
+Also allows the application to verify most of the execution stack (e.g., inspect the libOS).
 Although authors claim that this design can be easily ported, I see the lack of support for fork as a problem.
 Why untrusted channel when SGX has a mechanism to attest a program?
 
