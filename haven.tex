@@ -43,7 +43,8 @@ We briefly introduce the Intel SGX extension main features before presenting Hav
 %How much pages can you put in there?\\
 %
 %Conclusion of this part must be that it's useful but cannot be enough to provide shielded execution.
-
+\adrien{Not sure now, maybe clarify how data is protected (not accessible in CPU, and encrypted in main memory and integrity protected.)}
+\adrien{Attestation mechanism must be added as well (the hash inside the SECS).}
 The Intel Software Guard Extension (SGX) defines a set of new CPU instructions that allows to create and manipulate \emph{enclaves}.
 An enclave is a portion of the user address space protected against unauthorized access or modification by software, even the ones running at a higher privileged level.
 Data within an enclave is encrypted and integrity protected.
