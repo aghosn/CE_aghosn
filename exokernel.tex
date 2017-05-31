@@ -12,11 +12,10 @@ More generally, the lack of flexibility imposed by the kernel abstractions imped
 It prevents domain-specific optimizations, disallows changes to existing abstractions, and requires new abstractions to be inefficiently emulated on top of the provided ones.
 
 The exokernel operating system architecture[CITE] proposes to solve these limitation by delegating resource management to the application.
-In this design, the kernel is responsible only for securely exporting all hardware resources to user-level operating system libraries, which in turns implement their own higher-level system abstractions.
+In this design, the kernel is responsible solely for securely exporting all hardware resources to user-level operating system libraries, which in turns implement their own higher-level system abstractions.
 
-In the next section, we present the general principles behind the exokernel design.
-We then proceed with the description of the design itself, and the proposed prototype implementations,i.e., Aegis and ExOS.
-
+In the next section, we present the general principles behind the exokernel architecture proposal.
+We then proceed with the description of its design, and the proposed prototype implementations, i.e., Aegis and ExOS.
 %monolithic
 %Problem is that they fix the abstraction and implementation
 %general purpose means incurring cost that is not needed sometimes.
@@ -43,7 +42,6 @@ We then proceed with the description of the design itself, and the proposed prot
 %	Then design of Aegis and ExOS.
 %
 %}
-
 \subsection{Design Principles}
 %State the principles.
 %Secure bindings.
@@ -51,8 +49,39 @@ We then proceed with the description of the design itself, and the proposed prot
 %Downloading code.
 %Revocation
 %abort
+The need for application-level management of resources is justified, according to the exokernel authors, by the \emph{end-to-end} argument.
+The application knows better than the operating system what resource management decisions impact its own performance.
+As a result, it should be given complete freedom over the management of its resources.
 
-\subsection{Prototypes}
+At the same time, the kernel still needs to ensure that different applications can coexist on the same machine.
+This requires to multiplex physical resources among them in a secured manner.
+
+These requirements are achieved by separating protection from management.
+The exokernel focuses on
+\begin{enumerate*}
+	\item tracking ownership of resources,
+	\item protecting resources, and
+	\item revoking access to resources.
+\end{enumerate*}.
+By providing a low-level interface, the exokernel allows applications to implement their own abstractions and resource management as they see fit.
+More importantly, by protecting resource usage, it allows different library operating systems, i.e., implementation of higher-level abstractions on top of the exokernel interface, to safely coexist on the same machine.
+
+In order to avoid resource management at all cost, an exokernel needs to securely expose all hardware resources as directly as possible.
+Management should only be limited to the strict minimum required by protection.
+Library operating systems must be allowed to request specific physical resources, using their physical names directly.
+Introducing a level of indirection by using virtual names would force the exokernel to perform resource management and would impede the performance of the overall system and the application.
+Finally, revoking resources must be made visible to the library operating system in order to facilitate application level resource management.
+This requirement is crucial in the context of sparse resources.
+
+\subsection{The Exokernel Design and Prototypes}
+% Exokernel responsible for exposing resources.
+% At the heart of everything are secure bindings.
+% three techniques: hardware, software caching, and downloading code in kernel.
+% checked only at bind time
+% make as little expensive as possible.
+% rely on hardware.
+
+
 \subsection{Evaluation}
 \subsection{Discussion}
 
