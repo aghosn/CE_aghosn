@@ -204,7 +204,7 @@ Worth noting, as a context can only be resumed with \lstinline{EERESUME} from ou
 % 31 to 54 percent slowdown comparend to VM 
 % Enclave crossing is what impacts the most.
 % They say it's gonna be acceptable but seems high.
-The performance evaluation is done within a simulation that emulates SGX performance for critical instructions such as: \lstinline{EENTER}, \lstinline{EEXIT}, \lstinline{ERESUME}, and asynchronous exits.
+The performance evaluation is done within a simulation that emulates SGX instructions.
 EPC access time is artificially modified by reducing the DRAM frequency on the test machine.
 Haven's performance is measured against a Microsoft SQL Server benchmark and an Apache HTTP server one.
 The measurements are compared with the performance achieved by running the application natively, in a Hyper-V VM, and in Drawbridge.
