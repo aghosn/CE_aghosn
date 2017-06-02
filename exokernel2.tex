@@ -33,7 +33,7 @@ To securely expose resources and track ownership, the Exokernel relies on \emph{
 This protection mechanism binds a specific resource to an application at \emph{bind time}, and installs the entries needed to perform efficient ownership checks at \emph{access time}.
 Due to the heterogeneity of the multiplexed resources, the Exokernel relies on different techniques to implement secure bindings:
 \begin{enumerate*}
-	\item hardware mechanisms
+	\item hardware support
 	\item software caching, and
 	\item downloading application code in the kernel
 \end{enumerate*}.
@@ -45,7 +45,25 @@ When hardware support is not possible, or to improve the overall system performa
 Following the previous example, the kernel can cache extra virtual to physical mappings inside a large software TLB to speed-up the validation and installation of a new hardware TLB entry.
 
 Finally, downloading code in the kernel allows to perform access checks closer to the application's logic, even when it is not scheduled.
-The Exokernel authors rely on this technique to multiplex the network and implement packet filtering. 
+The Exokernel authors rely on this technique to multiplex the network and implement packet filtering.
+
+Visible resource revocation involves the application in the process of reclaiming resources.
+While it incurs more latency than the invisible revocation approach taken by traditional operating systems, visible revocation presents two main advantages.
+First, it does not deny the application's right to efficient resource management.
+Second, it does not require the Exokernel to understand how resources are used and more specifically what parts of the current state should be saved.
+Resource revocation is an essential mechanism in any operating system, especially in the presence of scarce resources.
+Having an efficient and safe protocol for it is therefore vital.
+
+Faced with an uncooperative library operating system, the Exokernel must be able to break secure bindings and reclaim resources.
+After an unsuccessful visible revocation phase, the kernel notifies the library operating system that a hard deadline to comply was set.
+If the application still fails to satisfy this requirement, the Exokernel reclaims the resource and informs the application that the secure binding was removed.
+Another option would be to kill any non-compliant application.
+This alternative, however, would hurt application developers that "\textit{have great difficulty reasoning about hard real-time bounds}"(SIC).
+Phrased differently, this abort protocol allows the application to recover from a temporary failure to comply with the Exokernel requirements.
+Additionally, the Exokernel provides the application with \emph{repossession vectors} to specify beforehand which resources must be saved during an abort protocol.
+The Exokernel also guarantees for each application a set of resources that will not be repossessed during an abort protocol and that can be used by vital parts of the program, e.g., exception handlers.
+Finally, an emergency protocol allows to swap an application completely, i.e., to repossess all resources without "killing" the application.
+
 
 
 
