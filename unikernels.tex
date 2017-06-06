@@ -34,7 +34,7 @@ A unikernel is a standalone kernel that encapsulate a single-purpose application
 As such, unikernels execute on top of a VM hypervisor, e.g., Xen[CITE].
 The advantages of targeting a virtualization platform instead of a custom kernel are twofold.
 First, the hypervisor provides a fixed virtual hardware abstraction that alleviates the need to take into account heterogeneous hardware devices.
-The hypervisor provides hardware drivers for a large number of devices and abstracts them away behind a high-level interface.
+The hypervisor provides hardware drivers for a large number of devices and abstracts them away behind a fixed high-level interface.
 Second, the hypervisor virtual abstraction facilitates both vertical and horizontal dynamic scaling.
 
 % Agressive specialization.
@@ -43,23 +43,34 @@ Second, the hypervisor virtual abstraction facilitates both vertical and horizon
 % 2. Configuration work is taken care of at compile time.
 
 Unikernels achieve aggressive specialization by relying on a single high-level programming language.
-System libraries and the application are implemented in a common, statically typed, programming language, and compiled as a single specialized Unikernel.
-The compiler performs static analysis on the entire user stack and strips away unused portions of code from the final binary.
-Dead code elimination and system-wide optimizations enable to:
+System libraries and the application are implemented in a common, statically typed, programming language, and compiled as a single specialized unikernel.
+The compiler performs static analysis on the entire user stack and optimizes the whole system at once.
+This enables to:
 \begin{enumerate*}
-	\item perform most of the appliance configuration at compile time,
+	\item perform most of the appliance static configuration at compile time,
 	\item reduce the final image's size, and
 	\item improve the application's security
-\end{enumerate*}.
+\end{enumerate*}, all of which without sacrificing performance.
 
-Image 
+Static configuration of a unikernel appliance happens at compile time.
+As mentioned previously, standard VMs incur a non-negligible deployment overhead.
+Custom scripts are executed to configure and start all services needed by the application, e.g., a database for a web server, and glue together independent packages or applications.
+Unikernels, on the other hand, integrate all dependencies as libraries, compiled within the application itself.
+Build parameters passed to the compilation configuration enable static configuration, while dynamic configuration is achieved via specific function calls to the library.
 
-Leveraging a high-level statically typed programming language enables to perform security TODO redact. 
+Unikernels are highly specialized and compact binaries.
+Since all the libraries are linked and compiled against the application itself, static analysis techniques such as dead-code elimination (DCE) can be applied to reduce the final image's size.
+The authors claim that in most cases, the final binary's size is on the order of kilobytes, and hence easily deployable across the Internet.
+Furthermore, in the context of Cloud platforms, where resources are rented, small size binaries consume less resources to host the program's code and data, and hence minimize expenses.
 
-
-%Security, type safe, single address space, X forbids W, smaller sized. 
-%Other hand, break backward compatibility and requires to rewrite the entire stack from scratch.
-
+%Dead code removed and reduce attack surface.
+%executable excludes writable, limits the attack.
+%Can do ASLR.
+%Type safety enforced,
+%Static analysis tools and verification ones can be used to verify the entire stack.
+%What inside the security. Single address space, type safe allows to control flow.
+By eschewing backward compatibility and requiring the entire stack to be written in a single high-level typed programming language, unikernels can leverage type-safety and static analysis tools to improve the application's security.
+First, DCE reduces the attack surface exposed to a remote attacker system-wide.
 
 \subsection{Evaluation}
 \subsection{Discussion}
