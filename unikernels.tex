@@ -63,16 +63,40 @@ Since all the libraries are linked and compiled against the application itself, 
 The authors claim that in most cases, the final binary's size is on the order of kilobytes, and hence easily deployable across the Internet.
 Furthermore, in the context of Cloud platforms, where resources are rented, small size binaries consume less resources to host the program's code and data, and hence minimize expenses.
 
-%Dead code removed and reduce attack surface.
-%executable excludes writable, limits the attack.
-%Can do ASLR.
-%Type safety enforced,
-%Static analysis tools and verification ones can be used to verify the entire stack.
-%What inside the security. Single address space, type safe allows to control flow.
-By eschewing backward compatibility and requiring the entire stack to be written in a single high-level typed programming language, unikernels can leverage type-safety and static analysis tools to improve the application's security.
+By eschewing backward compatibility and requiring the entire stack to be written in a single high-level typed programming language, unikernels can leverage type-safety and static analysis and verification tools to improve the application's security.
 First, DCE reduces the attack surface exposed to a remote attacker system-wide.
+Unused libraries as well as unreachable portions of code are not included in the final binary and cannot be leveraged by an attacker to subvert the application.
+Second, a unikernel executes entirely within a single address space and relies on the language's type safety to enforce access control and restrictions.
+The single-address space model eases the integration of security techniques. 
+For example, to prevent code injection, the unikernel is initialized such that no page mapping is both executable and writable.
+To further protect against possible attacks, the unikernel can issue a \emph{seal} hypercall, that prevents future page table modifications.
+Other techniques and code instrumentation, e.g., address space randomization, stack canaries and guard pages, can also easily be added.
 
-\subsection{Evaluation}
+While type safety and system-wide optimizations are attractive, unikernels represent a daunting engineering challenge.
+All libraries and protocols used by the application need to be rewritten in the same high-level language.
+An alternate solution is to leverage interoperability at the network level.
+Services that are not reimplemented in the chosen language can be encapsulated in separate VMs and communicate with the unikernel via standard network protocols.
+Unfortunately, this technique increases resource usage and prevents system-wide optimizations.
+Finally, parts of the system, such as the garbage collector, are type-unsafe and still require to be protected against. 
+
+A common argument against type-safe and memory managed programming languages is the overhead incurred by type checks and garbage collection.
+Performance is critical to Cloud services renters to achieve their service level objectives.
+According to the authors, unikernels performances are comparable to standard VMs.
+We report the evaluation results presented in [CITE] in the next section.
+
+\subsection{Prototype and Evaluation}
+%implementation called Mirage.
+%Implemented in OCaml
+%Hypervisor is Xen.
+%Single process, threading achieved via lwthreads part of the language.
+%typed protocol I/O give details from p465.
+%Language runtime slightly modify, special support for device drivers based on I/O (not sure if going to talk about it).
+%
+%Evaluation performs microbenchmarks, DNS Server for safe network stack, Openflow control appliance, web server and database (storing and networking), and respective sizes.
+%
+%Boot time: less than half time required by linux debian running apache 2.
+%Modifying how Xen builds domains enables to reboot the machine in less than 50 milliseconds.
+
 \subsection{Discussion}
 %\subsection{Overview}
 %%TO SAY
