@@ -103,7 +103,34 @@ We report the evaluation results presented in [CITE] in the next section.
 %Net + Storage
 % 10% overhead for mirage due to type safety.
 % TCPv4 comparison on par with Linux.
-The authors evaluate a prototype evaluation of unikernels, called Mirage, that leverages OCaml system programming and static type system to produce appliances running on top of a Xen[CITE] hypervisor.
+\adrien{Maybe sum it up better, say that microbenchmarks prove that no performance overhead is introduced.
+Then say general comment about the real life applications, and say we focus on bind because it shows two things: improved perf, and better security due to type-safety.}
+%The authors evaluate a prototype evaluation of unikernels, called Mirage, that leverages OCaml system programming and static type system to produce appliances running on top of a Xen[CITE] hypervisor.
+%A Mirage application is a standalone kernel, encapsulating a single process running in a 64-bit address space.
+%Concurrency within a VM is achieved via the OCaml Lwt cooperative threading[CITE] library.
+%At the same time, a \emph{domainpoll} function enables to block the VM for external events and timeouts.
+%Lightweight threads enable to implement I/O protocols in a type-safe, non-blocking manner.
+%Network processing as well as storage I/O are implemented as unikernel libraries under the control of the application that rely on a unified device driver model to read/write from/to a device.
+%Mirage applications contain a guest VM driver implemented in OCaml that communicates with a Xen backend driver via events and a shared memory page that holds requests and responses for device operations.
+%This shared memory ring is at the heart of every I/O in Mirage and allows device drivers to be implemented as OCaml libraries linked against the application.
+%The Mirage runtime memory management was specialized to dedicate segment to these external I/O pages.
+%
+%Mirage's performance evaluation consists in microbenchmarks, to evaluate standalone features such as boot time and the network stack, and more realistic applications, namely a DNS server, and Openflow appliance, and a web server %backed by a database.
+%We briefly report the results from[CITE].
+%
+%Mirage appliances exhibit satisfactory performance results in the microbenchmark evaluation.
+%The Mirage image time to boot is more than twice smaller than an equivalent Linux kernel running as a paravirtualised Xen domU executing a similar application.
+%Regarding thread creation, Mirage manages to create 20 millions of threads more than twice faster than the paravirtualized linux, and slightly faster than linux running natively.
+%Surprisingly, the single address space model used by Mirage allows less jitter in thread timers than linux-based configurations, mostly due to the absence of user/kernel crossings.
+%Next, the evaluation of the TCPv4 stack implementation in Mirage shows that it performs similarly to the Linux 3.7 TCPv4 one, while providing a type-safe implementation of the protocol.
+%Finally, Mirage performs the same as a the paravirtualized linux with direct I/O (no buffer) for a simple random read throughput test.
+%
+%For more realistic applications, Mirage's performance is at least equivalent (and sometimes superior) to state-of-start implementations of the same functionalities.
+%The Mirage DNS Server appliance achieves 75-80 kqueries/s, while NSDN, a high performance implementation, reaches a max throughput of 70 kqueries/s.
+%Apart from an increased throughput, Mirage provides a type-safe implementation that is not amenable to most of the past 10 years reported bugs in the Bind software.\\
+
+\adrien{Re-writing}
+The authors evaluate a prototype unikernel implementation, called Mirage, that leverages OCaml system programming and static type system to produce appliances running on top of a Xen[CITE] hypervisor.
 A Mirage application is a standalone kernel, encapsulating a single process running in a 64-bit address space.
 Concurrency within a VM is achieved via the OCaml Lwt cooperative threading[CITE] library.
 At the same time, a \emph{domainpoll} function enables to block the VM for external events and timeouts.
@@ -111,16 +138,26 @@ Lightweight threads enable to implement I/O protocols in a type-safe, non-blocki
 Network processing as well as storage I/O are implemented as unikernel libraries under the control of the application that rely on a unified device driver model to read/write from/to a device.
 Mirage applications contain a guest VM driver implemented in OCaml that communicates with a Xen backend driver via events and a shared memory page that holds requests and responses for device operations.
 This shared memory ring is at the heart of every I/O in Mirage and allows device drivers to be implemented as OCaml libraries linked against the application.
-The Mirage runtime memory management was specialized to dedicate segment to these external I/O pages.
+The Mirage runtime memory management was specialized to dedicate a segment to these external I/O pages.
 
-Mirage's performance evaluation consists in microbenchmarks, to evaluate standalone features such as boot time and the network stack, and more realistic applications, namely a DNS server, and Openflow appliance, and a web server backed by a database.
-We briefly report the results from[CITE].
+Mirage main features are evaluated against a set of microbenchmarks.
+Compared to a Linux kernel running as a paravirtualized Xen domU, a Mirage appliance boots more than two times faster, enables the creation of 20 millions threads twice as fast, incurs less jitter in thread timers thanks to the absence of user/kernel crossings, and performs network and storage I/O without significant overheads.
 
-Mirage appliances exhibit satisfactory performance results in the microbenchmark evaluation.
-The Mirage image time to boot is more than twice smaller than an equivalent Linux kernel running as a paravirtualised Xen domU executing a similar application.
-Regarding thread creation, Mirage manages to create 20 millions of threads more than twice faster than the paravirtualized linux, and slightly faster than linux running natively.
-Surprisingly, the single address space model used by Mirage allows less jitter in thread timers than linux-based configurations, mostly due to the absence of user/kernel crossings.
-Finally, the evaluation of the TCPv4 stack implementation in Mirage shows that it performs similarly to the Linux 3.7 TCPv4 one, while providing a type-safe implementation of the protocol.
+Mirage is then evaluated on more realistic applications, namely, a DNS server, an OpenFlow controller appliance, and a web server backed by a database.
+In the remainder of this section, we focus on the DNS server evaluation that exhibits most advantages of relying on Mirage to deploy Cloud applications.
+We note, however, that in all experiments, Mirage performance is close to (or even better than) state-of-the-art implementations.
+
+The Mirage DNS server application includes libraries for the network stack and an in-memory filesystem.
+The authors compare the Mirage appliance to a state-of-the-art high performance implementation, NSD 3.2.10.
+Adding memorization of responses enabled the Mirage appliance to reach a throughput lying between 75 and 80 kqueries/s.
+In comparison, NSD reaches a maximal throughput of 70 kqueries/s.
+Apart from the performance evaluation, the authors highlight the benefits of having a type-safe implementation of a DNS server.
+Reportedly, the Bind software (a mature and popular DNS server) suffered from 40 important vulnerabilities in the past 10 years, mostly related to memory management errors and poor handling of exceptional cases.
+Mirage's type-safety prevents this kind of errors by design.
+The DNS server Mirage appliance is a perfect example showing that type-safety, and more generally improved security, do not  preclude performance. 
+
+To conclude, as promised, Mirage yields small size binary images, even for realistic applications.
+For example, the Mirage DNS server image is 183.5 kB, while the equivalent Linux image, strip to the used components, is 462 MB.
 
 
 \subsection{Discussion}
