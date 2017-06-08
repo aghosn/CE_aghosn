@@ -1,0 +1,54 @@
+%What is the SGX, what's an enclave, what can you do with it.
+%Special pages that cannot be accessed or that trigger notification if accessed from outside of the enclave.
+%How much pages can you put in there?\\
+%
+%Conclusion of this part must be that it's useful but cannot be enough to provide shielded execution.
+\adrien{maybe more about attestation and general protection rather than useless details}
+The Intel Software Guard Extension (SGX) defines a set of new CPU instructions that allows to create and manipulate \emph{enclaves}.
+An enclave is a portion of the user address space protected against unauthorized access or modification by software, even the ones running at a higher privileged level.
+Data within an enclave is encrypted and integrity protected.
+Any attempt to modify an enclave's data from outside of it results in a fault.
+
+The processor relies on a secure storage, called the \emph{Enclave Page Cache} (EPC), to store and keep track of pages used by an executing enclave and metadata corresponding to these enclaves.
+An enclave is created by the \lstinline{ECREATE} instruction, which initializes fields in the corresponding \emph{SGX Enclave Control Structure} (SECS).
+SECS are not accessible by software and are stored within the EPC.
+Each enclave is associated with a single SECS that holds metadata used by hardware to track the type of a page, the enclave it belongs to, ensure that the page is mapped at the correct virtual address, and accessed with respect to its associated access rights.
+Memory pages are added to the enclave using the \lstinline{EADD} instruction.
+Thanks to SGX2 extensions, dynamic memory allocation/removal, i.e., adding pages after an enclave's initialization, is rendered possible via a cooperation between the enclave and the host OS.
+The \lstinline{EAUG} allows the host to add a new page to the enclave, which in turns needs to acknowledge the new page with \lstinline{EACCEPT} before using it.
+In the same way, modifying access permissions and removing a page from an enclave relies on cooperative protocols that involve both the enclave and the host.
+
+SGX threading relies on \emph{Thread Control Structure}s (TCS).
+Each enclave can contain one or more TCS's.
+A TCS specifies an entry point, \lstinline{OENTRY}, the starting point of the thread, and contains a special protected region, the \emph{State Save Area} (SSA), used to save and restore a thread context upon context switches.
+Entering and exiting an enclave is done by respectively calling the \lstinline{EENTER} instruction on a TCS, and the \lstinline{EEXIT} instruction.
+
+Asynchronous exits, on the other hand, are required to allow the underlying operating system to handle exceptions and interrupts.
+Upon an asynchronous exit, the current SGX thread state as well as information about the cause of the exit are saved within the associated TCS.
+Control can be given back to the enclave by either calling \lstinline{ERESUME}, which will resume the saved context, or \lstinline{EENTER}, which allows the enclave to inspect the exception, on the TCS.
+The latter option allows the OS to report exceptions to the enclave.
+%Different ways to protect:
+%1. data in cache protected by TLB access.
+%2. upon modification outside of the enclave, next load triggers a fault.
+%3. maintains shadow page table.
+%
+%ECREATE init a structure in protected memory, EADD allows to add a page to enclave.
+%A page allocated by the OS but must come from a specific physical pool (EPC)
+%Hardware tracks type of EPC page, enclave it belongs to, checks type, current enclape maps the page at correct va, access okay with access rights.
+%Paging is allowed. Prevent rollback attack with versioning number
+%
+%SGX provides attestation CPU-based. Can be used to prove identity and communicate with other enclaves.
+%Processor manufacturer is root of trust for attestation.
+%
+%TCS to protect the enclave register file.
+%EENTER on idle TCS
+%Can read write outside of enclave but not execute.
+%EEXIT or interrupt or exception. Entry and exit points specified by enclave.
+%ERESUME on TCS to get back there. Also, state of enclave is saved and linked to TCS.
+%Imperfect because OS can still observe some stuff.
+%
+%Cooperation between host OS and enclave.
+%Allocate: host calls EAUG, enclave must EACCEPT.
+%Other instructions to change permissions, require cooperation as well since need TLB shootdowns.
+%
+%SGX is very low level
