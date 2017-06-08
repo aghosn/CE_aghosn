@@ -5,49 +5,37 @@
 % 
 % Only trusted part is the CPU itself. 
 The Intel Software Guard Extension (SGX) defines a set of new CPU instructions that allows to create and manipulate \emph{enclaves}.
-An enclave is a portion of the user address space protected against unauthorized access or modification by software, even the ones running at a higher privileged level.
-Data within an enclave is encrypted and integrity protected.
-\adrien{Only trust the CPU internals.}
-Any attempt to modify an enclave's data from outside of it results in a fault.
+An enclave is a portion of the user address space protected against unauthorized access or modification by software, regardless of its privilege level.
+SGX ensures data confidentiality, integrity, and prevents replay attacks on the enclave's content.
+In this scheme, the processor acts as the root of trust to achieve the protected execution of enclaved programs.
 
-To read and modify pages that belong to an enclave, the CPU switches to \emph{enclave mode}, i.e., it \emph{enters} the enclave.
-While in enclave mode, traffic between main memory and the processor passes through a \emph{Memory Encryption Engine} responsible for decrypting and verifying the integrity of the data loaded from memory, and encrypting and integrity protecting DRAM data that belongs to an enclave.
+Enclave's code and data become available once the processor \emph{enters} the enclave.
+Entering an enclave requires the processor to switch to \emph{enclave mode}, load the appropriate page mappings, and jump to a specific entry point contained within the enclave.
+While cache resident data is protected by the table lookaside buffer (TLB), SGX relies on cryptographic techniques to ensure the confidentiality and integrity of an enclave's page in main memory.
 
-\adrien{
-	That's for the traffic between cache and DRAM.\\
+Main memory, i.e., DRAM, is not part of the trusted computing base (TCB).
+As a result, in enclave mode, all traffic between the CPU and main memory needs to be encrypted and integrity protected.
+SGX relies on a dedicated hardware unit, called \emph{Memory Encryption Engine} (MEE), that is part of the TCB and operates as an extension of the Memory Controller (MC).
+The MEE is in charge of a portion of the physical memory, i.e., the \emph{protected region}, determined at boot time, that holds enclave pages, the processor's metadata used to handle them, and the region's integrity tree.
+The MEE implements and enforces the encryption and integrity protection schemes for enclave resident data.
+More specifically, it decrypts and verifies the integrity of enclaves data loaded from main memory, and encrypts and computes MAC tags and version attributes to protect the integrity of (and prevent replay attacks on) data written to main memory.
+A failure to verify an enclave's data integrity results in a fault that blocks the processor's MC and requires a machine reboot.
 
-	Cryptographic measurement, sha-256 digest.
-	Replay resistent as well!!!
+The processor stores enclave pages and their metadata in the \emph{Enclave Page Cache} (EPC), a subrange of the protected region.
+Each enclave is associated with a corresponding \emph{SGX Enclave Control Structure} (SECS) that resides within the EPC and is used by the hardware to validate interactions with enclave pages.
+The SECS tracks physical pages that belong to a particular enclave, their types, their corresponding virtual mappings, as well as their access rights.
+The EPC also acts as a cache holding free enclave pages and allows to dynamically extend the memory allocated to a specific enclave.
 
-	So the way it works: MEE is part of Memory controller. At boot, it generates random keys, and seizes a region of RAM to store integrity tree. Integrity tree is just a MAC tag of nodes (i.e., pages). Merkel Tree, where only the root is stored in trusted part of the system. Enables to verify everything since has hash of its children.
-	Counters for versioning (and avoiding replay attacks.)
-}
+SGX implements local and remote attestation mechanisms to verify the integrity of a newly created enclave.
+Enclaves are instantiated by untrusted software.
+As a result, an extra verification step is required to prove that both software and hardware environments were initialized as expected.
+Local attestation enables one \emph{reporting} enclave to prove its genuineness to a \emph{target} enclave via a symmetric key cryptographic scheme.
+The reporting enclave triggers a procedure taking as argument the target's enclave identity.
+The procedure generates a \emph{report} containing a MAC of itself signed by the processor with the target's secret key.
+A report encapsulates both hardware and software environments, referred to as the \emph{enclave's identity}.
+The report is then sent to the target enclave that can verify its authenticity by recomputing the signed hash and comparing it with the one provided.
 
-\adrien{
-	Hardware based Attestation.
-	Enclave's measurement is a secured record of the content of the enclave's and how it was loaded.
-	Attestation of hardware environment and the enclave.
-	Enclave has persistent hardware based encryption key.
-	user owned special persistent key. Also able to change this.
-
-	Attestation: 1) check code and data, and 2) authority above the encalve.
-	1) is basically hash of build log (content, relative position of pages, security flags in pages).
-	2) Sealing authority + product ID + version number.
-
-	Signed certificated with expected 1) and public key.
-	If everything works, store the public key inside 2).
-
-	Two attestation mechanisms. One local (between two enclaves) and a remote one.
-	Local attestation: REPORT (two identities, attributes, hardware TCB, MAC tag).
-	MAC is signed with REPORT KEY. Enclave specific. Relies on the MRENCLAVE being known and passed as argument to EREPORT.
-
-	Remote needs asymmetric keys.
-	Quoting enclave helps with this process.
-	Then device specific (private) key signes the MAC -> outputs a Quote.
-	Intel Enhanced privacy ID.
-	EPID bound to processor firmware (so Quote is signed by the processor).
-
-	Sealing allows to save the enclave to "replay" it later on.
-
-}
-
+Remote attestation relies on asymmetric cryptography to produce a report.
+First, the local attestation is used with a special \emph{quoting enclave}.
+The quoting enclave then generates and inserts a MAC in the report computed with a private, device specific key and sends the report to the remote entity.
+The known public key can then be used to verify the authenticity of the MAC contained within the report.

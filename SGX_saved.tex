@@ -3,6 +3,46 @@
 %How much pages can you put in there?\\
 %
 %Conclusion of this part must be that it's useful but cannot be enough to provide shielded execution.
+\adrien{
+	That's for the traffic between cache and DRAM.\\
+
+	Cryptographic measurement, sha-256 digest.
+	Replay resistent as well!!!
+
+	So the way it works: MEE is part of Memory controller. At boot, it generates random keys, and seizes a region of RAM to store integrity tree. Integrity tree is just a MAC tag of nodes (i.e., pages). Merkel Tree, where only the root is stored in trusted part of the system. Enables to verify everything since has hash of its children.
+	Counters for versioning (and avoiding replay attacks.)
+}
+
+\adrien{
+	Hardware based Attestation.
+	Enclave's measurement is a secured record of the content of the enclave's and how it was loaded.
+	Attestation of hardware environment and the enclave.
+	Enclave has persistent hardware based encryption key.
+	user owned special persistent key. Also able to change this.
+
+	Attestation: 1) check code and data, and 2) authority above the enclave.
+	1) is basically hash of build log (content, relative position of pages, security flags in pages).
+	2) Sealing authority + product ID + version number.
+
+	Signed certificated with expected 1) and public key.
+	If everything works, store the public key inside 2).
+
+	Two attestation mechanisms. One local (between two enclaves) and a remote one.
+	Local attestation: REPORT (two identities, attributes, hardware TCB, MAC tag).
+	MAC is signed with REPORT KEY. Enclave specific. Relies on the MRENCLAVE being known and passed as argument to EREPORT.
+	MRENCLAVE along with report will sign with target key.
+
+	Remote needs asymmetric keys.
+	Quoting enclave helps with this process.
+	Then device specific (private) key signes the MAC -> outputs a Quote.
+	Intel Enhanced privacy ID.
+	EPID bound to processor firmware (so Quote is signed by the processor).
+
+	Sealing allows to save the enclave to "replay" it later on.
+
+}\\
+
+
 \adrien{maybe more about attestation and general protection rather than useless details}
 The Intel Software Guard Extension (SGX) defines a set of new CPU instructions that allows to create and manipulate \emph{enclaves}.
 An enclave is a portion of the user address space protected against unauthorized access or modification by software, even the ones running at a higher privileged level.
