@@ -112,29 +112,8 @@ The next section focuses on Haven's reported performance.
 \input{haven_perf}
 
 \subsection{Discussion}
-%Untrusted time
-%VM exits.
-%Cannot move as easily as a VM.
-%Performance.
-%Monitoring is hard when needed.
 
-Still untrusted parts like the time.
-Vm exits are a problem.
-Cannot move it as easily as a VM, which is a problem since they target cloud deployment.
-The performance penalty is pretty high, it improves security but degrades application performance significantly.
-Cannot monitor, when on cloud services this is actually required and very important.\\
-
-What we can take away from this paper is actually that applications deployment changed significantly.
-Before, we could deploy on our own trusted servers.
-Now multiple mutually untrusted applications are co-located on the host and we have this new bidirectional lack of trust between host and guest.
-We need to address this issue.
-Relying on hardware is an interesting solution because, compared to software, it is less amenable to bugs and hard to attack or circumvent.
-The whole libOS thing is also interesting because it shows that by reimplementing the abstractions that regular applications rely on, we can run unmodified applications.
-Also allows the application to verify most of the execution stack (e.g., inspect the libOS).
-Although authors claim that this design can be easily ported, I see the lack of support for fork as a problem.
-Why untrusted channel when SGX has a mechanism to attest a program?
-
-\adrien{Key insight + how to link to exokernel: separation between physical resources and virtual ones, and separation between policies and mechanisms.}
+\input{haven_discussion}
 
 
 
