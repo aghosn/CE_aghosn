@@ -1,0 +1,29 @@
+%Important to see the overhead introduced.
+%There is a security incentive, but the performance is also important because it is sacrificed here.
+%Running unmodified binaries is really an advantage.
+%Disk is still a limitation.
+%
+% Hard to evaluate on simulator, but looks like main penalties come from X.
+% 31 to 54 percent slowdown comparend to VM 
+% Enclave crossing is what impacts the most.
+% They say it's gonna be acceptable but seems high.
+Haven's performance evaluation is done within a simulation that emulates SGX instructions.
+EPC access time is artificially modified by reducing the DRAM frequency on the test machine.
+Haven's performance is measured against a Microsoft SQL Server benchmark and an Apache HTTP server one.
+The measurements are compared with the performance achieved by running the application natively, in a Hyper-V VM, and in Drawbridge.
+We note that Haven performs less efficiently than all other configuration for database benchmark, with a 13\% slowdown compared to Drawbridge.
+On the HTTP server evaluation, with a dedicated filesystem, Haven is less efficient than other configurations but out-performs Drawbridge thanks to the read intensive nature of the workload that accesses pages located within the buffer cache inside the enclave.
+Without the private filesystem, Haven incurs a 40\% slowdown compared to Drawbridge.
+
+The authors experimented with synthetic delays for memory allocation and enclave crossing and reported how these affect Haven's performance.
+This method enables to evaluate how these applications react to varying SGX instruction delays.
+The database benchmark is unaffected by dynamic memory allocation overheads as a very small number of them occur during the execution.
+Enclave crossing overheads are, however, impacting the overall performance.
+For the HTTP server benchmark, both overheads seem to have an impact on the performance.
+
+Varying the EPC performance shows that memory-intensive workloads would see their performance decrease, although not proportionally as not all accesses are going to the EPC.
+For example, the database benchmark suffered a 21\% slowdown when the memory system was slowed down by a third.
+
+More generally, Haven's authors conservatively expect the performance slow down compared to a virtual machine to range from 31\% to 54\%.
+
+Relying on a recent performance evaluation of SGX, we can deduct more precise costs.

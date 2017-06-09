@@ -10,7 +10,7 @@ SGX ensures data confidentiality, integrity, and prevents replay attacks on the 
 In this scheme, the processor acts as the root of trust to achieve the protected execution of enclaved programs.
 
 Enclave's code and data become available once the processor \emph{enters} the enclave.
-Entering an enclave requires the processor to switch to \emph{enclave mode}, load the appropriate page mappings, and jump to a specific entry point contained within the enclave.
+To enter an enclave, the processor switches to \emph{enclave mode}, loads the appropriate page mappings, and jumps to a specific entry point contained within the enclave.
 While cache resident data is protected by the table lookaside buffer (TLB), SGX relies on cryptographic techniques to ensure the confidentiality and integrity of an enclave's page in main memory.
 
 Main memory, i.e., DRAM, is not part of the trusted computing base (TCB).
@@ -24,7 +24,9 @@ A failure to verify an enclave's data integrity results in a fault that blocks t
 The processor stores enclave pages and their metadata in the \emph{Enclave Page Cache} (EPC), a subrange of the protected region.
 Each enclave is associated with a corresponding \emph{SGX Enclave Control Structure} (SECS) that resides within the EPC and is used by the hardware to validate interactions with enclave pages.
 The SECS tracks physical pages that belong to a particular enclave, their types, their corresponding virtual mappings, as well as their access rights.
-The EPC also acts as a cache holding free enclave pages and allows to dynamically extend the memory allocated to a specific enclave.
+Each enclave might contain several thread control structures (TCS), that encapsulate the state en entry point for threads executing in the enclave.
+TCSs belong to exactly one SECS and are also stored in the EPC.
+Finally, the EPC also acts as a cache holding free enclave pages and allows to dynamically extend the memory allocated to a specific enclave.
 
 SGX implements local and remote attestation mechanisms to verify the integrity of a newly created enclave.
 Enclaves are instantiated by untrusted software.
@@ -38,4 +40,7 @@ The report is then sent to the target enclave that can verify its authenticity b
 Remote attestation relies on asymmetric cryptography to produce a report.
 First, the local attestation is used with a special \emph{quoting enclave}.
 The quoting enclave then generates and inserts a MAC in the report computed with a private, device specific key and sends the report to the remote entity.
-The known public key can then be used to verify the authenticity of the MAC contained within the report.
+The known public key can at that time be used to verify the authenticity of the MAC contained within the report.
+A remote attestation report is called a \emph{quote} to differentiate it from local attestation reports.
+
+The next section presents Haven's design and how the authors leveraged Intel SGX to provide shielded execution of unmodified legacy applications.

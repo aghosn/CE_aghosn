@@ -1,81 +1,46 @@
 \section{Shielding Applications from an Untrusted Cloud with Haven}
 
-%Define shieldied application.
-%Give general goal and design.
-
-%Shielded application.
-%New problem is that you colocate applications in cloud services and want to be protected against a potentially corrupted host.
-%Sandbox usually act the other way around.
-%Rely on hardware mechanisms to do so by using the Intel SGX extension.\\
-%
-%Whole system is based on the libOS drawbridge.\\
-%
-%\adrien{Redacted}\\
-%Haven[CITE] defines the notion of \emph{shielded execution}, i.e., protecting a program's data confidentiality and integrity from the host on which it runs.
-%With the emergence of cloud services, Haven's authors identified TODO.
-%While conveniently allowing a fast deployment of web-services, Cloud service providers often require their %clients to entrust them with unlimited access to their app-specific data.
-%The privileged code, that is part of the host software stack, has unrestricted access to any resource lent to %the Cloud user.
-
-Cloud computing providers enable even small organizations to deploy web-based services quickly, with low start-up costs, and efficiently adapt the amount of available resources to their current load.
+Cloud computing service providers enable even small organizations to deploy web-based services quickly, with low start-up costs, and efficiently adapt the amount of available resources to their current load.
 On a machine, the cloud service provider's host divides physical resources among co-located applications from different origins.
 
-While very attractive for their simplicity and adaptability, such services raise important confidentiality and integrity concerns that limit their adoption[CITE FROM HAVEN].
+While attractive for their simplicity and adaptability, such services raise important confidentiality and integrity concerns that limit their adoption[CITE FROM HAVEN].
 Cloud services implement a unidirectional isolation model where privileged code (the host) is protected from the unprivileged one (the guest), and retains unrestricted access to the application's data.
 In other words, Cloud users are forced to entrust the entire Cloud privileged management software stack with their sensitive data and intellectual property.
 Seeing as privacy and confidentiality are growing concerns, new techniques need to be devised to protect the application's data from a potentially compromised or malicious host.
 
-Haven[CITE] is a system that leverages Intel software guard extension (SGX) to provide shielded execution of unmodified legacy applications on a commodity OS (windows).
-Shielded execution allows to protect the \emph{confidentiality} and \emph{integrity} of a program's data from the host (e.g., the OS) on which it runs.
+Haven[CITE] is a system that leverages Intel Software Guard Extension (SGX) to provide shielded execution of unmodified legacy applications on a commodity OS (windows).
+Shielded execution allows to protect the \emph{confidentiality} and \emph{integrity} of a program from the host (e.g., the OS) on which it runs.
 Confidentiality ensures that the program's intermediate states are not observable by the rest of the system, while integrity guarantees that if the program completes, the output is correct.
 We briefly introduce the Intel SGX extension main features before presenting Haven's design.
-
-%\adrien{Haven isolates against the host by running within an SGX enclave, a secure region of address space}
-
-%Haven runs unmodified applications that do not incorporate in-depth defense against the host, i.e., they were written assuming that the underlying system is well-behaved.
-%In order to preserve their integrity and protect against Iago attacks, i.e., a malicious host modifying the results of system calls to subvert an application, Haven integrates a library OS (LibOS) based on Microsoft Drawbridge[CITE] %that exposes the Windows 8 API.%
-%The application runs on top of the LibOS, which in turns interacts with the untrusted host.
-%\adrien{Should say SGX allow confidentiality and integrity, integrity also guaranteed by libOS.}
 
 \subsection{The SGX extension}
 
 \input{SGX}
 
 \subsection{Design}
-%The entire "stack" of Haven.
-%This complicated thing where they have the special untrusted runtime as well.
-%Things that must be explained:
-%\begin{itemize}
-%	\item picoprocess (to protect the host from the guest)
-%	\item the enclave
-%	\item the library operating system.
-%	\item the shield module (how does it verify that host is actually correctly serving a system call?)
-%	\item untrusted runtime
-%	\item SGX driver and drawbridge host.
-%\end{itemize}
-%
-%\adrien{Present from the optic of defending, show what needs to be done, cannot blindly trust the OS with services so need to reduce how much it is necessary to implicate it within the execution.}
-%
-%\adrien{Everybody obsessed with policy mechanism separation}
-%
-%\adrien{Maybe list all the problems somehow in the first remark.}
+
 Haven leverages the low level isolation mechanisms provided by SGX to achieve shielded execution of legacy application binaries.
 Since the host OS cannot be trusted, Haven provides most of the operating system services required by the application and manages policies and mechanisms for virtual resources, while the host retains management over physical ones.
 This clear separation, coupled with defensive programming and careful interactions between guest and host, is supposed to facilitate Haven's resistance to Iago attacks, i.e., a malicious host exploiting the application's trust to achieve its goals.
 
 Haven's definition of shielded execution requires to
 \begin{enumerate*}
-	\item bootstrap and validate the execution environment within the enclave
-	\item implement virtual resource management within the enclave
-	\item defend against a misbehaving host by verifying the result of every service requested from it
+	\item bootstrap and validate the execution environment within the enclave,
+	\item implement virtual resource management within the enclave,
+	\item defend against a misbehaving host by verifying the result of every service requested from it, and
 	\item prevent the host from gathering information on the enclave's state via exception handlers
 \end{enumerate*}.
 We now describe how Haven's design addresses each of these concerns.
 Figure [REF] provides an overview of Haven's runtime stack.
-%We first present Haven's design before describing how each of these requirements is achieved.\\
+The application, the LibOS, and the shield module form the trusted software base.
+They are all encapsulated inside the enclave.
 
-Haven wraps the application within a sandbox provided by Drawbridge[CITE].
-The application executes within a secured container, called \emph{picoprocess}, that interacts with a narrow ABI to request OS services.
-A modified version of Windows 8 retrofitted into a LibOS implements the full OS API required by the application.
+Haven wraps the application in a sandbox provided by Drawbridge[CITE].
+The application executes within a secured container, called \emph{picoprocess}, that exposes a narrow ABI to request OS services.
+As a standard sandboxing mechanism, the picoprocess protects the host from the guest.
+
+The application relies on a trusted library operating system (LibOS) to request system services.
+In Haven, the LibOS is a modified version of Windows 8, retrofitted into a set of libraries, that implements the full OS API.
 The LibOS is under user control and can be inspected and verified by the application.
 
 In order to protect the application from Iago attacks, Haven relies on a \emph{shield module}.
@@ -83,27 +48,32 @@ The shield module exposes the drawbridge ABI to the LibOS and implements kernel 
 It isolates the LibOS from a malicious host by validating all parameters and results that cross the border between trusted and untrusted parts of the runtime.
 Such validations depend on the specific service required from the host OS, but mostly consist in sanity checks and observably consistent results.
 
-The application, the LibOS, as well as the shield module, execute within the enclave and are part of the trusted runtime, from the application's point of view.
-
-The untrusted interface that lives at the boundary of the enclave was designed to allow correctness verification by the shield, while being flexible enough to permit an efficient implementation of services on both sides.
+The untrusted interface at the boundary of the enclave was designed to allow correctness verification by the shield, while being flexible enough to permit an efficient implementation of services on both sides.
 In order to achieve both security and performance, Haven's authors decided to decouple policies from mechanisms.
 The host is responsible for managing physical resources while the guest handles virtual ones.
 
 Underneath the untrusted interface, an untrusted runtime module exists to forward calls between the guest and the host.
 This module also acts as a bootstrap to create the enclave and load the shield.
 
-Applications are deployed on the cloud as encrypted disk images that contain both the application and LibOS binaries.
-The cloud service provider is responsible for creating the picoprocess and loading the untrusted runtime, which in turns creates the enclave and loads the shield module.
-SGX attestation mechanism is used to compute a hash of the shield to verify its integrity.
-Afterwards, the shield generates asymmetric cryptography keys, securely sends its public key to a machine controlled by the user along with proof that it was correctly initialized.
+The host OS interacts with the enclave via the Drawbridge ABI and provides services relating to memory management, e.g., changing memory access rights or allocating untrusted virtual memory, thread signaling, access to external untrusted devices, e.g., storage, and to the system time.
+
+Applications are deployed on the Cloud as encrypted disk images that contain both the application and LibOS binaries.
+The Cloud service provider is responsible for creating the picoprocess and loading the untrusted runtime, which in turns creates the enclave and loads the shield module.
+SGX remote attestation mechanism is used to compute a quote of the shield and verify its integrity as well as the enclave's environment.
+Afterwards, the shield generates asymmetric cryptography keys, securely sends its public key to a machine controlled by the user along with the quote.
 The user verifies the shield's integrity, encrypts the disk image with the public key, and sends it to the shield.
 The application is then ready to be loaded.
 
-As mentioned earlier, exception handling requires the host's intervention.
-When an exception occurs in enclave mode, SGX saves the content of the registers and information about the fault within the TCS.
-The exception is passed on to the host OS which can, as described earlier, either handle the fault, or report it back to the guest.
+Exception handling requires the host's intervention and must therefore be done with care to avoid leaking information about the enclave's state.
+When an exception occurs in enclave mode, SGX saves the content of the registers and information about the fault within the current TCS.
+A synthetic context for the exception is then created to prevent data leaks to the host.
+This synthetic context is passed to the host OS which can either handle the exception, or report it back to the guest.
 In the latter case, the shield verifies the legitimacy of the exception before reporting it to the LibOS.
-Worth noting, as a context can only be resumed with \lstinline{EERESUME} from outside the enclave, an extra \lstinline{EEXIT} is required.
+
+Haven stacks several software layers, each existing to provide specific functionalities to the ones above it.
+This layered architecture, coupled with the defensive programming design adopted, might introduce non-negligible overheads.
+The next section focuses on Haven's reported performance.
+
 %The  requirements for Haven imply that the application must be able to verify and trust its entire software stack that is part of the enclave, that services still provided by the underlying host must be treated as potentially misbehaving,  
 %Drawbridge running on top of host kernel is responsible for the thing. 
 %%Insert image.
@@ -138,33 +108,9 @@ Worth noting, as a context can only be resumed with \lstinline{EERESUME} from ou
 % 
 % Requires to load all binaries directly because no demand loading possible.
 \subsection{Evaluation}
-%Important to see the overhead introduced.
-%There is a security incentive, but the performance is also important because it is sacrificed here.
-%Running unmodified binaries is really an advantage.
-%Disk is still a limitation.
-%
-% Hard to evaluate on simulator, but looks like main penalties come from X.
-% 31 to 54 percent slowdown comparend to VM 
-% Enclave crossing is what impacts the most.
-% They say it's gonna be acceptable but seems high.
-The performance evaluation is done within a simulation that emulates SGX instructions.
-EPC access time is artificially modified by reducing the DRAM frequency on the test machine.
-Haven's performance is measured against a Microsoft SQL Server benchmark and an Apache HTTP server one.
-The measurements are compared with the performance achieved by running the application natively, in a Hyper-V VM, and in Drawbridge.
-We note that Haven performs less efficiently than all other configuration for database benchmark, with a 13\% slowdown compared to Drawbridge.
-On the HTTP server evaluation, with a dedicated filesystem, Haven is less efficient than other configurations but out-performs Drawbridge thanks to the read intensive nature of the workload that accesses pages located within the buffer cache inside the enclave.
-Without the private filesystem, Haven incurs a 40\% slowdown compared to Drawbridge.
 
-The authors experimented with synthetic delays for memory allocation and enclave crossing and reported how these affect Haven's performance.
-This method enables to evaluate how these applications react to varying SGX instruction delays.
-The database benchmark is unaffected by dynamic memory allocation overheads as a very small number of them occur during the execution.
-Enclave crossing overheads are, however, impacting the overall performance.
-For the HTTP server benchmark, both overheads seem to have an impact on the performance.
+\include{haven_perf}
 
-Varying the EPCL performance shows that memory-intensive workloads would see their performance decrease, although not proportionally as not all accesses are going to the EPC.
-For example, the database benchmark suffered a 21\% slowdown when the memory system was slowed down by a third.
-
-More generally, Haven's authors conservatively expect the performance slow down compared to a virtual machine to range from 31\% to 54\%.
 \subsection{Discussion}
 %Untrusted time
 %VM exits.
