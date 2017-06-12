@@ -1,0 +1,19 @@
+% Old but good, solves kernel bypass thing.
+% Provides small set of primitives and simple implementation, means efficient and easy to validate (smaller attack surface, less LOC).
+% At the same time, we see that the same fundamental principles that were used in Haven are used here. Meaning that mutual distrust could be implemented.
+% Due to its performance, we can expect to incur SGX but not other overheads that are present in Haven.
+% At the same time, can leverage the fact that application is close to the library os. We need to see what this unveils.
+% Finally, still unsolved migration and cloud management/deployement. 
+Although originally published two decades ago, the Exokernel addresses modern concerns in terms of system design and application performance.
+It allows application-level management of resources by exposing an interface as close as possible to the underlying hardware, hence removing the need for kernel by-pass in order to increase performance[CITE].
+The Exokernel provides a small set of primitives to securely expose and multiplex hardware resources.
+This reduced set of responsibilities allows a compact and simple implementation of the Exokernel that is less amenable to implementation bugs, exposes a smaller attack surface, and is highly efficient.
+
+The Exokernel design revolves around the basic principle of separation between protection and mechanisms to achieve good performance.
+The same principle was used in Haven to allow the implementation of bi-directional isolation between a host and a guest.
+As a result, we suspect that confidentiality and integrity, as provided in Haven, are not incompatible with achieving good performance.
+
+The Exokernel paper focuses on the design of the kernel itself.
+We now want to study how leveraging this design enables to aggressively specialize the application's stack.
+More precisely, with the next paper, we study how one can leverage the fact that an application can be linked to a specific libOS in order to improve the overall performance, without sacrificing security.
+We further study how such a solution integrates with Cloud deployments and the benefits that lie there-in.

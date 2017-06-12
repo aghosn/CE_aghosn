@@ -21,7 +21,7 @@ In accord with the Exokernel's design principles, Aegis dispatches all exception
 After handling an exception, the application does not require to re-enter the kernel before resuming execution.
 As a result, Aegis's exception mechanism is more than five times faster than the then state-of-the-art fastest implementation[CITE].
 
-Aegis provides primitives for synchronous, and asynchronous protected control transfer, a mechanism that can be relied upon to implement efficient IPC abstractions.
+Aegis provides primitives for synchronous and asynchronous protected control transfer, a mechanism that can be relied upon to implement efficient IPC abstractions.
 Compared with the then fastest published implementation[CITE], Aegis mechanism is 6.6 times faster.
 This is mostly due to the succinct, i.e., 30 instructions, implementation of the mechanism in the Exokernel.
 
@@ -32,5 +32,5 @@ This discrepancy is due to the fact that Ultrix needs to emulate new abstraction
 
 The authors then proceed with a comparison between the unoptimized implementation of virtual memory management in ExOS to the one provided in Ultrix.
 First, a simple benchmarks allows to show that a standard implementation that does not leverage the Exokernel features and Ultrix perform indistinguishably.
-A set of microbenchmarks than shows that ExOS performs reasonably, i.e., 1.1 to 1.6 times slower, compared to Ultrix on test that change access rights to contiguous address ranges.
+A set of microbenchmarks shows that ExOS performs reasonably, i.e., 1.1 to 1.6 times slower, compared to Ultrix on tests that change access rights to contiguous address ranges.
 At the same time, ExOS outperforms Ultrix on page-protection traps and more heterogeneous benchmarks by being at least an order of magnitude faster.
