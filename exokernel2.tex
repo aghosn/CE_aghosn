@@ -1,8 +1,8 @@
 \section{Exokernel: An Operating System Architecture for Application-Level Resource Management}
 
-In traditional monolithic operating systems, applications interact with the kernel via interfaces that hide machine resources behind fixed high-level abstractions such as processes, files, virtual memory, interprocess communications (IPC), and file systems.
+In traditional monolithic operating systems, applications interact with the kernel via interfaces that hide machine resources behind fixed high-level abstractions such as processes, files, virtual memory, and interprocess communications (IPC).
 Unfortunately, as these abstraction cannot be replaced by untrusted user code, their implementations need to be general enough to serve heterogeneous applications.
-Consequently, applications that do not need a certain features still incur their associated overhead costs.
+Consequently, applications that do not need a certain features still incur its associated overhead.
 More generally, the lack of flexibility imposed by fixed kernel abstractions impedes applications performance, flexibility, and functionality, by preventing domain-specific optimizations of resource management, the modification of existing abstractions, and requiring new ones to be inefficiently emulated on top of a rigid high-level kernel interface.
 
 Guided by the \emph{end-to-end} principle[CITE], the authors of the Exokernel paper present an ingenious operating system architecture that provides application-level management of physical resources.
@@ -13,7 +13,7 @@ In the following sections, we focus on the design principles that are at the hea
 \subsection{Design Principles}
 The main challenge in designing an Exokernel is to enforce a clean separation between protection and mechanisms[CITE].
 The kernel avoids resource management up to the extent required by protection.
-The kernel is responsible for securely multiplexing hardware resources and allowing different library operating systems (and applications) to coexist on the same machine.
+It is responsible for securely multiplexing hardware resources and allowing different library operating systems (and applications) to coexist on the same machine.
 It must do so with little overhead and without imposing design restrictions that might hurt the application's performance.
 
 The role of the Exokernel is therefore to:
@@ -39,7 +39,7 @@ Due to the heterogeneity of the multiplexed resources, the Exokernel relies on d
 \end{enumerate*}.
 
 Ideally, specific hardware features should be leveraged whenever possible to implement protection and access time checks.
-For example, if a hardware memory TLB is available, the kernel first validates a virtual to physical memory mapping, e.g., by performing authorization checks on the physical page, and then installs an entry inside the hardware TLB (bind time), which subsequently performs efficient access time checks.
+For example, if a hardware memory TLB is available, the kernel first validates a virtual-to-physical memory mapping, e.g., by performing authorization checks on the physical page, and then installs an entry inside the hardware TLB (bind time), which subsequently performs efficient access time checks.
 
 When hardware support is not possible, or to improve the overall system performance, secure bindings can be implemented as a software TLB, i.e., the kernel can cache bindings.
 Following the previous example, the kernel can cache extra virtual to physical mappings inside a large software TLB to speed-up the validation and installation of a new hardware TLB entry.
@@ -65,18 +65,9 @@ The Exokernel also guarantees for each application a set of resources that will 
 Finally, an emergency protocol allows to swap out an application, i.e., to repossess all resources without "killing" the application.
 
 \subsection{Aegis Performance}
-In this section we report and review the original evaluation of Aegis, a prototype Exokernel, and ExOS, a library operating system.
-Since the paper was published in 1995 and Aegis evaluated on the hardware available back then, we ignore the measured numerical values and focus on the relative performance of the Exokernel compared to Ultrix, a traditional monolithic kernel.
 
-%Aegis
-%CPU
-%Exception
-%Protected control transfer.
+\input{exokernel_perf}
 
-%ExOS
-%IPC
-%virtual memory
-%remote communication. 
 \subsection{Discussion}
 Good because same design choices than Haven.
 In one case it's for security, in the other for performance.

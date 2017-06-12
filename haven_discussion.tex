@@ -15,7 +15,7 @@ At a high-level, the host is reduced to exposing physical resources, while the g
 Unfortunately, as we have seen in the evaluation section, Haven sacrifices performance for confidentiality and integrity.
 Parts of the overheads are directly imputable to the hardware mechanisms implemented by Intel SGX and cannot be avoided.
 In particular, we observed that memory operations on the EPC are non-negligibly slow.
-At the same, Haven's stack itself significantly decreases the application's performance compared to alternate deployments.
+At the same, Haven's stack itself significantly decreases the application's performance compared to alternate solutions, and relies on a remote attestation mechanism that makes deployment cumbersome.
 
 The open question is to determine if performance and confidentiality/integrity can be reconciled under a common set of design principles.
 In other words, we wonder if the design choices, at the heart of Haven's design, that enforce the isolation between host and guest, preclude performance.
