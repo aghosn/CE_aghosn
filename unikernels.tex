@@ -1,13 +1,7 @@
 \section{Unikernels: Library Operating Systems for the Cloud}
-%vm pack operating system + application.
-%often dedicated to one purpose.
-%no specialization
-%glue code is used to run different services,
-%overhead of everything that is not needed + security issue.
-
 Traditionally, applications are deployed in the Cloud as virtual machines (VM).
 A VM packs a complete operating system, such as Linux or Windows, that allows to run unmodified application processes.
-Typically, a VM run in the Cloud can be viewed as a single-purpose appliance, i.e., it consists of a guest operating system running a main application, e.g., a database or web server, that relies on smaller services running in parallel.
+Typically, a VM deployed in the Cloud can be viewed as a single-purpose appliance, i.e., it consists of a guest operating system running a main application, e.g., a database or web server, that relies on smaller services running in parallel.
 Due to the lack of standards for application configuration, VMs often run custom scripts as glue code to initialize the execution environment.
 
 Although destined to execute a single main application, Cloud VMs are insufficiently specialized.
@@ -15,32 +9,17 @@ They contain an entire operating system image, distributed with some default ser
 Apart from unnecessarily increasing the disk image size for this single-purpose appliance, hence requiring more resources to deploy and run the VM, the presence of unwanted default services increases the potential attack surface exposed to a malicious entity and threatens the integrity of the VM.
 
 The Unikernel paper[CITE] presents a new model to deploy applications in the Cloud that addresses the above-mentioned issues by radically specializing the Cloud application's image.
-\emph{Unikernels} are small sized sealed single-purpose appliances entirely written in a high-level programming language, that can easily be configured and deployed over cloud platforms.
+\emph{Unikernels} are small sized sealed single-purpose appliances entirely written in a high-level programming language, that can easily be configured and deployed over Cloud platforms.
 
 
 \subsection{Design Principles}
-
-
-% 1. Unikernel libOS revisited.
-% 	Different than the exokernel, runs on top of a hypervisor, such as Xen.
-% 	Why abstraction from hardware is good? Because don't have to write the drivers and can run on the Cloud.
-% 2. Unikernels go further than previous libOSes by fully specializing the entire user stack. The libOS and the application are compiled together to yield a standalone kernel to schedule on top of the hypervisor.
-% 	Leveraging high-level PL allows to have static type-safety, and use PL tools such as software verification, dead-code elimination.
-% 3. Configuration and Deployment
-% 	static configuration.
-
 The Unikernel revisists the idea of library operating systems (libOS) by applying it to Cloud platforms.
-A unikernel is a standalone kernel that encapsulate a single-purpose application destined to be deployed over the Cloud.
+A unikernel is a standalone kernel that encapsulates a single-purpose application destined to be deployed over the Cloud.
 As such, unikernels execute on top of a VM hypervisor, e.g., Xen[CITE].
 The advantages of targeting a virtualization platform instead of a custom kernel are twofold.
 First, the hypervisor provides a fixed virtual hardware abstraction that alleviates the need to take into account heterogeneous hardware devices.
 The hypervisor provides hardware drivers for a large number of devices and abstracts them away behind a fixed high-level interface.
 Second, the hypervisor virtual abstraction facilitates both vertical and horizontal dynamic scaling.
-
-% Agressive specialization.
-% Via aggressive specialization, achieve:
-% 1. Small size compact images.
-% 2. Configuration work is taken care of at compile time.
 
 Unikernels achieve aggressive specialization by relying on a single high-level programming language.
 System libraries and the application are implemented in a common, statically typed, programming language, and compiled as a single specialized unikernel.
@@ -63,7 +42,7 @@ Since all the libraries are linked and compiled against the application itself, 
 The authors claim that in most cases, the final binary's size is on the order of kilobytes, and hence easily deployable across the Internet.
 Furthermore, in the context of Cloud platforms, where resources are rented, small size binaries consume less resources to host the program's code and data, and hence minimize expenses.
 
-By eschewing backward compatibility and requiring the entire stack to be written in a single high-level typed programming language, unikernels can leverage type-safety and static analysis and verification tools to improve the application's security.
+By eschewing backward compatibility and requiring the entire stack to be written in a single high-level typed programming language, unikernels can leverage type-safety as well as static analysis and verification tools to improve the application's security.
 First, DCE reduces the attack surface exposed to a remote attacker system-wide.
 Unused libraries as well as unreachable portions of code are not included in the final binary and cannot be leveraged by an attacker to subvert the application.
 Second, a unikernel executes entirely within a single address space and relies on the language's type safety to enforce access control and restrictions.
@@ -77,7 +56,7 @@ All libraries and protocols used by the application need to be rewritten in the 
 An alternate solution is to leverage interoperability at the network level.
 Services that are not reimplemented in the chosen language can be encapsulated in separate VMs and communicate with the unikernel via standard network protocols.
 Unfortunately, this technique increases resource usage and prevents system-wide optimizations.
-Finally, parts of the system, such as the garbage collector, are type-unsafe and still require to be protected against. 
+Finally, we note that parts of the system, such as the garbage collector, are type-unsafe and still require to be protected against. 
 
 A common argument against type-safe and memory managed programming languages is the overhead incurred by type checks and garbage collection.
 Performance is critical to Cloud services renters to achieve their service level objectives.
@@ -103,8 +82,8 @@ We report the evaluation results presented in [CITE] in the next section.
 %Net + Storage
 % 10% overhead for mirage due to type safety.
 % TCPv4 comparison on par with Linux.
-\adrien{Maybe sum it up better, say that microbenchmarks prove that no performance overhead is introduced.
-Then say general comment about the real life applications, and say we focus on bind because it shows two things: improved perf, and better security due to type-safety.}
+%\adrien{Maybe sum it up better, say that microbenchmarks prove that no performance overhead is introduced.
+%Then say general comment about the real life applications, and say we focus on bind because it shows two things: improved perf, and better security due to type-safety.}
 %The authors evaluate a prototype evaluation of unikernels, called Mirage, that leverages OCaml system programming and static type system to produce appliances running on top of a Xen[CITE] hypervisor.
 %A Mirage application is a standalone kernel, encapsulating a single process running in a 64-bit address space.
 %Concurrency within a VM is achieved via the OCaml Lwt cooperative threading[CITE] library.
@@ -128,14 +107,13 @@ Then say general comment about the real life applications, and say we focus on b
 %For more realistic applications, Mirage's performance is at least equivalent (and sometimes superior) to state-of-start implementations of the same functionalities.
 %The Mirage DNS Server appliance achieves 75-80 kqueries/s, while NSDN, a high performance implementation, reaches a max throughput of 70 kqueries/s.
 %Apart from an increased throughput, Mirage provides a type-safe implementation that is not amenable to most of the past 10 years reported bugs in the Bind software.\\
-
-\adrien{Re-writing}
+%\adrien{Re-writing}
 The authors evaluate a prototype unikernel implementation, called Mirage, that leverages OCaml system programming and static type system to produce appliances running on top of a Xen[CITE] hypervisor.
 A Mirage application is a standalone kernel, encapsulating a single process running in a 64-bit address space.
 Concurrency within a VM is achieved via the OCaml Lwt cooperative threading[CITE] library.
 At the same time, a \emph{domainpoll} function enables to block the VM for external events and timeouts.
 Lightweight threads enable to implement I/O protocols in a type-safe, non-blocking manner.
-Network processing as well as storage I/O are implemented as unikernel libraries under the control of the application that rely on a unified device driver model to read/write from/to a device.
+Network processing as well as storage I/Os are implemented as unikernel libraries under the control of the application and rely on a unified device driver model to read/write from/to a device.
 Mirage applications contain a guest VM driver implemented in OCaml that communicates with a Xen backend driver via events and a shared memory page that holds requests and responses for device operations.
 This shared memory ring is at the heart of every I/O in Mirage and allows device drivers to be implemented as OCaml libraries linked against the application.
 The Mirage runtime memory management was specialized to dedicate a segment to these external I/O pages.
@@ -157,73 +135,9 @@ Mirage's type-safety prevents this kind of errors by design.
 The DNS server Mirage appliance is a perfect example showing that type-safety, and more generally improved security, do not  preclude performance. 
 
 To conclude, as promised, Mirage yields small size binary images, even for realistic applications.
-For example, the Mirage DNS server image is 183.5 kB, while the equivalent Linux image, strip to the used components, is 462 MB.
+For example, the Mirage DNS server image is 183.5 kB, while the equivalent Linux image, striped down to the used components, is 462 MB.
 
 
 \subsection{Discussion}
-%\subsection{Overview}
-%%TO SAY
-%%Keywords: Specialization (of the kernel itself)
-%%1. Goal is to have secured, small sized, efficient applications easy to deploy in cloud.
-%%2. The application is the kernel. Strip down and seal the app to only what is needed.
-%%3. Relies on PL and compiler techniques, e.g., static analysis, static type-safety etc.
-%%4. Single address space !!! have to put that somewhere.
-%\adrien{When talking about Mirage, say single process for a dedicated virtual CPU. domainpoll to block on event.}
-%
-%This should be a high level overview of the paper.
-%
-%\textit{Unikernels} are defined as small sized sealed single-purpose appliances that can easily be deployed over cloud services.
-%More specifically, a unikernel encapsulate an application's logic as well as the required system libraries and language runtime.
-%However, unlike regular general-purpose VMs, unused functionalities are stripped-away at compile-time therefore yielding a small %sized bootable image while reducing the potential attack surface exposed by said image.\\%
-%
-%Describe the overall architecture and design.\\
-%
-%\subsection{Specialization through a unified common language.}
-%The application is the OS.
-%This goes further than before.\\
-%
-%Specialising benefits are smaller deployable things.
-%A common lower level interface that relies on the supervisor.
-%Smaller attack surface.
-%Reconfiguration require re-compilation so hard to modify behaviour?\\
-%
-%Single high level language means that we can leverage modern techniques, e.g. type safety, static analysis, compiler %optimizations to boost performance.%
-%At the same time, single address sp%ace is enough because we have the functionalities from the language that act as ba%rriers.
-%
-%\subsection{Evaluation}
-%TODO: redac this\\
-%
-%Main goals and claims: since supposed to be deployed on the cloud, both size and boot time are relevant.
-%This is evaluated qualitatively by comparing LOCs between unikernels and VMs, and by measuring boot time required when deploying %the appliances.%
-%Result is that %can boot in less than 50 ms (how does it compare to Linxu?)\\%
-%
-%Threading is efficient because no kernel and user space separation, hence avoid the mode switch overheads.\\
-%
-%Network and Storage type safety does not introduce significant delays.
-%Thanks to single address space, 0-copy for receive so faster.
-%Transmission is, however, slower because requires extra cpu processing (high level language).\\
-%
-%Application is DNS.
-%
-%\subsection{Discussion}
-%
-%Comparison with exokernel: different approach regarding the abstraction level.
-%Still trusts the hypervisor, could we use the SGX to protect it somehow?
-%Argument that hypervisor enables to get compatibility with drivers is good, but still need to reimplement all the system %libraries...%
-%Still suffer%s from the same problems as any LibOS, you need to reimplement the libraries.%
-%Other proble%m is that you limit the flexibility by requiring them to be implemented in OCaml.%
-%Compatibilit%y with other applications is ensured by having a network communication between th%e appliance and a VM that ru%ns the %service.%
-%Not good% because shared memory etc. is not really straight forward.\\
-%
-%What is better than exokernel? 
-%The fact that we can rely on high-level pl tools like verification, dead-code elimination etc.
-%Packageable (which is not really the case for an app in exokernel and not a considered concern).\\
-%
-%What is not as good?
-%Everything needs to be implemented in OCaml, because we have the runtime environment and all of that.
-%In exokernel, you have an interface, and it could be enough to somehow communicate with it.\\
-%
-%What is bad as well?
-%Can you actually snapshot an appliance and migrate it?
-%Check in the paper if this is the case because I'm really not sure.
-%
+
+\input{unikernels_discussion}

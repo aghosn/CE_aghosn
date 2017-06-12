@@ -1,0 +1,16 @@
+Haven and Mirage are diametrically opposed: where the former strives to support legacy applications, the latter eschews backward compatibility.
+Reimplementing the libraries as well as the application in a single language allows to optimize the entire user stack at once and achieve a high level of specialization.
+
+In the context of Cloud deployments, we can wonder how desirable backward compatibility really is.
+VMs or containers deployed on the Cloud are often single-purpose appliances, providing a well-defined service.
+Reimplementing such services in a higher-level language seems feasible, especially if the language already provides external libraries with similar functionalities, e.g., database or network stack.
+This would, however, still require to slightly modify parts of the libraries to use the interface exposed by the underlying hypervisor.
+
+By targeting a virtualization platform, instead of a custom kernel like the Exokernel, unikernels sacrifice flexibility for portability.
+They interact with a high level abstraction provided by the hypervisor that restricts their freedom in terms of physical resource management.
+At the same time, Xen allows Mirage appliances to target a large set of platforms and to co-locate standard VMs and unikernels.
+It is hard to compare the achievable performance of a unikernel and an Exokernel based solution.
+First, modern virtualization is efficient.
+Second, the unikernel retains a lot of flexibility in terms of management of virtualized resources.
+Finally, unikernel appliances are highly optimized.
+\adrien{Sel4 somewhere}
