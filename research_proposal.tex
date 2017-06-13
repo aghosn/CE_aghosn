@@ -63,6 +63,22 @@ In the continuation of the Exokernel, systems should therefore focus on securely
 % 
 % Explore the space between a low level interface, and hardware supported virtualization to find a sweet spot abstraction that does not preclude performance.
 % Push modern hardware features, such as SGX, and modern programming languages tools to quantify performance and security gains.
+% Ownership model into kernel resources, typed memory for kernel objects and bookeeping.
+My research proposal focuses on the study of modern systems, designed to answer present day challenges, i.e.,
+\begin{enumerate*}
+	\item achieve high performance to allow applications to meet service level objectives,
+	\item consider the shift in paradigms such as increasingly parallel and complex hardware setups, and
+	\item answer present security requirements, such as mutual distrusts between a system and an application running on top of it.
+\end{enumerate*}
+To do so, we need to explore the design space between a low level interface, as in the Exokernel, and virtualized environments.
+The ideal solution would be a hybrid design that strikes the sweet spot between exposing raw hardware resources and providing a stable and portable abstraction.
+
+This design would act as a foundation for further exploration of new solutions on higher-level components. 
+More precisely, new abstractions could easily be created to leverage the latest hardware features, such as Intel SGX, and create modern execution environments that answer present days security requirements.
+
+As shown in the Unikernel paper, operating systems can benefit from advanced programming languages features, such as memory safety, type safety, intrinsic support for concurrency, or ownership tracking.
+Several papers[CITE] already explored how type-safe memory managed languages can be used in the operating system.
+With the rise in popularity of new paradigms and models, exported by languages like Rust and its ownership mechanism, or Go and its communicating-sequential-processes (CSP) style for concurrent programming, the space of possible designs and solutions has yet to be explored.
 
 
 
