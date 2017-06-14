@@ -1,0 +1,29 @@
+\section{Research Proposal}
+
+While Moore's law is coming to an end, the volume and complexity of data that we need to process keep increasing.
+Modern hardware setups harvest the cumulative power of dozens of machines to achieve their computations in a timely fashion.
+New hardware appliances are leveraged to off-load parts of the computation and decrease the overall processing time: GPGPUs allow parallel processing, FPGAs pre-processing, and new types of processing units appear, e.g., GAP[CITE] and TPU[CITE].
+
+Meanwhile, the monolithic architecture of the most popular kernels is becoming more and more of a burden.
+Based on rigid abstractions devised 50 years ago, it often fails to answer today's challenges in terms of performance and security.
+Researchers and developers are forced to rely on kernel bypasses[CITE], virtualization, or software frameworks, to achieve higher throughput, greater flexibility, or improved security.
+
+Operating systems need to adapt quickly to the modern world, and this requires to study alternate designs.
+Due to the heterogeneity of requirements and the fast pace at which technology evolves, no general-purpose monolithic system can pretend to provide satisfiable performance for all types of workloads.
+Inspired by the Exokernel, systems should therefore focus on securely exposing the available resources and avoid management as much as possible.
+
+My research proposal aims at the study of modern systems, designed to answer present day challenges, i.e.,
+\begin{enumerate*}
+	\item achieve high performance to allow applications to meet service level objectives,
+	\item consider the shift in paradigms such as increasingly parallel and complex hardware setups, and
+	\item answer present security requirements, such as mutual distrusts between a system and an application running on top of it.
+\end{enumerate*}
+To do so, we need to explore the design space between a low level interface, as in the Exokernel, and virtualized environments, as for unikernels.
+The ideal solution would be a hybrid design that strikes the sweet spot between exposing raw hardware resources and providing a stable and portable abstraction.
+
+This design would act as a foundation for further exploration of new solutions on higher-level components. 
+More precisely, new abstractions could easily be created to leverage the latest hardware features, such as Intel SGX, and create modern execution environments that answer present days security requirements.
+
+As shown in the Unikernel paper, operating systems can benefit from advanced programming languages features, such as memory safety, type safety, intrinsic support for concurrency, or ownership tracking.
+Several papers[CITE] already explored how type-safe memory managed languages can be used in the operating system.
+With the rise in popularity of new paradigms and models, exported by languages like Rust and its ownership mechanism, or Go and its communicating-sequential-processes (CSP) style for concurrent programming, the space of possible designs and solutions has yet to be explored.
