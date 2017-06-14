@@ -1,19 +1,19 @@
 \begin{abstract}
-%Applications evolved but not kernels.
-%Cloud deployement, hunt for performance, applications complex that need to handle resources in a particular way (e.g., dataplanes)
-%Isolation fine-grained for multi-source applications.
-%Kernel abstractions not good enough.
-%Question is to explore solution, in hardware, kernel design, and software/pl techniques to redefine roles of each part.
 
-%Should start with goal?
+Modern applications incorporate code from various, sometimes unverified, sources.
+As a result, both trusted and untrusted code cohabit within an application, henceforth requiring fine-grained isolation and protection mechanisms at boundaries known only to the application's developer.
+At the same time, modern applications strive for performance, which often entails to manage resources in a way that follows the application's logic.
 
-Exponential growth of number of applications, new ways to interact, new ways to distribute them, leads to systems where you execute code coming from various sources.
-New ways to execute them as well with cloud services, new challenges for performance.
-In the meantime, kernel did not evolve as much in terms of abstractions.
-Reevaluating respective roles in order to answer new security challenges and performance requirements.
-Let the system become as heterogeneous as the application. 
-Want to explore solution based on hardware, kernel design, and software based techniques, such as programming languages features to solve two things:
-improve security, while providing more flexibility to the application in terms of resource management.\\
+\adrien{High level funcitonalities and too involved in the app execution.}
+Unfortunately, mainstream operating systems expose rigid general purpose abstractions that often limit performance, flexibility, and functionalities of applications.
+Moreover, by failing to separate resource protection from management, kernels are responsible for functionalities vital to the application, such as access to the network or virtual memory management, thus making them an overpowered single point of failure.
+At a time when more and more applications are deployed over cloud services, entrusting the kernel, and more generally any privileged software, with such critical functionalities is not only inefficient, but also a risk.
 
-\textit{Try to put something related to specialization, e.g., specialization of physical resource management.}
+In this paper, we study solutions that re-define the respective responsibilities of the kernel and the application, giving back its freedom to the latter. 
+We rely on three publications: Haven, the Exokernel, and the Unikernel paper.
+Haven leverages the Intel SGX extension to shield a guest system from an untrusted host.
+The exokernel operating system allows application-level management of physical resources.
+Unikernels are compile-time specialized standalone kernels for single purpose appliances deployed over cloud platforms.
+
+Finally, understanding the arguments and solutions presented in these papers, I propose my research topic that relates to resource management and the improvement of kernel's role and abstractions to better address modern challenges.
 \end{abstract}

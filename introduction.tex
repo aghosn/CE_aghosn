@@ -27,7 +27,7 @@
 Applications and traditional monolithic operating system designs and abstractions evolved at different paces over the past decades, leading to an important mismatch that impedes both security and performance of modern software.
 In an increasingly multi-tasked and web-oriented environment, application developers strive for ever higher network throughputs, finer-grained memory management, fast access to heterogeneous external devices, and strong isolation guarantees, all of which seems hardly achievable with the common standards (e.g., POSIX) defined decades ago.
 This mismatch lead to ad-hoc re-implementations of system services, closer to the application's logic, and able to achieve either more flexibility or higher performance.
-Such solutions include user-level reimplementation of threads[CITE], IPC mechanisms[CITE], memory abstractions[CITE], or the networking stack[CITE].
+Such solutions include user-level threads[CITE], IPC mechanisms[CITE], memory abstractions[CITE], or kernel bypasses for network\cite{intel2014data,BelayPKGKB14} and disk\cite{intel2016storage} I/O.
 As a result, modern applications are built on top of multiple layers of software frameworks and libraries, rather than on top of the available OS abstractions.
 
 %At the same time, the complexity inherent to the inclusion of code from various sources, as well as new deployment practices (e.g., Cloud services) and increasing concerns for privacy calls for a re-evaluation of operating systems' security models.
@@ -41,12 +41,12 @@ Meanwhile, the widespread hierarchical security model that tends to protect a pr
 Nowadays, applications generate and process sensitive user data that should only be available within their scopes.
 Regrettably, privileged code has unrestricted access to unprivileged code's resources, based on the assumption that it is part of the trusted software stack.
 This assumption, however, fails to consider new deployment paradigms (e.g., Cloud services), where little is known about the software running on the host.
-Even worse, growing concerns have been voiced against user data aggregation by mainstream operating systems[CITE microsoft].
+Even worse, growing concerns have been voiced against user data aggregation by mainstream operating systems\cite{microsoftspy}.
 More generally, a compromised monolithic operating system gives an attacker unlimited access to all application's resources.
 Mutual distrust, between host (privileged code) and guest (unprivileged code) hence appears to be better suited to address modern security and privacy challenges.
 
 From the previous observations, we understand that current system abstractions need to evolve.
-As others before us[CITE], we believe that a better design should allow efficient application specific specialization of resource management.
+As others before us\cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBLP:conf/sosp/KaashoekEGBHMPGM97,DBLP:journals/tocs/CaoFKL96,DBLP:journals/sigops/HartyC92}, we believe that a better design should allow efficient application specific specialization of resource management.
 We further argue that, by redefining the respective roles of applications and operating systems, one could more easily provide bi-directional isolation and address present security and privacy concerns.\\
 
 \adrien{To redact}
