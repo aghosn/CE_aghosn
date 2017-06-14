@@ -3,12 +3,12 @@
 Cloud computing service providers enable even small organizations to deploy web-based services quickly, with low start-up costs, and efficiently adapt the amount of available resources to their current load.
 On a machine, the cloud service provider's host divides physical resources among co-located applications from different origins.
 
-While attractive for their simplicity and adaptability, such services raise important confidentiality and integrity concerns that limit their adoption[CITE FROM HAVEN].
+While attractive for their simplicity and adaptability, such services raise important confidentiality and integrity concerns that limit their adoption\cite{mining,NSAYahoo}.
 Cloud services implement a unidirectional isolation model where privileged code (the host) is protected from the unprivileged one (the guest), and retains unrestricted access to the application's data.
 In other words, Cloud users are forced to entrust the entire Cloud privileged management software stack with their sensitive data and intellectual property.
 Seeing as privacy and confidentiality are growing concerns, new techniques need to be devised to protect the application's data from a potentially compromised or malicious host.
 
-Haven[CITE] is a system that leverages Intel Software Guard Extension (SGX) to provide shielded execution of unmodified legacy applications on a commodity OS (windows).
+Haven\cite{DBLP:journals/tocs/BaumannPH15} is a system that leverages Intel Software Guard Extension (SGX)\cite{SGXManual} to provide shielded execution of unmodified legacy applications on a commodity OS (windows).
 Shielded execution allows to protect the \emph{confidentiality} and \emph{integrity} of a program from the host (e.g., the OS) on which it runs.
 Confidentiality ensures that the program's intermediate states are not observable by the rest of the system, while integrity guarantees that if the program completes, the output is correct.
 We briefly introduce the Intel SGX extension main features before presenting Haven's design.
@@ -18,6 +18,13 @@ We briefly introduce the Intel SGX extension main features before presenting Hav
 \input{SGX}
 
 \subsection{Design}
+
+
+\begin{figure*}
+	\centering
+  \includegraphics[scale=0.3]{haven}\label{fig:haven}
+  \caption{Haven components and interfaces from \cite{DBLP:journals/tocs/BaumannPH15}}
+\end{figure*}
 
 Haven leverages the low level isolation mechanisms provided by SGX to achieve shielded execution of legacy application binaries.
 Since the host OS cannot be trusted, Haven provides most of the operating system services required by the application and manages policies and mechanisms for virtual resources, while the host retains management over physical ones.
@@ -31,11 +38,11 @@ Haven's definition of shielded execution requires to
 	\item prevent the host from gathering information on the enclave's state via exception handlers
 \end{enumerate*}.
 We now describe how Haven's design addresses each of these concerns.
-Figure [REF] provides an overview of Haven's runtime stack.
+Figure \ref{fig:haven} provides an overview of Haven's runtime stack.
 The application, the LibOS, and the shield module form the trusted software base.
 They are all encapsulated inside the enclave.
 
-Haven wraps the application in a sandbox provided by Drawbridge[CITE].
+Haven wraps the application in a sandbox provided by Drawbridge\cite{DBLP:conf/asplos/PorterBHOH11}.
 The application executes within a secured container, called \emph{picoprocess}, that exposes a narrow ABI to request OS services.
 As a standard sandboxing mechanism, the picoprocess protects the host from the guest.
 

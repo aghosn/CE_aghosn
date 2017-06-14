@@ -27,7 +27,7 @@
 Applications and traditional monolithic operating system designs and abstractions evolved at different paces over the past decades, leading to an important mismatch that impedes both security and performance of modern software.
 In an increasingly multi-tasked and web-oriented environment, application developers strive for ever higher network throughputs, finer-grained memory management, fast access to heterogeneous external devices, and strong isolation guarantees, all of which seems hardly achievable with the common standards (e.g., POSIX) defined decades ago.
 This mismatch lead to ad-hoc re-implementations of system services, closer to the application's logic, and able to achieve either more flexibility or higher performance.
-Such solutions include user-level threads[CITE], IPC mechanisms[CITE], memory abstractions[CITE], or kernel bypasses for network\cite{intel2014data,BelayPKGKB14} and disk\cite{intel2016storage} I/O.
+Such solutions include user-level libraries, e.g., user threads\cite{golang}, or kernel bypasses for network and disk I/O\cite{DBLP:conf/nsdi/NanavatiWW17,intel2014data,intel2016storage,BelayPKGKB14}.
 As a result, modern applications are built on top of multiple layers of software frameworks and libraries, rather than on top of the available OS abstractions.
 
 %At the same time, the complexity inherent to the inclusion of code from various sources, as well as new deployment practices (e.g., Cloud services) and increasing concerns for privacy calls for a re-evaluation of operating systems' security models.
@@ -47,15 +47,10 @@ Mutual distrust, between host (privileged code) and guest (unprivileged code) he
 
 From the previous observations, we understand that current system abstractions need to evolve.
 As others before us\cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBLP:conf/sosp/KaashoekEGBHMPGM97,DBLP:journals/tocs/CaoFKL96,DBLP:journals/sigops/HartyC92}, we believe that a better design should allow efficient application specific specialization of resource management.
-We further argue that, by redefining the respective roles of applications and operating systems, one could more easily provide bi-directional isolation and address present security and privacy concerns.\\
+We further argue that, by redefining the respective roles of applications and operating systems, one could more easily provide bi-directional isolation and address present security and privacy concerns.
 
-\adrien{To redact}
-TODO talk about different designs, such as monolithic kernels, 
-What is a libOS, how does it differ from existing monolithic kernels.
-In this paper, we study how previous attempts at providing libOS enable to answer today's challenges etc.
-Show that by combining existing solutions, we are able to provide a design that allows both performance and security according to modern requirements.
-
-
-\subsection{The papers}
-In the rest of this document, we present three different approaches that aim at TODO.
-First describe Haven, that relies on a hardware extension to protect a guest application from a host.
+In this document, we present three different papers that present original system designs relevant to the above mentionned modern challenges.
+We begin with Haven\cite{DBLP:journals/tocs/BaumannPH15}, a system that addresses mutual distrust between a host and guest in Cloud deployments.
+We then proceed to show that Haven shares fundamental design principles with the Exokernel architecture\cite{DBLP:conf/sosp/EnglerKO95}, an original design for application-level management of resources that allows overall improvement of performance.
+Finally, we present the Unikernel\cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} design, where features of high-level programming languages are leveraged in the system's design both for performance and security goals.
+We conclude by summarizing the papers insights and presenting a research proposal targeting modern operating systems limitations.

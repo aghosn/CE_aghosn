@@ -9,7 +9,7 @@ The performance evaluation hence consists in two steps:
 
 The first step of the evaluation allows to measure overheads that are purely due to Haven's implementation.
 The second step models the performance impact of the SGX hardware.
-By cross-referencing Haven's reported results with a recent performance evaluation of SGX[CITE], we are able to get a better understanding of Haven's actual performance.
+By cross-referencing Haven's reported results with a recent performance evaluation of SGX\cite{DBLP:conf/IEEEwisa/ZhaoSTZX16}, we are able to get a better understanding of Haven's actual performance.
 
 The first evaluation relies on two real-world applications, namely, a TPC-E benchmark running on a Microsoft SQL server, and an Apache HTTP server benchmark.
 Haven's performance is compared with the throughputs achieved by running the same experiments natively, in a hyper-V VM, and in Drawbridge.
@@ -21,11 +21,11 @@ We note however that Haven running with a dedicated filesystem outperforms Drawb
 The second step of the evaluation introduces synthetic delays for enclave crossings, dynamic memory allocation, and accesses to the EPC.
 Varying the access latency for EPC pages is done by changing the DRAM clock rate.
 Slowing down the memory by a third introduced a 21\% slowdown for the database application, and a 7\% one for the HTTP server.
-According to the SGX performance evaluation in[CITE], memory operations inside the enclave are more than three times slower than outside of it.
+According to the SGX performance evaluation in \cite{DBLP:conf/IEEEwisa/ZhaoSTZX16}, memory operations inside the enclave are more than three times slower than outside of it.
 It therefore seems that Haven's authors largely underestimated the cost of accessing the EPC.
 
 The authors note that while enclave crossings and dynamic allocation of memory both have impacts on the HTTP server application's throughput, the database application seems to be sensitive only to enclave crossings.
-By plugging-in the SGX performance evaluation result from[CITE], i.e., 7 kcycles per crossing, we see that enclave crossings induce a 20\% extra slowdown in throughput in the previously measured Haven's database experiment.
+By plugging-in the SGX performance evaluation result from \cite{DBLP:conf/IEEEwisa/ZhaoSTZX16}, i.e., 7 kcycles per crossing, we see that enclave crossings induce a 20\% extra slowdown in throughput in the previously measured Haven's database experiment.
 For the HTTP server, the actual slowdown is of the order of 1\% for enclave crossings.
 
 More generally, Haven's authors predicted a 31\% to 54\% slowdown in performance compared to a virtual machine solution.
