@@ -27,12 +27,12 @@
 Applications and traditional monolithic operating system designs and abstractions evolved at different paces over the past decades, leading to an important mismatch that impedes both security and performance of modern software.
 In an increasingly multi-tasked and web-oriented environment, application developers strive for ever higher network throughputs, finer-grained memory management, fast access to heterogeneous external devices, and strong isolation guarantees, all of which seems hardly achievable with the common standards (e.g., POSIX) defined decades ago.
 This mismatch lead to ad-hoc re-implementations of system services, closer to the application's logic, and able to achieve either more flexibility or higher performance.
-Such solutions include user-level libraries, e.g., user threads\cite{golang}, or kernel bypasses for network and disk I/O\cite{DBLP:conf/nsdi/NanavatiWW17,intel2014data,intel2016storage,BelayPKGKB14}.
+Such solutions include user-level libraries, e.g., user threads \cite{golang}, or kernel bypasses for network and disk I/O \cite{DBLP:conf/nsdi/NanavatiWW17,intel2014data,intel2016storage,BelayPKGKB14}.
 As a result, modern applications are built on top of multiple layers of software frameworks and libraries, rather than on top of the available OS abstractions.
 
 %At the same time, the complexity inherent to the inclusion of code from various sources, as well as new deployment practices (e.g., Cloud services) and increasing concerns for privacy calls for a re-evaluation of operating systems' security models.
 At the same time, aging commodity operating system designs fail to address contemporary security concerns.
-Present-day software incorporate code from various, potentially untrusted, sources.
+Present-day software incorporates code from various, potentially untrusted, sources.
 Consequently, sandboxing mechanisms became a fundamental building block of applications development.
 For example, web-browsers rely on such techniques to prevent web-applets, browser plug-ins, and web-pages's JavaScript from harming the host.
 Unfortunately, the lack of flexible system abstractions lead to heterogeneous and complex implementations of sandboxes.
@@ -46,11 +46,11 @@ More generally, a compromised monolithic operating system gives an attacker unli
 Mutual distrust, between host (privileged code) and guest (unprivileged code) hence appears to better suit modern security and privacy challenges.
 
 From the previous observations, we understand that current system abstractions need to evolve.
-As others before us\cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBLP:conf/sosp/KaashoekEGBHMPGM97,DBLP:journals/tocs/CaoFKL96,DBLP:journals/sigops/HartyC92}, we believe that a better design should allow efficient application specific specialization of resource management.
+As others before us \cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBLP:conf/sosp/KaashoekEGBHMPGM97,DBLP:journals/tocs/CaoFKL96,DBLP:journals/sigops/HartyC92}, we believe that a better design should allow efficient application specific specialization of resource management.
 We further argue that, by redefining the respective roles of applications and operating systems, one could more easily provide bi-directional isolation and address present security and privacy concerns.
 
-In this document, we present three different papers that present original system designs relevant to the above mentionned modern challenges.
-We begin with Haven\cite{DBLP:journals/tocs/BaumannPH15}, a system that addresses mutual distrust between a host and guest in Cloud deployments.
-We then proceed to show that Haven shares fundamental design principles with the Exokernel architecture\cite{DBLP:conf/sosp/EnglerKO95}, an original design for application-level management of resources that allows overall improvement of performance.
-Finally, we present the Unikernel\cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} design, where features of high-level programming languages are leveraged in the system's design both for performance and security goals.
+In this document, we present three different papers that define original system designs relevant to the above mentionned modern challenges.
+We begin with Haven \cite{DBLP:journals/tocs/BaumannPH15}, a system that addresses mutual distrust between a host and guest in Cloud deployments.
+We then proceed to show that Haven shares fundamental design principles with the Exokernel architecture \cite{DBLP:conf/sosp/EnglerKO95}, an original design for application-level management of resources that allows overall performance improvements.
+Finally, we present the Unikernel \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} design, where features of high-level programming languages are leveraged in the system's design both for performance and security goals.
 We conclude by summarizing the papers insights and presenting a research proposal targeting modern operating systems limitations.

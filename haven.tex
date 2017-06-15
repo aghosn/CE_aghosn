@@ -8,7 +8,7 @@ Cloud services implement a unidirectional isolation model where privileged code 
 In other words, Cloud users are forced to entrust the entire Cloud privileged management software stack with their sensitive data and intellectual property.
 Seeing as privacy and confidentiality are growing concerns, new techniques need to be devised to protect the application's data from a potentially compromised or malicious host.
 
-Haven\cite{DBLP:journals/tocs/BaumannPH15} is a system that leverages Intel Software Guard Extension (SGX) \cite{SGXManual} to provide shielded execution of unmodified legacy applications on a commodity OS (windows).
+Haven \cite{DBLP:journals/tocs/BaumannPH15} is a system that leverages Intel Software Guard Extension (SGX) \cite{SGXManual} to provide shielded execution of unmodified legacy applications on a commodity OS (Windows).
 Shielded execution allows to protect the \emph{confidentiality} and \emph{integrity} of a program from the host (e.g., the OS) on which it runs.
 Confidentiality ensures that the program's intermediate states are not observable by the rest of the system, while integrity guarantees that if the program completes, the output is correct.
 We briefly introduce the Intel SGX extension main features before presenting Haven's design.

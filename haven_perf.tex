@@ -1,6 +1,6 @@
 The authors were provided with a functional SGX emulator to implement Haven.
 Unfortunately, such an emulator cannot be relied on to measure, or even approximate, the system performance.
-As a result, a second version of Haven that introduces synthetic delays for SGX instructions was used for instead.
+As a result, a second version of Haven that introduces synthetic delays for SGX instructions was used instead.
 The performance evaluation hence consists in two steps:
 \begin{enumerate*}
 	\item compare the performance of Haven with other deployments, where SGX instructions have a null cost and enclave crossings only incur a TLB flush, and
@@ -16,7 +16,7 @@ Haven's performance is compared with the throughputs achieved by running the sam
 As a general result, Haven's throughput is inferior to all other configuration for both applications.
 On the database benchmark, it incurs a 13\% slowdown compared to Drawbridge.
 On the HTTP server, the same comparison yields a 40\% slowdown.
-We note however that Haven running with a dedicated filesystem outperforms Drawbridge, due to the read-intensive nature of the workload that access cached pages inside the enclave.
+We note however that Haven running with a dedicated filesystem outperforms Drawbridge, due to the read-intensive nature of the workload that accesses cached enclave pages.
 
 The second step of the evaluation introduces synthetic delays for enclave crossings, dynamic memory allocation, and accesses to the EPC.
 Varying the access latency for EPC pages is done by changing the DRAM clock rate.
@@ -24,11 +24,11 @@ Slowing down the memory by a third introduced a 21\% slowdown for the database a
 According to the SGX performance evaluation in \cite{DBLP:conf/IEEEwisa/ZhaoSTZX16}, memory operations inside the enclave are more than three times slower than outside of it.
 It therefore seems that Haven's authors largely underestimated the cost of accessing the EPC.
 
-The authors note that while enclave crossings and dynamic allocation of memory both have impacts on the HTTP server application's throughput, the database application seems to be sensitive only to enclave crossings.
+The authors note that while enclave crossings and dynamic allocation of memory both impact the HTTP server application's throughput, the database application seems to be sensitive only to enclave crossings.
 By plugging-in the SGX performance evaluation result from \cite{DBLP:conf/IEEEwisa/ZhaoSTZX16}, i.e., 7 kcycles per crossing, we see that enclave crossings induce a 20\% extra slowdown in throughput in the previously measured Haven's database experiment.
-For the HTTP server, the actual slowdown is of the order of 1\% for enclave crossings.
+For the HTTP server, the actual slowdown due to enclave crossings is of the order of 1\%.
 
 More generally, Haven's authors predicted a 31\% to 54\% slowdown in performance compared to a virtual machine solution.
 As mentioned above, memory operations on EPC pages were largely underestimated.
-A thorough experiment, on real hardware, is needed to better understand how Haven really compares to VM based solutions.
+A thorough experiment on real hardware is needed to better understand how Haven really compares to VM based solutions.
 We also note that, while targeting Cloud services, Haven does not provide the same flexibility as VMs in terms of deployment and migration of applications.
