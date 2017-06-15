@@ -43,7 +43,7 @@ Regrettably, privileged code has unrestricted access to unprivileged code's reso
 This assumption, however, fails to consider new deployment paradigms (e.g., Cloud services), where little is known about the software running on the host.
 Even worse, growing concerns have been voiced against user data aggregation by mainstream operating systems\cite{microsoftspy}.
 More generally, a compromised monolithic operating system gives an attacker unlimited access to all application's resources.
-Mutual distrust, between host (privileged code) and guest (unprivileged code) hence appears to be better suited to address modern security and privacy challenges.
+Mutual distrust, between host (privileged code) and guest (unprivileged code) hence appears to better suit modern security and privacy challenges.
 
 From the previous observations, we understand that current system abstractions need to evolve.
 As others before us\cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBLP:conf/sosp/KaashoekEGBHMPGM97,DBLP:journals/tocs/CaoFKL96,DBLP:journals/sigops/HartyC92}, we believe that a better design should allow efficient application specific specialization of resource management.

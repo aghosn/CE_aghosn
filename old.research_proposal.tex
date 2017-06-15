@@ -1,0 +1,88 @@
+\section{Research Proposal}
+%Cloud is there to rent infrastructure. So just expose physical resources.
+%What is my research proposal?
+%
+%We see the same problems appearing again and again, while the LibOS seems to come back everytime.
+%Maybe it is time to realize that the current situation is no longer viable.
+%That the separation between application and kernel needs to be redefined.
+%That, by applying the end-to-end principle, the application knows best how to manage resources.\\
+%
+%At the same time, we have a growing distrust between host and guest because of the explosion of cloud services.
+%Allowing the kernel to have complete power over resource management is just not good anymore.
+%Most of the efforts done in the past was to shield host from guest, but now the opposite is also needed.
+%See how many compromised cloud services (Find a cool example of such situation).\\
+%
+%Proposition is to reevalute the design and respective role of kernel and application such that we can both provide bidirectional isolation while allowing applications to achieve better performance by %removing limitations due to system libraries implementations.
+%Believe that this could provide good contribution in security, by allowing sandboxes to rely on hardware support to implement their logic, for example, instead of emulating functionalities on-top of the %OS.
+
+%	Monolithic kernels come to an end.
+%	Flexibility is achieved by either by-passing it, or working within a virtualized environment.
+%	First semester project say a little bit.
+%
+%	New technologies show that we're at a crossroad, new challenges because the model is not the same.
+%	Needs performance, hardware improves but end of moore's law, more and more cooperation between different machines.
+%	Fixing communication between them impacts their performance.
+%	Exokernel gives a nice design, but see that a hybrid solution like unikernels is more flexible.
+%	How redefining kernel interface, how much virtualization can be put there?
+%	Smaller kernel means smaller surface, makes it practical to use verification tools on the kernel itself.
+%
+%	Apply high-level programming techniques. Managed memory for kernel objects?
+%	High-jack reference counting? Typed memory systems. Ownership tracking.
+
+Traditional monolithic kernels fail to answer today's challenges, in terms of performance, security, and ease of deployment.
+To achieve higher throughput, greater flexibility, or improved security, researchers and developers rely on kernel bypasses\cite{intel2014data,intel2016storage,BelayPKGKB14}, virtualization\cite{BelayPKGKB14}, or software frameworks.
+The rigid kernel abstractions devised 50 years ago for portability and principled software development need to be revisited[CITE] to take into account the heterogeneity of modern systems and requirements.
+Providing a new system abstraction, such as light-weight contexts[CITE], in a monolithic kernel, requires to either modify an existing kernel[CITE], inefficiently emulate it on top of the kernel, or rely on virtualization techniques.
+The latter solution was the object of my first semester project.
+By leveraging hardware support for virtualization, i.e., Intel VTX[CITE], I managed to implement light weight contexts without modifying the Linux kernel.
+I however quickly reached performance and flexibility limitations, and had to rely on several tricks, e.g., loading parts of the program at different addresses, to improve the overall performance of my implementation.
+
+% Crossroads, with new challenges that require to rethink systems from the ground up.
+% Moore's Law is coming to an end, power achieved by relying on several machines, need efficient communication.
+% Do less but do it well.
+% The way we consider resources.
+% Deployment changed, resources are rented, 
+% At the same even types of computations changed. Need to process large amounts of data, find correlations.
+% This already impacts how the hardware is designed, GPUs GPA, and should as well inpact systems.
+%
+% As there is no  
+% This requires efficient management, communication, and cooperation solutions that are hard to implement on top of intrinsically rigid systems.
+Moore's law is coming to an end while the volume of data that we need to process keeps increasing.
+Modern set ups harvest the cumulative power of dozens of machines to achieve their computations in a timely fashion.
+At the same time, the types of computations performed also evolved, both in terms of volumes and complexity.
+\adrien{FPGAs}
+This impacted the design and usage of modern hardware: GPGPUs are leveraged to speed-up parallel data processing, new types of processors are designed, e.g, graph analytic processors[CITE].
+Operating systems need to adapt to these new paradigms quickly, and this requires to study alternate designs.
+Due to heterogeneous requirements, no general-purpose monolithic system can pretend to provide satisfiable performance for all types of workloads.
+\adrien{merge first paragraph here and split in two}
+In the continuation of the Exokernel, systems should therefore focus on securely exposing the available resources.
+
+% My research proposal focuses on the design of modern systems that need to take into account the following challenges:
+% 1. Performance requirements and application specific management of resources.
+% 2. The increasingly parallel and complex hardware set up.
+% 3. a new security model where physical resources might be rented or adversary software might execute on the same.
+% 
+% Explore the space between a low level interface, and hardware supported virtualization to find a sweet spot abstraction that does not preclude performance.
+% Push modern hardware features, such as SGX, and modern programming languages tools to quantify performance and security gains.
+% Ownership model into kernel resources, typed memory for kernel objects and bookeeping.
+My research proposal focuses on the study of modern systems, designed to answer present day challenges, i.e.,
+\begin{enumerate*}
+	\item achieve high performance to allow applications to meet service level objectives,
+	\item consider the shift in paradigms such as increasingly parallel and complex hardware setups, and
+	\item answer present security requirements, such as mutual distrusts between a system and an application running on top of it.
+\end{enumerate*}
+To do so, we need to explore the design space between a low level interface, as in the Exokernel, and virtualized environments.
+The ideal solution would be a hybrid design that strikes the sweet spot between exposing raw hardware resources and providing a stable and portable abstraction.
+
+This design would act as a foundation for further exploration of new solutions on higher-level components. 
+More precisely, new abstractions could easily be created to leverage the latest hardware features, such as Intel SGX, and create modern execution environments that answer present days security requirements.
+
+As shown in the Unikernel paper, operating systems can benefit from advanced programming languages features, such as memory safety, type safety, intrinsic support for concurrency, or ownership tracking.
+Several papers[CITE] already explored how type-safe memory managed languages can be used in the operating system.
+With the rise in popularity of new paradigms and models, exported by languages like Rust and its ownership mechanism, or Go and its communicating-sequential-processes (CSP) style for concurrent programming, the space of possible designs and solutions has yet to be explored.
+
+
+
+
+
+

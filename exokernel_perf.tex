@@ -19,10 +19,10 @@ For system calls, the authors report that Ultrix's \lstinline{getpid} (one of th
 
 In accord with the Exokernel's design principles, Aegis dispatches all exceptions to applications.
 After handling an exception, the application does not require to re-enter the kernel before resuming execution.
-As a result, Aegis's exception mechanism is more than five times faster than the then state-of-the-art fastest implementation[CITE].
+As a result, Aegis's exception mechanism is more than five times faster than the then state-of-the-art fastest implementation\cite{DBLP:conf/asplos/ThekkathL94}.
 
 Aegis provides primitives for synchronous and asynchronous protected control transfer, a mechanism that can be relied upon to implement efficient IPC abstractions.
-Compared with the then fastest published implementation[CITE], Aegis mechanism is 6.6 times faster.
+Compared with the then fastest published implementation\cite{DBLP:conf/sosp/Liedtke93}, Aegis mechanism is 6.6 times faster.
 This is mostly due to the succinct, i.e., 30 instructions, implementation of the mechanism in the Exokernel.
 
 ExOS is a prototype library operating system developed to run on top of Aegis.

@@ -1,0 +1,198 @@
+\section{Exokernel: An Operating System Architecture for Application-Level Resource Management}
+
+\subsection{Overview}
+Traditional monolithic operating systems run as a single process within one address space.
+On x86 processors, the ring model allows to differentiate kernel mode (ring 0) and user mode (ring 3).
+Kernel services execute in kernel mode within an address space that is unaccessible in user mode.
+Applications interact with the kernel via an interface that hides machine resources behind fixed high-level abstractions.
+Such abstractions include processes, files, virtual memory, and interprocess communication (IPC).
+Unfortunately, as these abstractions cannot be replaced by untrusted user code, their implementations needs to be general-enough to serve heterogeneous applications.
+Consequently, applications that do not need a certain feature still incur the associated overhead costs.
+More generally, the lack of flexibility imposed by the kernel abstractions impedes applications performance, flexibility, and functionality.
+It prevents domain-specific optimizations, disallows changes to existing abstractions, and requires new abstractions to be inefficiently emulated on top of the provided ones.
+
+The exokernel operating system architecture[CITE] proposes to solve these limitation by delegating resource management to the application.
+In this design, the kernel is responsible solely for securely exporting all hardware resources to user-level operating system libraries, which in turns implement their own higher-level system abstractions.
+
+In the next section, we present the general principles behind the exokernel architecture proposal.
+We then proceed with the description of its design, and the proposed prototype implementations, i.e., Aegis and ExOS.
+%monolithic
+%Problem is that they fix the abstraction and implementation
+%general purpose means incurring cost that is not needed sometimes.
+%So need a new design.
+%
+%Presents the exokernel, application level resource management.
+%Host only responsible for securely exposing physical resources.
+%Protection and mechanisms and end-to-end principle.
+%
+% Protection/mecha enables to attain the proper level of abstraction.
+% Suprisingly going back to lower gives more flexibility and hence allows for higher abstractions and tools to be used within the kernel,
+% e.g., oo languages, overloading etc. to easily specialize and extend.
+% Kernel doesn't need to understand resources, just needs to check that it is binded properly.
+% Protect without understanding.
+% 
+%
+%\adrien{
+%	First motivation in Overview.
+%
+%	Then Principles to solve issues.
+%
+%	Then general design.
+%
+%	Then design of Aegis and ExOS.
+%
+%}
+\subsection{Design Principles}
+%State the principles.
+%Secure bindings.
+%Multiplexing everything
+%Downloading code.
+%Revocation
+%abort
+The need for application-level management of resources is justified, according to the exokernel authors, by the \emph{end-to-end} argument.
+The application knows better than the operating system what resource management decisions impact its own performance.
+As a result, it should be given complete freedom over the management of its resources.
+
+At the same time, the kernel still needs to ensure that different applications can coexist on the same machine.
+This requires to multiplex physical resources among them in a secured manner.
+
+These requirements are achieved by separating protection from management.
+The exokernel focuses on
+\begin{enumerate*}
+	\item tracking ownership of resources,
+	\item protecting resources, and
+	\item revoking access to resources.
+\end{enumerate*}.
+By providing a low-level interface, the exokernel allows applications to implement their own abstractions and resource management as they see fit.
+More importantly, by protecting resource usage, it allows different library operating systems, i.e., implementation of higher-level abstractions on top of the exokernel interface, to safely coexist on the same machine.
+
+In order to avoid resource management at all cost, an exokernel needs to securely expose all hardware resources as directly as possible.
+Management should only be limited to the strict minimum required by protection.
+Library operating systems must be allowed to request specific physical resources, using their physical names directly.
+Introducing a level of indirection by using virtual names would force the exokernel to perform resource management and would impede the performance of the overall system and the application.
+Finally, revoking resources must be made visible to the library operating system in order to facilitate application level resource management.
+This requirement is crucial in the context of sparse resources.
+
+\subsection{The Exokernel Design and Prototypes}
+% Exokernel responsible for exposing resources.
+% At the heart of everything are secure bindings.
+% three techniques: hardware, software caching, and downloading code in kernel.
+% checked only at bind time
+% make as little expensive as possible.
+% rely on hardware.
+
+
+\subsection{Evaluation}
+\subsection{Discussion}
+
+%\subsection{Application knows best}
+%end to end
+%separation between policies and mechanisms
+%
+%
+%
+%Lib OS
+%LibOS abstractions can be simpler and more specialized, especially since doesn't need to multiplex resources among competing applications with different demands.
+%Can trust the application as well (since only one to be touched by it).
+%Less kernel crossing
+%Easy to get new standards
+%portability if implemented on top of posix or other standards.
+%OO and stuff like that to augment the libOS possibilities.
+% support for dynamic linking and shared libs would reduce space required.
+%
+% Exokernel Design
+% separate protection from management.
+% Goal is to multiplex the physical resources and isolate apps from each other
+% 
+% 3 tasks: 1) track ownership, 2) ensure protection 3) revoke access to resources.
+% secure bindings, visible revocation, abort protocol.
+% 
+% Design principles
+% securely expose hardware: physical memory, CPU, disk memory, TLB, addressing context identifiers.
+% interrupts, exceptions, cross-domain calls.
+% Well => exokernel should avoid resource management.
+% 
+% Expose allocation: request specific physical resources.
+% Expose Names: expose physical names, and also hardware things like disk position arm, TLB entries etc.
+% Expose revocation: good to have physical names for that
+% 
+% Secure bindings
+% quickly executed.
+% checks only at bind time => decouples protection from management.
+% 3 mechanisms for secure bindings: hardware mecha, software caching, downloading application code.
+% Downloading code means kernel event can give control to the code without kernel crossing.
+% Downloading code = executing when application is not scheduled: e.g., packet filter (instead of scheduling each and every application).
+% Asynchronous events as well (such as message reception etc.)
+% 
+% Visible resource revocation.
+% visible vs. invisible trade-off.
+% 
+% Abort protocol
+% force the LibOS to relinquish some resource.
+% repossession vector.
+% need to provide some guarantees to LibOS some resources that are the last to be reclaimed.
+
+%Application can manage resources.
+%Kernel attack surface is smaller and should be less prone to bugs because it simply safely exposes resources.
+%Kernel and application responsabilities are better defined.
+%Crossing from user to kernel can be reduced to a strict minimum.
+%Avoid all the kernel bypass etc.
+%Reusability of libraries?\\
+%
+%Allows for new abstractions closer to application's logic.
+%How hard would it be to implement lwc in exokernel? Not hard at all.\\
+%
+%relevant to dataplanes as well.\\
+%
+%How is scheduling implemented?
+
+\subsection{Evaluation}
+%\adrien{Move some of this into previous part}
+% Evaluation
+% Aegis
+% Compares with Ultrix 4.2 (monolithic kernel)
+% 
+% Processor time slice sharing.
+% Requires a little bit of collaboration and I'm not convinced about how efficient and flexible this can be.
+%
+%Exception context, Interrupt context, Protected entry context, Addressing context(address space identifier, status register, tag => required to switch env.)
+%Ultrix exception handling two orders of magnitude greater than Aegis.
+%
+% Protected control transfer
+% yield to another process.
+% either synchronous or asynchronous.
+% First give current + all future to callee, and asynchro gives only remainder of current.
+% 6.6 times faster than state-of-the-art mechanism L3.
+% 
+% Dynamic packet filter -> don't care.
+% 
+% ExOS
+% focus on IPC, virtual memory, and remote communication
+% For Pipes, ExOS can create its own abstractions on top of Aegis, and is more efficient.
+% Note: Pipe in user space so can inline calls to read and write and make it more efficient.
+% Virtual memory:
+% Still pretty good even if not optimized.
+% 
+% Application safe handlers:
+% Downloading code (avoids scheduling app and kernel crossings)
+% decouple latency critical tasks from process scheduling.
+% Sandboxed 
+% 
+
+%Must prove that it improves performance.
+%Security aspect of it?
+
+%%\subsection{Discussion}
+%Main critic is how can you trust libOS?
+%Drivers reimplementation?
+%Application code is not enough sufficient, need the libOS as well.
+%Can we have a POSIX and Linux default set of LibOSes?
+%Debugging requires to understand the LibOS as well, which is bad...
+%\\
+%
+%We can inject haven's solution for example with the set of guaranteed pages.
+%The application can put them into an enclave.
+%Find an attack scenario from corrupted host, and how we can prevent it.\\
+%
+%Also goes along the fact that now we use different abstractions.
+%Instead of building them on top of POSIX or rigid kernel ones, can implement directly and efficiently, and hence get good performance.
