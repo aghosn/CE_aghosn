@@ -1,19 +1,15 @@
 \begin{abstract}
+Modern software applications need to process an ever increasing load of data, satisfy exigent service level objectives, while addressing present days concerns about privacy and security.
+Applications' requirements and architectures became so complex and heterogeneous that no general-purpose monolithic operating system can pretend to fully answer their needs, both in terms of performance and security.
+More and more often, developers free themselves from the aging rigid abstractions proposed by the kernel to achieve competitive results.
 
-Modern applications incorporate code from various, sometimes unverified, sources.
-As a result, both trusted and untrusted code cohabit within an application, henceforth requiring fine-grained isolation and protection mechanisms at boundaries known only to the application's developer.
-At the same time, modern applications strive for performance, which often entails to manage resources in a way that follows the application's logic.
+We believe that the respective roles of the kernel and the application should be re-evaluated to address present days performance and security challenges.
+We further argue that those challenges can both be addressed with the same fundamental design principles that tend to establish a clear separation between the kernel and the application.
+Such a design would allow application's specific management of physical resources, a greater design flexibility,  and improved performances. 
+This design would moreover simplify the implementation of new security models that address Cloud deployment confidentiality and integrity concerns, i.e., a mutual distrust between a host and a guest.
 
-\adrien{High level funcitonalities and too involved in the app execution.}
-Unfortunately, mainstream operating systems expose rigid general purpose abstractions that often limit performance, flexibility, and functionalities of applications.
-Moreover, by failing to separate resource protection from management, kernels are responsible for functionalities vital to the application, such as access to the network or virtual memory management, thus making them an overpowered single point of failure.
-At a time when more and more applications are deployed over cloud services, entrusting the kernel, and more generally any privileged software, with such critical functionalities is not only inefficient, but also a risk.
+We study three papers that address these challenges and highlight their common design choices:
+Haven \cite{DBLP:journals/tocs/BaumannPH15} provides shielded execution of Cloud applications, the Exokernel \cite{DBLP:conf/sosp/EnglerKO95} enables application-level management of physical resources, while Unikernels \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} create specialized standalone secured and high performance appliances for the Cloud.
 
-In this paper, we study solutions that re-define the respective responsibilities of the kernel and the application, giving back its freedom to the latter. 
-We rely on three publications: Haven, the Exokernel, and the Unikernel paper.
-Haven leverages the Intel SGX extension to shield a guest system from an untrusted host.
-The exokernel operating system allows application-level management of physical resources.
-Unikernels are compile-time specialized standalone kernels for single purpose appliances deployed over cloud platforms.
-
-Finally, understanding the arguments and solutions presented in these papers, I propose my research topic that relates to resource management and the improvement of kernel's role and abstractions to better address modern challenges.
+Finally, understanding the arguments and solutions presented in these papers, we propose our research topic that aims at modernizing kernel designs to better serve modern software applications.
 \end{abstract}
