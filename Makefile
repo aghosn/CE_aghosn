@@ -20,13 +20,17 @@ spell2:
 
 
 $(PAPER).pdf:
-		latexmk -pdf -latexoption=-halt-on-error \
-				-latexoption=-file-line-error \
-				-latexoption=-synctex=1 \
-				-latexoption=-shell-escape \
-				$(PAPER).tex \
-				&& touch $(PAPER).dvi || ! rm -f $@
-			#$(RM) $*.dvi *.aux *.log *.bbl *.blg *.toc *.tmp.ps
+		#latexmk -pdf -latexoption=-halt-on-error \
+		#		-latexoption=-file-line-error \
+		#		-latexoption=-synctex=1 \
+		#		-latexoption=-shell-escape \
+		#		$(PAPER).tex \
+		#		&& touch $(PAPER).dvi || ! rm -f $@
+		#	#$(RM) $*.dvi *.aux *.log *.bbl *.blg *.toc *.tmp.ps
+			#
+		latexmk -cd -f -pdf -interaction=nonstopmode -synctex=1 \
+			-latexoption='--shell-escape' \
+			$(PAPER).tex
 
 
 
