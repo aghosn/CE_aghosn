@@ -6,7 +6,6 @@ The performance evaluation hence consists in two steps:
 	\item compare the performance of Haven with other deployments, where SGX instructions have a null cost and enclave crossings only incur a TLB flush, and
 	\item vary the synthetic delays for SGX main features, i.e., enclave crossings, dynamic memory allocation, and accesses to the EPC
 \end{enumerate*}.
-
 The first step of the evaluation allows to measure overheads that are purely due to Haven's implementation.
 The second step models the performance impact of the SGX hardware.
 By cross-referencing Haven's reported results with a recent performance evaluation of SGX \cite{DBLP:conf/IEEEwisa/ZhaoSTZX16}, we are able to get a better understanding of Haven's actual performance.

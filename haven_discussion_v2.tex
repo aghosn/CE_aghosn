@@ -1,0 +1,30 @@
+%Haven is a proof of concept.
+%Arguments:
+%	1. Same as exokernel.
+%	2. Applying to exokernel, what could be done?
+%	3. unikernels, driver management main issue?
+%	4. Haven does not leverage aggressive specialization.
+
+Haven addresses modern confidentiality and integrity concerns that sprung from the growth of Cloud services.
+At its heart, Haven relies on the same fundamental design principle as the Exokernel, i.e., it separates policies and mechanisms.
+Here, this design choice enables to disentangle the guest from the host, obtain a cleaner separation between mutually distrustful domains, and more easily monitor their interactions.
+ADVANTAGES OF EXOKERNEL FOR THIS DESIGN:
+1. ALL HARDWARE IS EXPOSED, SO EVEN LESS NEEDS TO RELY ON HOST.
+2. LIMITATION is abort protocol.
+
+
+Mirage and Haven take diametrically opposed approaches: where the former eschews backward compatibility, the latter strives to support backward compatibility.
+This design choice, in Haven, was mostly made to test SGX flexibility and limits.
+In practice, a solution closer to the unikernel's design presents several advantages and answers some of Haven's limitations.
+First, as reported in the evaluation part, dynamic allocation of enclave pages introduces non-negligible overheads.
+These overheads can be avoided in Mirage appliances by relying on the existing sealing mechanism for the allocation of memory resources.
+Second, 
+
+
+%with unikernels: perfect!!! Dynamicity of mappings not really supported by SGX.
+%Smaller size of appliances, maybe decrease cache pressure?
+%
+
+
+
+

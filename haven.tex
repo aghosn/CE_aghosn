@@ -28,7 +28,7 @@ We briefly introduce the Intel SGX extension main features before presenting Hav
 
 Haven leverages the low level isolation mechanisms provided by SGX to achieve shielded execution of legacy application binaries.
 Since the host OS cannot be trusted, Haven provides most of the operating system services required by the application and manages policies and mechanisms for virtual resources, while the host retains management over physical ones.
-This clear separation, coupled with defensive programming and careful interactions between guest and host, is supposed to facilitate Haven's resistance to Iago attacks, i.e., a malicious host exploiting the application's trust to achieve its goals.
+This clear separation, coupled with defensive programming and careful interactions between guest and host, is supposed to facilitate Haven's resistance to so-called Iago attacks \cite{DBLP:conf/asplos/CheckowayS13}, i.e., a malicious host exploiting the application's trust to achieve its goals.
 
 Haven's definition of shielded execution requires to
 \begin{enumerate*}
