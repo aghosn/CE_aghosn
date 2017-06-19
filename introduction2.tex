@@ -1,11 +1,39 @@
 \section{Introduction}
 
-Applications and traditional monolithic operating system designs and abstractions evolved at different paces over the past decades, leading to an important mismatch that impedes both security and performance of modern software.
-The advent of the Internet era sparked a technological revolution that lead to the explosion of the number of available software applications.
+The advent of the Internet era sparked a technological revolution that lead to the explosion of the number and diversity of software applications.
 In an increasingly web-oriented environment, and faced with ever greater volumes of data to process, developers strive to conciliate performance and security.
-Unfortunately, popular monolithic operating system expose fixed high-level abstractions, based on standards devised 50 years ago (e.g., POSIX).
-These general purpose abstractions impede the flexibility, functionality, and performance of applications.
+Unfortunately, popular operating systems adopt a monolithic architecture and expose rigid high-level general-purpose abstractions that fail to satisfy the heterogeneous requirements of modern applications.
+This mismatch led to ad-hoc re-implementations of system services, closer to the application's logic, and able to achieve either more flexibility or higher performance.
+Such solutions include user-level libraries, e.g., user threads \cite{golang}, or kernel bypasses for network and disk I/O \cite{DBLP:conf/nsdi/NanavatiWW17,intel2014data,intel2016storage,BelayPKGKB14}.
+As a result, modern applications are built on top of multiple layers of software frameworks and libraries, rather than on top of the available OS abstractions.
 
-In an increasingly multi-tasked and web-oriented environment, application developers strive for ever higher network throughputs, finer-grained memory management, fast access to heterogeneous external devices, and strong isolation guarantees.
+Aging commodity operating system designs fail to address contemporary security concerns.
+Applications are developed and deployed in new ways that require multiple levels of isolation.
+Present-day software incorporates code from various, potentially untrusted, sources.
+Due to the lack of system abstractions to provide strong isolation \emph{within} a single application, developers often rely on ad-hoc sandboxing mechanisms to protect trusted parts of the software from untrusted ones.
+For example, web-browsers rely on such techniques to prevent web-applets, browser plug-ins, and JavaScript content from harming the host.
+At the same time, the current hierarchical security model allows privileged software to retain unlimited access to unprivileged code and data, based on the assumption that it is part of the trusted base.
+However, the growth of concerns in terms of security, privacy, and confidentiality pushes towards a reevaluation of this model.
+Deployments over Cloud services, corrupted hosts, or the recent undesired aggregation of user data by mainstream operating systems \cite{microsoftspy} reveal the need for a new security model where a host (privileged code) and a guest (unprivileged code) are mutually distrustful and isolated from each other.
 
-Meanwhile, the most popular monolithic operating systems are still based on rigid high-level abstractions devised 50 years ago (e.g., POSIX), and fail to take into account the heterogeneity of modern software and hardware setups.
+From these observations, we understand that the monolithic architecture of current operating systems is becoming obsolete and must be replaced.
+An alternate design must conciliate performance and security, as required by today's software, i.e., it must
+\begin{enumerate*}
+	\item allow heterogeneous applications to all achieve satisfiable performance,
+	\item be flexible and not limit the application's functionalities, and
+	\item allow bi-directional isolation between a host and a guest to address present-day security and privacy concerns
+\end{enumerate*}.
+As others before us\cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBLP:conf/sosp/KaashoekEGBHMPGM97,DBLP:journals/tocs/CaoFKL96,DBLP:journals/sigops/HartyC92}, we believe that this can be achieved by re-distributing the responsibilities between the application and the kernel, and allowing application-specific specialization of resource management.
+
+In this document, we present three different systems that address the above-mentioned requirements.
+We begin with Haven \cite{DBLP:journals/tocs/BaumannPH15}, a system that addresses mutual distrust between a host and guest in Cloud deployments.
+We then proceed to show that Haven shares fundamental design principles with the Exokernel architecture \cite{DBLP:conf/sosp/EnglerKO95}, an original design for application-level management of resources that allows overall performance improvements.
+Finally, we present the Unikernel \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} design, where features of high-level programming languages are leveraged in the system's design both for performance and security goals.
+We conclude by summarizing the papers insights and presenting a research proposal targeting modern operating systems limitations.
+
+
+
+
+
+
+
