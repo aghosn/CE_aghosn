@@ -1,36 +1,11 @@
 \section{Introduction}
 
-%1. Applications evolved
-%	1.1. Complicated multi-sourced piece of code.
-%	1.2. Requirement for performance and security.
-%	1.3. Deployed in new ways (e.g., cloud services)
-%	
-%2. Operating systems are too rigid.
-%	2.1. Abstractions have not evolved much in the past decades.
-%	2.2. Resource protection as well as management.
-%	2.3. Leave little space for application specific logic.
-%	2.4. Built in a way that requires them to be trusted.
-%	
-%3. Objective
-%	3.1. Goals is to study designs that allow
-%		3.1.1. separate protection from management.
-%		3.1.2. Allow application specific management of resources.
-%		3.1.3. Symmetric isolation mechanisms (e.g., protect guest from host).
-%		3.1.4. Limit attack surface and rely on verification tools.
-%	3.2. For that we study 3 different solutions
-%		3.2.1 Hardware mechanism with SGX.
-%		3.2.2. Kernel design.
-%		3.2.3 Software kernel packaged for an application. 
-
-%TODO remove afterwards
-%TODO should define that in the paper we say guest for app or vm or anything that runs on top of the host, i.e., the ker/su
 Applications and traditional monolithic operating system designs and abstractions evolved at different paces over the past decades, leading to an important mismatch that impedes both security and performance of modern software.
 In an increasingly multi-tasked and web-oriented environment, application developers strive for ever higher network throughputs, finer-grained memory management, fast access to heterogeneous external devices, and strong isolation guarantees, all of which seems hardly achievable with the common standards (e.g., POSIX) defined decades ago.
 This mismatch lead to ad-hoc re-implementations of system services, closer to the application's logic, and able to achieve either more flexibility or higher performance.
 Such solutions include user-level libraries, e.g., user threads \cite{golang}, or kernel bypasses for network and disk I/O \cite{DBLP:conf/nsdi/NanavatiWW17,intel2014data,intel2016storage,BelayPKGKB14}.
 As a result, modern applications are built on top of multiple layers of software frameworks and libraries, rather than on top of the available OS abstractions.
 
-%At the same time, the complexity inherent to the inclusion of code from various sources, as well as new deployment practices (e.g., Cloud services) and increasing concerns for privacy calls for a re-evaluation of operating systems' security models.
 At the same time, aging commodity operating system designs fail to address contemporary security concerns.
 Present-day software incorporates code from various, potentially untrusted, sources.
 Consequently, sandboxing mechanisms became a fundamental building block of applications development.
