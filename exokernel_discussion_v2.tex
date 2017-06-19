@@ -1,0 +1,20 @@
+Although originally published two decades ago, the Exokernel addresses modern concerns in terms of system design and application performance.
+It allows application-level management of resources by exposing an interface as close as possible to the underlying hardware, hence removing the need for kernel bypass in order to increase performance \cite{BelayPKGKB14,DBLP:journals/tocs/CaoFKL96}.
+The Exokernel provides a small set of primitives to securely expose and multiplex hardware resources.
+This reduced set of responsibilities allows a compact and simple kernel implementation that is less amenable to implementation bugs, exposes a smaller attack surface, and is highly efficient.
+
+The Exokernel exposes an interface close to what a Cloud client actually rents from the service provider, i.e., raw hardware resources.
+Such a design is therefore also relevant with regards to modern application deployments. 
+
+While the Exokernel architecture is a potential base for a modern system design, we note that its essential mechanisms, i.e., secure bindings, are highly dependent on the underlying hardware features.
+As a result, implementing an Exokernel requires to either limit the target hardware setup, e.g., provide support and device drivers for only a specific set of hardware configurations, or ensure that the kernel can cope with heterogeneous environments.
+The second option seems unpractical and would result in a complicated system.
+
+Finally, the Exokernel provides a clean separation between the kernel (host) and the application (guest).
+We consider this as a necessary first step towards bi-directional isolation.
+
+With the next paper, we study how the Exokernel high-level design, coupled with virtualization, alleviates the need for heterogeneous hardware support and enables the aggressive specialization of the application stack.
+We further examine how such a solution integrates with Cloud deployments.
+
+
+

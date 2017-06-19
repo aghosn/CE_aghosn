@@ -19,16 +19,16 @@ Deployments over Cloud services, corrupted hosts, or the recent undesired aggreg
 From these observations, we understand that the monolithic architecture of current operating systems is becoming obsolete and must be replaced.
 An alternate design must conciliate performance and security, as required by today's software, i.e., it must
 \begin{enumerate*}
-	\item allow heterogeneous applications to all achieve satisfiable performance,
-	\item be flexible and not limit the application's functionalities, and
+	\item allow heterogeneous applications to achieve satisfiable performance,
+	\item take into account modern deployment paradigms, e.g., Cloud services, and 
 	\item allow bi-directional isolation between a host and a guest to address present-day security and privacy concerns
 \end{enumerate*}.
 As others before us\cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBLP:conf/sosp/KaashoekEGBHMPGM97,DBLP:journals/tocs/CaoFKL96,DBLP:journals/sigops/HartyC92}, we believe that this can be achieved by re-distributing the responsibilities between the application and the kernel, and allowing application-specific specialization of resource management.
 
 In this document, we present three different systems that address the above-mentioned requirements.
-We begin with Haven \cite{DBLP:journals/tocs/BaumannPH15}, a system that addresses mutual distrust between a host and guest in Cloud deployments.
-We then proceed to show that Haven shares fundamental design principles with the Exokernel architecture \cite{DBLP:conf/sosp/EnglerKO95}, an original design for application-level management of resources that allows overall performance improvements.
-Finally, we present the Unikernel \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} design, where features of high-level programming languages are leveraged in the system's design both for performance and security goals.
+We begin with the Exokernel architecture \cite{DBLP:conf/sosp/EnglerKO95}, an original design for application-level management of resources that allows overall performance improvements.
+With the Unikernel paper \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13}, we study how this design can be adapted to Cloud deployments and how it enables to leverage high-level programming language features to improve both performance and security.
+Finally, we present Haven \cite{DBLP:journals/tocs/BaumannPH15}, a system that shares common design principles with the Exokernel and addresses mutual distrust between a host and guest in Cloud deployments.
 We conclude by summarizing the papers insights and presenting a research proposal targeting modern operating systems limitations.
 
 
