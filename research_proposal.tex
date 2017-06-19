@@ -16,17 +16,17 @@ Operating systems need to adapt quickly to the modern world, and this requires t
 Due to the heterogeneity of requirements and the fast pace at which technology evolves, no general-purpose monolithic system can pretend to provide satisfiable performance for all types of workloads.
 Inspired by the Exokernel, systems should therefore focus on securely exposing the available resources and avoid management as much as possible.
 
-My research proposal aims at the study of modern systems, designed to answer present day challenges, i.e.,
+My research proposal aims at the study of modern systems, designed to address contemporary challenges, i.e.,
 \begin{enumerate*}
 	\item achieve high performance to allow applications to meet service level objectives,
 	\item consider the shift in paradigms such as increasingly parallel and complex hardware setups, and
-	\item answer present security requirements, such as mutual distrusts between a system and an application running on top of it.
+	\item meet present security requirements, such as mutual distrust between a system and an application running on top of it.
 \end{enumerate*}
 To do so, we need to explore the design space between a low level interface, as in the Exokernel, and virtualized environments, as for unikernels.
 The ideal solution would be a hybrid design that strikes the sweet spot between exposing raw hardware resources and providing a stable and portable abstraction.
 
 This design would act as a foundation for further exploration of new solutions on higher-level components. 
-More precisely, new abstractions could easily be created to leverage the latest hardware features, such as Intel SGX, and create modern execution environments that answer present days security requirements.
+More precisely, new abstractions could easily be created to leverage the latest hardware features, such as Intel SGX, and create modern execution environments that answer present-day security requirements.
 
 As shown in the Unikernel paper, operating systems can benefit from advanced programming languages features, such as memory safety, type safety, intrinsic support for concurrency, or ownership tracking.
 Several papers \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13,DBLP:conf/sosp/BershadSPSFBCE95,DBLP:journals/sigops/HuntL07} already explored how type-safe memory managed languages can be used in the operating system.

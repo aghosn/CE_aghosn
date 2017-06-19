@@ -5,8 +5,8 @@ Unfortunately, as these abstraction cannot be replaced by untrusted user code, t
 Consequently, applications that do not need a certain features still incur its associated overhead.
 More generally, the lack of flexibility imposed by fixed kernel abstractions impedes applications performance, flexibility, and functionality, by preventing domain-specific optimizations of resource management, the modification of existing abstractions, and requiring new ones to be inefficiently emulated on top of a rigid high-level kernel interface.
 
-Guided by the \emph{end-to-end} principle \cite{DBLP:journals/tocs/SaltzerRC84}, the authors of the Exokernel paper \cite{DBLP:conf/sosp/EnglerKO95} present an ingenious operating system architecture that provides application-level management of physical resources.
-In this new model, the kernel securely exports all hardware resources to untrusted, application-specific library operating system.
+Guided by the \emph{end-to-end} principle \cite{DBLP:journals/tocs/SaltzerRC84}, the authors of the Exokernel paper \cite{DBLP:conf/sosp/EnglerKO95} present a novel operating system architecture that provides application-level management of physical resources.
+In this new model, the kernel securely exports all hardware resources to untrusted, application-specific library operating systems.
 Library operating systems are then free to efficiently implement their own system objects and management policies.
 In the following sections, we focus on the design principles that are at the heart of the Exokernel architecture and report the evaluation of Aegis, a prototype Exokernel.
 
@@ -22,7 +22,7 @@ The role of the Exokernel is therefore to:
 	\item \label{protect} protect resource usage, and
 	\item \label{revoke} revoke access to resources
 \end{enumerate*}.
-Guided by these design principles, the authors made the design choice to rely on physical names to implement three different mechanisms: secure bindings, visible revocation, and an abort protocol.
+Guided by these goals, the authors made the design choice to rely on physical names to implement three different mechanisms: secure bindings, visible revocation, and an abort protocol.
 
 The use of physical names in allocation and revocation is a central design choice that has several benefits.
 First, physical names allow the kernel interface to be as close as possible to the hardware.
@@ -37,13 +37,10 @@ Due to the heterogeneity of the multiplexed resources, the Exokernel relies on d
 	\item software caching, and
 	\item downloading application code in the kernel
 \end{enumerate*}.
-
 Ideally, specific hardware features should be leveraged whenever possible to implement protection and access time checks.
 For example, if a hardware memory TLB is available, the kernel first validates a virtual-to-physical memory mapping, e.g., by performing authorization checks on the physical page, and then installs an entry inside the hardware TLB (bind time), which subsequently performs efficient access time checks.
-
 When hardware support is not possible, or to improve the overall system performance, secure bindings can be implemented as a software TLB, i.e., the kernel can cache bindings.
 Following the previous example, the kernel can cache extra virtual to physical mappings inside a large software TLB to speed-up the validation and installation of a new hardware TLB entries.
-
 Finally, downloading code in the kernel allows to perform access checks closer to the application's logic, even when it is not scheduled.
 The Exokernel authors rely on this technique to multiplex the network and implement packet filtering.
 
@@ -54,7 +51,7 @@ Second, it does not require the Exokernel to understand how resources are used a
 Resource revocation is an essential mechanism in any operating system, especially in the presence of scarce resources.
 Having an efficient and safe protocol for it is therefore vital.
 
-Faced with an uncooperative library operating system, the Exokernel must be able to break secure bindings and reclaim resources.
+The Exokernel relies on an \emph{abort protocol} to break secure bindings and reclaim resources from uncooperative library operating systems.
 After an unsuccessful visible revocation phase, the kernel notifies the library operating system that a hard deadline to comply was set.
 If the application still fails to satisfy this requirement, the Exokernel reclaims the resource and informs the application that the secure binding was removed.
 Another option would be to kill any non-compliant application.
@@ -64,7 +61,7 @@ Additionally, the Exokernel provides the application with \emph{repossession vec
 The Exokernel also guarantees for each application a set of resources that will not be repossessed during an abort protocol and that can be used by vital parts of the program, e.g., exception handlers.
 Finally, an emergency protocol allows to swap out an application, i.e., to repossess all resources without "killing" the application.
 
-\subsection{Aegis Performance}
+\subsection{Aegis \& ExOS Performance}
 
 \input{exokernel_perf}
 
