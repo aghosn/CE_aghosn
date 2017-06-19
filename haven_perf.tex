@@ -1,5 +1,5 @@
 The authors were provided with a functional SGX emulator to implement Haven.
-Unfortunately, such an emulator cannot be relied on to measure, or even approximate, the system performance.
+Unfortunately, such an emulator cannot be relied on to measure, or even approximate, the system's performance.
 As a result, a second version of Haven that introduces synthetic delays for SGX instructions was used instead.
 The performance evaluation hence consists in two steps:
 \begin{enumerate*}
@@ -13,9 +13,9 @@ By cross-referencing Haven's reported results with a recent performance evaluati
 
 The first evaluation relies on two real-world applications, namely, a TPC-E benchmark running on a Microsoft SQL server, and an Apache HTTP server benchmark.
 Haven's performance is compared with the throughputs achieved by running the same experiments natively, in a hyper-V VM, and in Drawbridge.
-As a general result, Haven's throughput is inferior to all other configuration for both applications.
-On the database benchmark, it incurs a 13\% slowdown compared to Drawbridge.
-On the HTTP server, the same comparison yields a 40\% slowdown.
+As a general result, Haven's throughput is smaller than in all other configuration for both applications.
+On the database benchmark, it incurs a 13\% slowdown compared to Drawbridge, which itself is comparable to the VM deployment.
+On the HTTP server, Haven exhibits 40\% and 55\% slowdowns compared to Drawbridge and the VM solutions.
 We note however that Haven running with a dedicated filesystem outperforms Drawbridge, due to the read-intensive nature of the workload that accesses cached enclave pages.
 
 The second step of the evaluation introduces synthetic delays for enclave crossings, dynamic memory allocation, and accesses to the EPC.

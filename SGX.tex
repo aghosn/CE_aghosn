@@ -11,7 +11,7 @@ In this scheme, the processor acts as the root of trust to achieve the protected
 
 Enclave's code and data become available once the processor \emph{enters} the enclave.
 To enter an enclave, the processor switches to \emph{enclave mode}, loads the appropriate page mappings, and jumps to a specific entry point contained within the enclave.
-While cache resident data is protected by the table lookaside buffer (TLB), SGX relies on cryptographic techniques to ensure the confidentiality and integrity of an enclave's page in main memory.
+While cache resident data is protected by the translation lookaside buffer (TLB), SGX relies on cryptographic techniques to ensure the confidentiality and integrity of an enclave's page in main memory.
 
 Main memory, i.e., DRAM, is not part of the trusted computing base (TCB).
 As a result, in enclave mode, all traffic between the CPU and main memory needs to be encrypted and integrity protected.
