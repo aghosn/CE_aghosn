@@ -2,7 +2,7 @@ Mirage eschews backward compatibility to enable aggressive specialization of Clo
 Reimplementing the libraries as well as the application in a single language allows to optimize the entire user stack at once and achieve a high level of specialization.
 In the context of Cloud deployments, we can wonder how desirable backward compatibility really is.
 VMs or containers deployed on the Cloud are often single-purpose appliances, providing a well-defined service.
-Reimplementing such services in a higher-level language seems feasible, especially if the language already provides external libraries with similar functionalities, e.g., database or network stack.
+Reimplementing such services in a higher-level language seems feasible, especially if the language already provides external libraries with similar functionalities, e.g., database or network stacks.
 This would, however, still require to slightly modify parts of the libraries to use the interface exposed by the underlying hypervisor.
 
 By targeting a virtualization platform, instead of a custom kernel like the Exokernel, unikernels sacrifice flexibility for portability.

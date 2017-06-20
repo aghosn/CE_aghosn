@@ -7,12 +7,11 @@ This mismatch led to ad-hoc re-implementations of system services, closer to the
 Such solutions include user-level libraries, e.g., user threads \cite{golang}, and kernel bypasses for network and disk I/O \cite{DBLP:conf/nsdi/NanavatiWW17,intel2014data,intel2016storage,BelayPKGKB14}.
 As a result, modern applications are built on top of multiple layers of software frameworks and libraries, rather than on top of the available OS abstractions.
 
-Aging commodity operating system designs fail to address contemporary security concerns.
-Applications are developed and deployed in new ways that require multiple levels of isolation.
+Modern applications are developed and deployed in new ways that require multiple levels of isolation hard to provide in aging commodity operating systems.
 Today's software incorporates code from various, potentially untrusted, sources.
 Due to the lack of system abstractions to provide strong isolation \emph{within} a single application, developers often rely on ad-hoc sandboxing mechanisms to protect trusted parts of the software from untrusted ones.
 For example, web-browsers rely on such techniques to prevent web-applets, browser plug-ins, and JavaScript content from harming the host.
-At the same time, the current hierarchical security model allows privileged software to retain unlimited access to unprivileged code and data, based on the assumption that it is part of the trusted base.
+At the same time, the current hierarchical security model allows privileged software to retain unlimited access to unprivileged code and data, based on the assumption that it is part of the trusted computing base.
 However, the growth of concerns in terms of security, privacy, and confidentiality pushes towards a reevaluation of this model.
 Deployments over Cloud services, corrupted hosts, or the recent undesired aggregation of user data by mainstream operating systems \cite{microsoftspy} reveal the need for a new security model where a host (privileged code) and a guest (unprivileged code) are mutually distrustful and isolated from each other.
 
@@ -23,13 +22,13 @@ An alternate design must conciliate performance and security, as required by tod
 	\item take into account modern deployment paradigms, e.g., Cloud services, and 
 	\item allow bi-directional isolation between a host and a guest to address present-day security and privacy concerns
 \end{enumerate*}.
-As others before us\cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBLP:conf/sosp/KaashoekEGBHMPGM97,DBLP:journals/tocs/CaoFKL96,DBLP:journals/sigops/HartyC92}, we believe that this can be achieved by re-distributing the responsibilities between the application and the kernel, and allowing application-specific specialization of resource management.
+As others before us \cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBLP:conf/sosp/KaashoekEGBHMPGM97,DBLP:journals/tocs/CaoFKL96,DBLP:journals/sigops/HartyC92}, we believe that this can be achieved by re-distributing the responsibilities between the application and the kernel, and allowing application-specific specialization of resource management.
 
 In this document, we present three different systems that address the above-mentioned requirements.
 We begin with the Exokernel architecture \cite{DBLP:conf/sosp/EnglerKO95}, an original design for application-level management of resources that allows overall performance improvements.
-With the Unikernel paper \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13}, we study how this design can be adapted to Cloud deployments and how it enables to leverage high-level programming language features to improve both performance and security.
+With the Unikernel paper \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13}, we study how this design can be adapted to Cloud deployments and how to leverage high-level programming language features to improve both performance and security.
 Finally, we present Haven \cite{DBLP:journals/tocs/BaumannPH15}, a system that shares common design principles with the Exokernel and addresses mutual distrust between a host and a guest in Cloud deployments.
-We conclude by summarizing the papers insights and presenting a research proposal targeting modern operating systems limitations.
+We conclude by summarizing the papers' insights and presenting a research proposal tackling modern operating systems limitations.
 
 
 
