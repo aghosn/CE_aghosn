@@ -5,9 +5,9 @@ Modern hardware setups harvest the cumulative power of dozens of machines to ach
 New hardware appliances are leveraged to off-load parts of the computation and decrease the overall processing time: GPGPUs allow parallel processing \cite{DBLP:journals/pvldb/YuanL013,DBLP:conf/damon/KaldeweyLMV12,DBLP:journals/pvldb/Ailamaki15}, FPGAs pre-processing \cite{DBLP:journals/cacm/PutnamCCCCDEFGG16}, and new types of processing units appear, e.g., GAP \cite{DARPAGAP} and Google's Tensor Processing Units (TPU) \cite{GoogleTPU}.
 
 Meanwhile, the monolithic architecture of the most popular kernels is becoming more and more of a burden.
-Based on rigid abstractions devised 50 years ago, it often fails to answer today's challenges in terms of performance and security.
+Based on rigid abstractions devised decades ago, it often fails to answer today's challenges in terms of performance and security.
 Researchers and developers are forced to rely on kernel bypasses, virtualization, or software frameworks, to achieve higher throughput, greater flexibility, or improved security.
-For example, providing a new system abstraction, such as light-weight contexts \cite{DBLP:conf/osdi/LittonVE0BD16}, requires to either modify an existing kernel, inefficiently emulate it, or rely on virtualization techniques.
+For example, providing a new system abstraction, such as light-weight contexts \cite{DBLP:conf/osdi/LittonVE0BD16}, requires to either modify an existing kernel, inefficiently emulate it on top of existing abstractions, or rely on virtualization techniques.
 This last solution was the object of my first semester project.
 By leveraging hardware support for virtualization, i.e., Intel VT-x \cite{DBLP:journals/computer/UhligNRSMABKLS05}, I managed to implement light-weight contexts without modifying the Linux kernel.
 I however quickly reached performance and flexibility limitations, and had to rely on several tricks, e.g., loading parts of the program at different addresses, to improve the overall performance of my implementation.
@@ -24,9 +24,11 @@ My research proposal aims at the study of modern systems, designed to address co
 \end{enumerate*}
 To do so, we need to explore the design space between a low level interface, as in the Exokernel, and virtualized environments, as for unikernels.
 The ideal solution would be a hybrid design that strikes the sweet spot between exposing raw hardware resources and providing a stable and portable abstraction.
+Modern hardware support for virtualization, such as Intel VT-x \cite{DBLP:journals/computer/UhligNRSMABKLS05} and Intel VT-d \cite{intelVTD}, present interesting opportunities to study how virtualization can be leveraged without sacrificing flexibility.
 
 This design would act as a foundation for further exploration of new solutions on higher-level components. 
 More precisely, new abstractions could easily be created to leverage the latest hardware features, such as Intel SGX, and create modern execution environments that answer present-day security requirements.
+A first step would be to study how unikernels can be modified to integrate SGX features, and compare the performance of such a solution with Haven or container based solutions \cite{DBLP:conf/osdi/ArnautovTGKMPLM16}.
 
 As shown in the Unikernel paper, operating systems can benefit from advanced programming languages features, such as memory safety, type safety, intrinsic support for concurrency, or ownership tracking.
 Several papers \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13,DBLP:conf/sosp/BershadSPSFBCE95,DBLP:journals/sigops/HuntL07} already explored how type-safe memory managed languages can be used in the operating system.
