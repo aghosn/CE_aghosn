@@ -4,12 +4,12 @@ The advent of the Internet era sparked a technological revolution that led to th
 In an increasingly web-oriented environment, and faced with ever greater volumes of data to process, developers strive to conciliate performance and security.
 Unfortunately, popular operating systems adopt a monolithic architecture and expose rigid high-level general-purpose abstractions that fail to satisfy the heterogeneous requirements of modern applications.
 This mismatch led to ad-hoc re-implementations of system services, closer to the application's logic, and able to achieve either more flexibility or higher performance.
-Such solutions include user-level libraries, e.g., user threads \cite{golang}, or kernel bypasses for network and disk I/O \cite{DBLP:conf/nsdi/NanavatiWW17,intel2014data,intel2016storage,BelayPKGKB14}.
+Such solutions include user-level libraries, e.g., user threads \cite{golang}, and kernel bypasses for network and disk I/O \cite{DBLP:conf/nsdi/NanavatiWW17,intel2014data,intel2016storage,BelayPKGKB14}.
 As a result, modern applications are built on top of multiple layers of software frameworks and libraries, rather than on top of the available OS abstractions.
 
 Aging commodity operating system designs fail to address contemporary security concerns.
 Applications are developed and deployed in new ways that require multiple levels of isolation.
-Present-day software incorporates code from various, potentially untrusted, sources.
+Today's software incorporates code from various, potentially untrusted, sources.
 Due to the lack of system abstractions to provide strong isolation \emph{within} a single application, developers often rely on ad-hoc sandboxing mechanisms to protect trusted parts of the software from untrusted ones.
 For example, web-browsers rely on such techniques to prevent web-applets, browser plug-ins, and JavaScript content from harming the host.
 At the same time, the current hierarchical security model allows privileged software to retain unlimited access to unprivileged code and data, based on the assumption that it is part of the trusted base.
@@ -17,7 +17,7 @@ However, the growth of concerns in terms of security, privacy, and confidentiali
 Deployments over Cloud services, corrupted hosts, or the recent undesired aggregation of user data by mainstream operating systems \cite{microsoftspy} reveal the need for a new security model where a host (privileged code) and a guest (unprivileged code) are mutually distrustful and isolated from each other.
 
 From these observations, we understand that the monolithic architecture of current operating systems is becoming obsolete and must be replaced.
-An alternate design must conciliate performance and security, as required by today's software, i.e., it must
+An alternate design must conciliate performance and security, as required by today's software, i.e., it must:
 \begin{enumerate*}
 	\item allow heterogeneous applications to achieve satisfiable performance,
 	\item take into account modern deployment paradigms, e.g., Cloud services, and 
@@ -28,7 +28,7 @@ As others before us\cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBL
 In this document, we present three different systems that address the above-mentioned requirements.
 We begin with the Exokernel architecture \cite{DBLP:conf/sosp/EnglerKO95}, an original design for application-level management of resources that allows overall performance improvements.
 With the Unikernel paper \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13}, we study how this design can be adapted to Cloud deployments and how it enables to leverage high-level programming language features to improve both performance and security.
-Finally, we present Haven \cite{DBLP:journals/tocs/BaumannPH15}, a system that shares common design principles with the Exokernel and addresses mutual distrust between a host and guest in Cloud deployments.
+Finally, we present Haven \cite{DBLP:journals/tocs/BaumannPH15}, a system that shares common design principles with the Exokernel and addresses mutual distrust between a host and a guest in Cloud deployments.
 We conclude by summarizing the papers insights and presenting a research proposal targeting modern operating systems limitations.
 
 
