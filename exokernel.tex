@@ -3,7 +3,7 @@
 In traditional operating systems, applications interact with the kernel via interfaces that hide machine resources behind fixed high-level abstractions such as processes, files, virtual memory, and interprocess communications (IPC).
 Unfortunately, as these abstraction cannot be replaced by untrusted user code, their implementations need to be general enough to serve heterogeneous applications.
 Consequently, applications that do not need certain features still incur its associated overhead.
-More generally, the lack of flexibility imposed by fixed kernel abstractions impedes applications performance, flexibility, and functionality, by preventing domain-specific optimizations of resource management, the modification of existing abstractions, and requiring new ones to be inefficiently emulated on top of a rigid high-level kernel interface.
+More generally, the lack of flexibility imposed by fixed kernel abstractions impedes an application's performance, flexibility, and functionality, by preventing domain-specific optimizations of resource management, the modification of existing abstractions, and requiring new ones to be inefficiently emulated on top of a rigid high-level kernel interface.
 
 Guided by the \emph{end-to-end} principle \cite{DBLP:journals/tocs/SaltzerRC84}, the authors of the exokernel paper \cite{DBLP:conf/sosp/EnglerKO95} present a novel operating system architecture that provides application-level management of physical resources.
 In this new model, the kernel securely exports all hardware resources to untrusted, application-specific library operating systems.
