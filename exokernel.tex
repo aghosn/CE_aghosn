@@ -40,7 +40,7 @@ Due to the heterogeneity of the multiplexed resources, the Exokernel relies on d
 Ideally, specific hardware features should be leveraged whenever possible to implement protection and access time checks.
 For example, if a hardware memory TLB is available, the kernel first validates a virtual-to-physical memory mapping, e.g., by performing authorization checks on the physical page, and then installs an entry inside the hardware TLB (bind time), which subsequently performs efficient access time checks.
 When hardware support is not possible, or to improve the overall system performance, secure bindings can be implemented as a software TLB, i.e., the kernel can cache bindings.
-Following the previous example, the kernel can cache extra virtual to physical mappings inside a large software TLB to speed-up the validation and installation of a new hardware TLB entries.
+Following the previous example, the kernel can cache extra virtual to physical mappings inside a large software TLB to speed-up the validation and installation of a new hardware TLB entry.
 Finally, downloading code in the kernel allows to perform access checks closer to the application's logic, even when it is not scheduled.
 The Exokernel authors rely on this technique to multiplex the network and implement packet filtering.
 

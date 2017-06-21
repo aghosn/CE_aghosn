@@ -50,7 +50,7 @@ The application relies on a trusted library operating system (LibOS) to request 
 In Haven, the LibOS is a modified version of Windows 8, retrofitted into a set of libraries, that implements the full OS API.
 The LibOS is under user control and can be inspected and verified by the application.
 
-In order to protect the application from so-called Iago attacks, Haven relies on a \emph{shield module}.
+In order to protect the application from Iago attacks, Haven relies on a \emph{shield module}.
 The shield module exposes the drawbridge ABI to the LibOS and implements kernel functionalities and primitives such as memory management and thread synchronization.
 It isolates the LibOS from a malicious host by validating all parameters and results that cross the border between trusted and untrusted parts of the runtime.
 Such validations depend on the specific service required from the host OS, but mostly consist in sanity checks and observably consistent results.
@@ -63,7 +63,7 @@ This module also acts as a bootstrap to create the enclave and load the shield.
 
 The host OS interacts with the enclave via the Drawbridge ABI and provides services relating to memory management, e.g., changing memory access rights or allocating untrusted virtual memory, thread signaling, access to external untrusted devices, e.g., storage, and to the system time.
 
-Applications are deployed on the Cloud as encrypted disk images that contain both the application and LibOS binaries.
+Applications are deployed on the Cloud as encrypted disk images that contain both the application and the LibOS binaries.
 The Cloud service provider is responsible for creating the picoprocess and loading the untrusted runtime, which in turns creates the enclave and loads the shield module.
 SGX remote attestation mechanism is used to compute a quote of the shield and verify its integrity as well as the enclave's environment.
 Afterwards, the shield generates asymmetric cryptography keys, securely sends its public key to a machine controlled by the user along with the quote.

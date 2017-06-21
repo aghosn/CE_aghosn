@@ -18,8 +18,8 @@ As a result, in enclave mode, all traffic between the CPU and main memory needs 
 SGX relies on a dedicated hardware unit, called \emph{Memory Encryption Engine} (MEE), that is part of the TCB and operates as an extension of the Memory Controller (MC).
 The MEE is in charge of a portion of the physical memory, i.e., the \emph{protected region}, determined at boot time, that holds enclave pages, the processor's metadata used to handle them, and the region's integrity tree.
 The MEE implements and enforces the encryption and integrity protection schemes for enclave resident data.
-More specifically, it decrypts and verifies the integrity of enclaves data loaded from main memory, and encrypts and computes MAC tags and version attributes to protect the integrity of (and prevent replay attacks on) data written to main memory.
-A failure to verify an enclave's data integrity results in a fault that blocks the processor's MC and requires a machine reboot.
+More specifically, it decrypts and verifies the integrity of enclaves' data loaded from main memory, and encrypts and computes MAC tags and version attributes to protect the integrity of (and prevent replay attacks on) data written to main memory.
+A failure to verify an enclave's data integrity results in a fault that blocks the processor's MC and requires a system reboot.
 
 The processor stores enclave pages and their metadata in the \emph{Enclave Page Cache} (EPC), a subrange of the protected region.
 Each enclave is associated with a corresponding \emph{SGX Enclave Control Structure} (SECS) that resides within the EPC and is used by the hardware to validate interactions with enclave pages.
