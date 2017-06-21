@@ -7,8 +7,8 @@
 %IPC
 %virtual memory
 %remote communication. 
-In this section we report and review the original evaluation of Aegis, a prototype Exokernel, and ExOS, a library operating system.
-Since the paper was published in 1995 and Aegis evaluated on the hardware available back then, we ignore the measured numerical values and focus on the Exokernel performance compared to Ultrix, a traditional monolithic kernel.
+In this section we report and review the original evaluation of Aegis, a prototype exokernel, and ExOS, a library operating system.
+Since the paper was published in 1995 and Aegis evaluated on the hardware available back then, we ignore the measured numerical values and focus on the exokernel performance compared to Ultrix, a traditional monolithic kernel.
 
 Aegis multiplexes the CPU by dividing it into time slices allocated to the different applications.
 Timer interrupts are delivered to the application, which in turn performs the context-switch.
@@ -17,13 +17,13 @@ This scheduling mechanism is both flexible and performant.
 The cost of a standard procedure call is similar to the one achieved by Ultrix.
 For system calls, the authors report that Ultrix's \lstinline{getpid} (one of the fastest syscalls) is an order of magnitude slower than Aegis' slowest one.
 
-In accord with the Exokernel's design principles, Aegis dispatches all exceptions to applications.
+In accord with the exokernel's design principles, Aegis dispatches all exceptions to applications.
 After handling an exception, the application is not required to re-enter the kernel before resuming its execution.
 As a result, Aegis's exception mechanism is more than five times faster than the then state-of-the-art fastest implementation \cite{DBLP:conf/asplos/ThekkathL94}.
 
 Aegis provides primitives for synchronous and asynchronous protected control transfer, a mechanism that can be relied upon to implement efficient IPC abstractions.
 Compared with the then fastest published implementation \cite{DBLP:conf/sosp/Liedtke93}, Aegis mechanism is 6.6 times faster.
-This is mostly due to the succinct, i.e., 30 instructions, implementation of the mechanism in the Exokernel.
+This is mostly due to the succinct (30 instructions) implementation of the mechanism in the exokernel.
 
 ExOS is a prototype library operating system developed to run on top of Aegis.
 ExOS implements an IPC abstraction on top of Aegis' protected control transfer that is more than an order of magnitude faster than Ultrix equivalent implementation.
@@ -31,6 +31,6 @@ A simple pipe implementation is 10 times faster than in Ultrix, while a LRPC is 
 This discrepancy is due to the fact that Ultrix needs to emulate new abstractions, such as LRPC, on top of existing ones, e.g., pipes or signals.
 
 The authors then proceed with a comparison between the unoptimized implementation of virtual memory management in ExOS to the one provided in Ultrix.
-First, a simple benchmarks allows to show that a standard implementation that does not leverage the Exokernel features and Ultrix perform indistinguishably.
+First, a simple benchmarks allows to show that a standard implementation that does not leverage the exokernel features and Ultrix perform indistinguishably.
 A set of microbenchmarks shows that ExOS performs reasonably, i.e., 1.1 to 1.6 times slower, compared to Ultrix on tests that change access rights to contiguous address ranges.
 At the same time, ExOS outperforms Ultrix on page-protection traps and more heterogeneous benchmarks by being at least an order of magnitude faster.

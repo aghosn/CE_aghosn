@@ -14,9 +14,10 @@ I however quickly reached performance and flexibility limitations, and had to re
 
 Operating systems need to adapt quickly to the modern world, and this requires to study alternate designs.
 Due to the heterogeneity of requirements and the fast pace at which technology evolves, no general-purpose monolithic system can pretend to provide satisfiable performance for all types of workloads.
-Inspired by the Exokernel, systems should therefore focus on securely exposing the available resources and avoid management as much as possible.
+Inspired by the exokernel, systems should therefore focus on securely exposing the available resources and avoid management as much as possible.
 
-My research proposal aims at the study of modern systems, designed to address contemporary challenges, i.e., it must:
+My research proposal aims at the study of modern systems, designed to address contemporary challenges.
+A modern design must:
 \begin{enumerate*}
 	\item allow heterogeneous applications to achieve satisfiable performances,
 	\item take into account modern deployment paradigms, e.g., Cloud services, and 
@@ -30,6 +31,6 @@ This design would act as a foundation for further exploration of new solutions o
 More precisely, new abstractions could easily be created to leverage the latest hardware features, such as Intel SGX, and create modern execution environments that answer present-day security requirements.
 A first step would be to study how unikernels can be modified to integrate SGX features, and compare the performance of such a solution with Haven or container based solutions \cite{DBLP:conf/osdi/ArnautovTGKMPLM16}.
 
-As shown in the Unikernel paper, operating systems can benefit from advanced programming languages features, such as memory safety, type safety, intrinsic support for concurrency, or ownership tracking.
+As shown in the unikernel paper, operating systems can benefit from advanced programming languages features, such as memory safety, type safety, intrinsic support for concurrency, or ownership tracking.
 Several papers \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13,DBLP:conf/sosp/BershadSPSFBCE95,DBLP:journals/sigops/HuntL07} already explored how type-safe memory managed languages can be used in the operating system.
 With the rise in popularity of new paradigms and models, exported by languages like Rust and its ownership mechanism \cite{rust}, or Go and its communicating-sequential-processes (CSP) style for concurrent programming \cite{golang}, the space of possible designs and solutions has yet to be explored.

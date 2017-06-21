@@ -24,7 +24,7 @@ According to the SGX performance evaluation in \cite{DBLP:conf/IEEEwisa/ZhaoSTZX
 It therefore seems that Haven's authors largely underestimated the cost of accessing the EPC.
 
 The authors note that while enclave crossings and dynamic allocation of memory both impact the HTTP server application's throughput, the database application seems to be sensitive only to enclave crossings.
-By plugging-in the SGX performance evaluation result from \cite{DBLP:conf/IEEEwisa/ZhaoSTZX16}, i.e., 7 kcycles per crossing, we see that enclave crossings induce a 20\% extra slowdown in throughput in the previously measured Haven's database experiment.
+By plugging-in the SGX performance evaluation result from \cite{DBLP:conf/IEEEwisa/ZhaoSTZX16}, i.e., 7 kcycles per crossing, we see that enclave crossings induce a 20\% extra slowdown in throughput compared to the previously measured database experiment.
 For the HTTP server, the actual slowdown due to enclave crossings is of the order of 1\%.
 
 More generally, Haven's authors predicted a 31\% to 54\% slowdown in performance compared to a virtual machine solution.

@@ -1,18 +1,18 @@
 \section{Unikernels: Library Operating Systems for the Cloud}
 Traditionally, applications are deployed in the Cloud as virtual machines (VM).
 A VM packs a complete operating system, such as Linux or Windows, that allows to run unmodified application processes.
-Typically, a VM deployed in the Cloud can be viewed as a single-purpose appliance, i.e., it consists of a guest operating system running a main application, e.g., a database or web server, that relies on smaller services running in parallel.
+Typically, a VM deployed in the Cloud can be viewed as a single-purpose appliance, i.e., it consists of a guest operating system running a main application that relies on smaller services running in parallel.
 Due to the lack of standards for application configuration, VMs often run custom scripts as glue code to initialize the execution environment.
 
 Although destined to execute a single main application, Cloud VMs are insufficiently specialized.
 They contain an entire operating system image, distributed with some default services.
 Apart from unnecessarily increasing the disk image size for this single-purpose appliance, hence requiring more resources to deploy and run the VM, the presence of unwanted default services increases the potential attack surface exposed to a malicious entity and threatens the VM's integrity.
 
-The Unikernel paper \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} presents a new model to deploy applications in the Cloud that addresses the above-mentioned issues by radically specializing the Cloud application's image.
-\emph{Unikernels} are small size sealed single-purpose appliances entirely written in a high-level programming language, that can easily be configured and deployed over Cloud platforms.
+The unikernel paper \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} presents a new model to deploy applications in the Cloud that addresses the above-mentioned issues by radically specializing the Cloud application's image.
+\emph{Unikernels} are small-size, sealed, single-purpose appliances entirely written in a high-level programming language, that can easily be configured and deployed over Cloud platforms.
 
 \subsection{Design}
-The Unikernel revisits the idea of library operating systems (LibOS) by applying it to Cloud platforms.
+The unikernel revisits the idea of library operating systems (LibOS) by applying it to Cloud platforms.
 A unikernel is a standalone kernel that encapsulates a single-purpose application destined to be deployed over the Cloud.
 As such, unikernels execute on top of a VM hypervisor, e.g., Xen \cite{DBLP:conf/sosp/BarhamDFHHHN03}.
 The advantages of targeting a virtualization platform instead of a custom kernel are twofold.
@@ -48,7 +48,7 @@ Unused libraries as well as unreachable portions of code are not included in the
 Second, a unikernel executes entirely within a single address space and relies on the language's type safety to enforce access control and restrictions.
 The single-address space model eases the integration of security techniques. 
 For example, to prevent code injection, the unikernel is initialized such that no page mapping is both executable and writable.
-To further protect against possible attacks, the unikernel can issue a \emph{seal} hypercall, that prevents future page table modifications.
+To further protect against possible attacks, the unikernel can issue a \emph{seal} hypercall that prevents future page table modifications.
 Other techniques and code instrumentation, e.g., address space randomization, stack canaries and guard pages, can also be added.
 
 Unikernels, however, present some intrinsic limitations that need to be considered.
@@ -64,7 +64,7 @@ Unfortunately, this technique increases resource usage, does not provide type-sa
 \subsection{Prototype and Evaluation}
 
 A common argument against type-safe and memory managed programming languages is the overhead incurred by type checks and garbage collection.
-Performance is critical to Cloud services renters to achieve their service level objectives.
+Performance is critical to Cloud services tenants to achieve their service level objectives.
 According to the authors, unikernels performances are comparable to standard VMs.
 
 The authors evaluate a prototype unikernel implementation, called Mirage, that leverages OCaml system programming and static type system to produce appliances running on top of a Xen hypervisor \cite{DBLP:conf/sosp/BarhamDFHHHN03}.
@@ -78,7 +78,7 @@ This shared memory ring is at the heart of every I/O in Mirage and allows device
 The Mirage runtime memory management was specialized to dedicate a segment to these external I/O pages.
 
 Mirage main features are evaluated against a set of microbenchmarks.
-Compared to a Linux kernel running as a paravirtualized Xen domU, a Mirage appliance boots more than two times faster, enables the creation of 20 millions threads twice as fast, incurs less jitter in thread timers thanks to the absence of user/kernel crossings, and performs network and storage I/O without significant overheads.
+Compared to a Linux kernel running as a paravirtualized Xen domU, a Mirage appliance boots more than two times faster, enables the creation of 20 million threads twice as fast, incurs less jitter in thread timers thanks to the absence of user/kernel crossings, and performs network and storage I/O without significant overheads.
 
 Mirage is then evaluated on more realistic applications, namely, a DNS server, an OpenFlow controller appliance, and a web server backed by a database.
 In the remainder of this section, we focus on the DNS server evaluation that exhibits the advantages of relying on Mirage to deploy Cloud applications.
@@ -90,7 +90,7 @@ Adding memorization of responses enabled the Mirage appliance to reach a through
 In comparison, NSD reaches a maximal throughput of 70 kqueries/s.
 Apart from the performance evaluation, the authors highlight the benefits of having a type-safe implementation of a DNS server.
 Reportedly, the Bind software (a mature and popular DNS server) suffered from 40 important vulnerabilities in the past 10 years, mostly related to memory management errors and poor handling of exceptional cases.
-Mirage's type-safety prevents this kind of errors by design.
+Mirage's type-safety prevents this kind of error by design.
 The DNS server Mirage appliance is a good example showing that type-safety, and more generally improved security, do not preclude performance. 
 
 Finally, Mirage yields small size binary images, even for realistic applications.

@@ -1,20 +1,20 @@
 Haven addresses modern confidentiality and integrity concerns that sprung from the growth of Cloud services.
-At its heart, Haven relies on the same fundamental design principle as the Exokernel, i.e., it separates policies and mechanisms.
+At its heart, Haven relies on the same fundamental design principle as the exokernel, i.e., it separates policies and mechanisms.
 Here, this design choice enables to disentangle the guest from the host, obtain a cleaner separation between mutually distrustful domains, and more easily monitor their interactions.
 We note, however, that Haven still relies on the host to access specific services, such as storage or network devices.
 
-We believe that the Exokernel architecture provides a stricter separation between a host and a guest that would allow a better implementation of shielded execution.
-In the Exokernel, the interactions between host and guest are even more limited than in Haven.
+We believe that the exokernel architecture provides a stricter separation between a host and a guest that would allow a better implementation of shielded execution.
+In the exokernel, the interactions between host and guest are even more limited than in Haven.
 The host and guest only need to cooperate to establish secure bindings for a specific resource.
 This alleviates the need to rely on an untrusted host to access services such as, for example, external storage.
-Furthermore, the Exokernel provides mechanisms to cope with the scarcity of enclave pages.
+Furthermore, the exokernel provides mechanisms to cope with the scarcity of enclave pages.
 The number of enclave pages is fixed at boot time and represents only a portion of the available main memory.
-The Exokernel revocation protocol, that allows application-level management of revoked resources, could therefore be leveraged to alleviate the system's physical limitations.
+The exokernel revocation protocol, that allows application-level management of revoked resources, could therefore be leveraged to alleviate the system's physical limitations.
 Finally, the abort protocol for misbehaving applications would require a careful implementation to avoid triggering an SGX fault and blocking the MC, but seems feasible.
 
 Haven adopts a radical position by providing support for legacy applications.
 This decision was probably made to test SGX flexibility and limits.
-In practice, backward compatibility could be sacrificed as in the Unikernel paper.
+In practice, backward compatibility could be sacrificed as in the unikernel paper.
 
 Unikernels present several advantages regarding shielded execution and improve upon Haven's limitations.
 First, a Mirage appliance can seal its memory mappings.

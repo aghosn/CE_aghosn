@@ -4,8 +4,8 @@ Cloud computing service providers enable even small organizations to deploy web-
 On a machine, the cloud service provider's host divides physical resources among co-located applications from different origins.
 While attractive for their simplicity and adaptability, such services raise important confidentiality and integrity concerns that limit their adoption \cite{mining,NSAYahoo}.
 Cloud services implement a unidirectional isolation model where privileged code (the host) is protected from the unprivileged one (the guest), and retains unrestricted access to the application's data.
-In other words, Cloud users are forced to entrust the entire Cloud privileged management software stack with their sensitive data and intellectual property.
-Seeing as privacy and confidentiality are growing concerns, new techniques need to be devised to protect the application's data from a potentially compromised or malicious host.
+In other words, Cloud users are forced to trust the entire Cloud privileged management software stack with their sensitive data and intellectual property.
+As privacy and confidentiality are growing concerns, new techniques need to be devised to protect the application's data from a potentially compromised or malicious host.
 
 Haven \cite{DBLP:journals/tocs/BaumannPH15} is a system that leverages Intel Software Guard Extension (SGX) \cite{SGXManual} to provide shielded execution of unmodified legacy applications on a commodity OS (Windows).
 Shielded execution allows to protect the \emph{confidentiality} and \emph{integrity} of a program from the host (e.g., the OS) on which it runs.
