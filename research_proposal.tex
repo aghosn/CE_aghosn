@@ -18,10 +18,10 @@ Inspired by the Exokernel, systems should therefore focus on securely exposing t
 
 My research proposal aims at the study of modern systems, designed to address contemporary challenges, i.e.,
 \begin{enumerate*}
-	\item achieve high performance to allow applications to meet service level objectives,
-	\item consider the shift in paradigms such as increasingly parallel and complex hardware setups, and
-	\item meet present security requirements, such as mutual distrust between a system and an application running on top of it.
-\end{enumerate*}
+	\item allow heterogeneous applications to achieve satisfiable performance,
+	\item take into account modern deployment paradigms, e.g., Cloud services, and 
+	\item allow bi-directional isolation between a host and a guest to address present-day security and privacy concerns
+\end{enumerate*}.
 To do so, we need to explore the design space between a low level interface, as in the Exokernel, and virtualized environments, as for unikernels.
 The ideal solution would be a hybrid design that strikes the sweet spot between exposing raw hardware resources and providing a stable and portable abstraction.
 Modern hardware support for virtualization, such as Intel VT-x \cite{DBLP:journals/computer/UhligNRSMABKLS05} and Intel VT-d \cite{intelVTD}, present interesting opportunities to study how virtualization can be leveraged without sacrificing flexibility.
