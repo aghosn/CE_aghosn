@@ -1,6 +1,6 @@
 Haven addresses modern confidentiality and integrity concerns that sprung from the growth of Cloud services.
 At its heart, Haven relies on the same fundamental design principle as the exokernel, i.e., it separates policies and mechanisms.
-Here, this design choice enables to disentangle the guest from the host, obtain a cleaner separation between mutually distrustful domains, and more easily monitor their interactions.
+In Haven, this design choice enables to disentangle the guest from the host, obtain a cleaner separation between mutually distrustful domains, and more easily monitor their interactions.
 We note, however, that Haven still relies on the host to access specific services, such as storage or network devices.
 
 We believe that the exokernel architecture provides a stricter separation between a host and a guest that would allow a better implementation of shielded execution.
@@ -22,7 +22,3 @@ This mechanism avoids dynamic allocation of memory resources and hence removes t
 Second, Mirage appliances are compact binaries.
 Haven packs an entire Windows operating system inside the enclave, which increases the enclave pages consumption and cache misses.
 The small size of Mirage unikernels could potentially solve both issues and exhibit better runtime performances.
-
-
-
-

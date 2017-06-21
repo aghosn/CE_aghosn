@@ -2,21 +2,21 @@
 
 While Moore's law is coming to an end \cite{DBLP:journals/cse/TheisW17,DBLP:journals/computer/DeBenedictis17}, the volume and complexity of data that we need to process keep increasing.
 Modern hardware setups harvest the cumulative power of dozens of machines to achieve their computations in a timely fashion.
-New hardware appliances are leveraged to off-load parts of the computation and decrease the overall processing time: GPGPUs allow parallel processing \cite{DBLP:journals/pvldb/YuanL013,DBLP:conf/damon/KaldeweyLMV12,DBLP:journals/pvldb/Ailamaki15}, FPGAs pre-processing \cite{DBLP:journals/cacm/PutnamCCCCDEFGG16}, and new types of processing units appear, e.g., GAP \cite{DARPAGAP} and Google's Tensor Processing Units (TPU) \cite{GoogleTPU}.
+New hardware appliances are leveraged to off-load parts of the computation and decrease the overall processing time: GPGPUs \cite{DBLP:journals/pvldb/YuanL013,DBLP:conf/damon/KaldeweyLMV12,DBLP:journals/pvldb/Ailamaki15}, FPGAs \cite{DBLP:journals/cacm/PutnamCCCCDEFGG16}, and new types of processing units, e.g., GAP \cite{DARPAGAP} and Google's Tensor Processing Units (TPU) \cite{GoogleTPU}, appear in datacenters.
 
 Meanwhile, the monolithic architecture of popular operating systems is becoming more and more of a burden.
 Based on rigid abstractions devised decades ago, it often fails to answer today's challenges in terms of performance and security.
 Researchers and developers are forced to rely on kernel bypasses, virtualization, or software frameworks, to achieve higher throughput, greater flexibility, or improved security.
 For example, providing a new system abstraction, such as light-weight contexts \cite{DBLP:conf/osdi/LittonVE0BD16}, requires to either modify an existing kernel, inefficiently emulate it on top of existing abstractions, or rely on virtualization techniques.
-This last solution was the object of my first semester project.
-By leveraging hardware support for virtualization, i.e., Intel VT-x \cite{DBLP:journals/computer/UhligNRSMABKLS05}, I managed to implement light-weight contexts without modifying the Linux kernel.
-I however quickly reached performance and flexibility limitations, and had to rely on several tricks, e.g., loading parts of the program at different addresses, to improve the overall performance of my implementation.
+This last solution was the object of my research so far.
+Hardware support for virtualization, in the form provided by Intel VT-x \cite{DBLP:journals/computer/UhligNRSMABKLS05}, allows the implementation of light-weight contexts without modifying the Linux kernel.
+However, the virtualized environment quickly limits both the flexibility and the performance of such an implementation.
 
 Operating systems need to adapt quickly to the modern world, and this requires to study alternate designs.
 Due to the heterogeneity of requirements and the fast pace at which technology evolves, no general-purpose monolithic system can pretend to provide satisfiable performance for all types of workloads.
 Inspired by the exokernel, systems should therefore focus on securely exposing the available resources and avoid management as much as possible.
 
-My research proposal aims at the study of modern systems, designed to address contemporary challenges.
+This research proposal aims at the study of modern systems, designed to address contemporary challenges.
 A modern design must:
 \begin{enumerate*}
 	\item allow heterogeneous applications to achieve satisfiable performances,

@@ -61,17 +61,17 @@ The host manages physical resources while the guest handles virtual ones.
 Underneath the untrusted interface, an untrusted runtime module forwards calls between the guest and the host.
 This module also acts as a bootstrap to create the enclave and load the shield.
 
-The host OS interacts with the enclave via the Drawbridge ABI and provides services relating to memory management, e.g., changing memory access rights or allocating untrusted virtual memory, thread signaling, access to external untrusted devices, e.g., storage, and to the system time.
+The host OS interacts with the enclave via the Drawbridge ABI and provides services relating to memory management, such as, changing memory access rights or allocating untrusted virtual memory, thread signaling, and access to untrusted external devices and to the system time.
 
 Applications are deployed on the Cloud as encrypted disk images that contain both the application and the LibOS binaries.
-The Cloud service provider is responsible for creating the picoprocess and loading the untrusted runtime, which in turns creates the enclave and loads the shield module.
+The Cloud service provider is responsible for creating the picoprocess and loading the untrusted runtime, which in turn creates the enclave and loads the shield module.
 SGX remote attestation mechanism is used to compute a quote of the shield and verify its integrity as well as the enclave's environment.
-Afterwards, the shield generates asymmetric cryptography keys, securely sends its public key to a machine controlled by the user along with the quote.
+Subsequently, the shield generates asymmetric cryptography keys, securely sends its public key to a machine controlled by the user along with the quote.
 The user verifies the shield's integrity, encrypts the disk image with the public key, and sends it to the shield.
 The application is then ready to be loaded.
 
 Haven stacks several software layers, each providing specific functionalities to the ones above it.
-This layered architecture, coupled with the defensive programming design adopted, might introduce non-negligible overheads.
+This layered architecture, coupled with the defensive programming design adopted, introduces non-negligible overheads.
 The next section focuses on Haven's reported performance.
 
 

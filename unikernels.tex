@@ -45,7 +45,7 @@ Unikernels leverage type-safety and static analysis and verification tools to im
 %By eschewing backward compatibility and requiring the entire stack to be written in a single high-level typed programming language, unikernels can leverage type-safety as well as static analysis and verification tools to improve the application's security.
 First, DCE reduces the attack surface exposed to a remote attacker system-wide.
 Unused libraries as well as unreachable portions of code are not included in the final binary and cannot be used by an attacker to subvert the application.
-Second, a unikernel executes entirely within a single address space and relies on the language's type safety to enforce access control and restrictions.
+Second, a unikernel executes entirely within a single address space and relies on the language's type-safety to enforce access control and restrictions.
 The single-address space model eases the integration of security techniques. 
 For example, to prevent code injection, the unikernel is initialized such that no page mapping is both executable and writable.
 To further protect against possible attacks, the unikernel can issue a \emph{seal} hypercall that prevents future page table modifications.
@@ -64,14 +64,14 @@ Unfortunately, this technique increases resource usage, does not provide type-sa
 \subsection{Prototype and Evaluation}
 
 A common argument against type-safe and memory managed programming languages is the overhead incurred by type checks and garbage collection.
-Performance is critical to Cloud services tenants to achieve their service level objectives.
-According to the authors, unikernels performances are comparable to standard VMs.
+Performance is crucial to Cloud services tenants to achieve their service level objectives.
+According to the authors, unikernels performances are comparable to that of standard VMs.
 
 The authors evaluate a prototype unikernel implementation, called Mirage, that leverages OCaml system programming and static type system to produce appliances running on top of a Xen hypervisor \cite{DBLP:conf/sosp/BarhamDFHHHN03}.
 A Mirage application is a standalone kernel, encapsulating a single process running in a 64-bits address space.
 Parallelism within a VM is achieved via the OCaml Lwt cooperative threading library \cite{DBLP:conf/ml/Vouillon08}.
 At the same time, a \emph{domainpoll} function enables to block the VM for external events and timeouts.
-Lightweight threads enable to implement I/O protocols in a type-safe, non-blocking manner.
+Lightweight threads enable the implementation of I/O protocols in a type-safe, non-blocking manner.
 Network processing as well as storage I/Os are implemented as unikernel libraries under the control of the application and rely on a unified device driver model to read/write from/to a device.
 Mirage applications contain a guest VM driver implemented in OCaml that communicates with a Xen backend driver via events and a shared memory page that holds requests and responses for device operations.
 This shared memory ring is at the heart of every I/O in Mirage and allows device drivers to be implemented as OCaml libraries linked against the application.
@@ -80,9 +80,9 @@ The Mirage runtime memory management was specialized to dedicate a segment to th
 Mirage main features are evaluated against a set of microbenchmarks.
 Compared to a Linux kernel running as a paravirtualized Xen domU, a Mirage appliance boots more than two times faster, enables the creation of 20 million threads twice as fast, incurs less jitter in thread timers thanks to the absence of user/kernel crossings, and performs network and storage I/O without significant overheads.
 
-Mirage is then evaluated on more realistic applications, namely, a DNS server, an OpenFlow controller appliance, and a web server backed by a database.
+Mirage is also evaluated on more realistic applications, namely, a DNS server, an OpenFlow controller appliance, and a web server backed by a database.
 In the remainder of this section, we focus on the DNS server evaluation that exhibits the advantages of relying on Mirage to deploy Cloud applications.
-We note, however, that in all experiments, Mirage's performance is close to (or even better than) state-of-the-art implementations.
+We note, however, that in all experiments, Mirage's performance is close to, and occasionally better than, state-of-the-art implementations.
 
 The Mirage DNS server application includes libraries for the network stack and an in-memory filesystem.
 The authors compare the Mirage appliance to a state-of-the-art high performance implementation, NSD 3.2.10.
