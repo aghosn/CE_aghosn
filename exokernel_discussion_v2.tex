@@ -3,7 +3,7 @@ It allows application-level management of resources by exposing an interface as 
 The exokernel provides a small set of primitives to securely expose and multiplex hardware resources.
 This reduced set of responsibilities allows a compact and simple kernel implementation that is less prone to implementation bugs, exposes a smaller attack surface, and is highly efficient.
 
-The exokernel exposes an interface close to what a Cloud client actually rents from the service provider, i.e., raw hardware resources.
+The exokernel exposes an interface close to what a cloud client actually rents from the service provider, i.e., raw hardware resources.
 Such a design is therefore also relevant with regards to modern application deployments. 
 
 Furthermore, the exokernel provides a clean separation between the kernel (host) and the application (guest).
@@ -14,7 +14,7 @@ As a result, implementing an exokernel requires to either limit the target hardw
 The second option seems unpractical and would result in a complicated system.
 
 With the next paper, we study how the exokernel's high-level design, coupled with virtualization, alleviates the need for heterogeneous hardware support and enables aggressive specialization of the application stack.
-We further examine how such a solution integrates with Cloud deployments.
+We further examine how such a solution integrates with cloud deployments.
 
 
 
