@@ -7,7 +7,7 @@ Researchers and developers are forced to rely on kernel bypasses, virtualization
 Inspired by the exokernel, modern systems should focus on securely exposing the available resources and avoid management as much as possible.
 A modern design must:
 \begin{enumerate*}
-	\item allow heterogeneous applications to achieve satisfiable performances,
+	\item allow heterogeneous applications to achieve satisfiable performance,
 	\item take into account modern deployment paradigms and hardware setups, e.g., Cloud services, and 
 	\item allow bi-directional isolation between a host and a guest to address present-day security and privacy concerns
 \end{enumerate*}.
@@ -16,8 +16,8 @@ The increasingly frequent apparition of hardware features pertaining to modern n
 The recent additions of hardware support for virtualization, such as Intel VT-x \cite{DBLP:journals/computer/UhligNRSMABKLS05} and Intel VT-d \cite{intelVTD}, unveil new opportunities to study how hardware resources can be securely exposed to the application.
 At the same time, hardware security features, in the vein of Intel SGX \cite{SGXManual}, answer an ever growing concern regarding security and privacy.
 
-My research proposal is therefore to focus on the design of a system that intrinsically incorporates and exposes such features to address present-day concerns, both in terms of performance and security.
+My research proposal is therefore to focus on the design of a system that intrinsically incorporates and exposes such features to address present-day concerns.
 I propose to leverage modern hardware features to provide applications with more flexibility, increased performance, and answer contemporary security requirements.
 To achieve those goals, I propose to adopt a design similar to the exokernel and unikernel, i.e., to separate protection from management and policies from mechanisms.
 Relying on hardware support for virtualization, this design would allow applications to efficiently implement their own abstractions for critical resources, such as, for example, virtual memory.
-At the same time, the clear separation between the system and the application would enable to transparently integrate security measures, e.g., SGX, at the heart of the interactions between the mutually distrustful domains.
+At the same time, the clear separation between the system and the application would enable to transparently integrate security measures, e.g., SGX, at the heart of the interactions between mutually distrustful domains.
