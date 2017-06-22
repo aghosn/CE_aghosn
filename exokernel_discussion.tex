@@ -13,10 +13,10 @@ The Exokernel design revolves around the basic principle of separation between p
 The same principle was used in Haven to allow the implementation of bi-directional isolation between a host and a guest.
 As a result, we suspect that confidentiality and integrity, as provided in Haven, are not incompatible with achieving good performance.
 
-The Exokernel exposes an interface close to what a Cloud client actually rents from the service provider, i.e., raw hardware resources.
+The Exokernel exposes an interface close to what a cloud client actually rents from the service provider, i.e., raw hardware resources.
 Such a design is therefore also relevant with regards to modern application deployments. 
 
 The Exokernel paper focuses on the design of the kernel itself.
 We now want to study how leveraging this design enables the aggressive specialization of the application stack.
 More precisely, with the next paper, we study how one can leverage the fact that an application can be linked to a specific libOS in order to improve the overall performance, without sacrificing security.
-We further study the benefits of such solutions, coupled with virtualization and modern programming language techniques, for Cloud deployments.
+We further study the benefits of such solutions, coupled with virtualization and modern programming language techniques, for cloud deployments.

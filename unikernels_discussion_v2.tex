@@ -1,7 +1,7 @@
-Mirage eschews backward compatibility to enable aggressive specialization of Cloud appliances.
+Mirage eschews backward compatibility to enable aggressive specialization of cloud appliances.
 Reimplementing the libraries as well as the application in a single language allows the optimization of the entire user stack at once and to achieve a high level of specialization.
-In the context of Cloud deployments, we can wonder how desirable backward compatibility really is.
-VMs or containers deployed in the Cloud are often single-purpose appliances, providing a well-defined service.
+In the context of cloud deployments, we can wonder how desirable backward compatibility really is.
+VMs or containers deployed in the cloud are often single-purpose appliances, providing a well-defined service.
 Reimplementing such services in a higher-level language seems feasible, especially if the language already provides external libraries with similar functionalities, e.g., database or network stacks.
 This would, however, still require slight modifications of parts of the libraries to use the interface exposed by the underlying hypervisor.
 

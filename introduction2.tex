@@ -13,13 +13,13 @@ Due to the lack of system abstractions to provide strong isolation \emph{within}
 For example, web-browsers rely on such techniques to prevent web-applets, browser plugins, and JavaScript content from harming the host.
 At the same time, the current hierarchical security model allows privileged software to retain unlimited access to unprivileged code and data, based on the assumption that it is part of the trusted computing base.
 However, the growth of concerns in terms of security, privacy, and confidentiality pushes towards a re-evaluation of this model.
-Deployments over Cloud services, corrupted hosts, or the recent undesired aggregation of user data by mainstream operating systems \cite{microsoftspy} reveal the need for a new security model where a host (privileged code) and a guest (unprivileged code) are mutually distrustful and isolated from each other.
+Deployments over cloud services, corrupted hosts, or the recent undesired aggregation of user data by mainstream operating systems \cite{microsoftspy} reveal the need for a new security model where a host (privileged code) and a guest (unprivileged code) are mutually distrustful and isolated from each other.
 
 From these observations, we understand that the architecture of current operating systems, that exposes only rigid high-level abstractions, is becoming obsolete and must be replaced.
 An alternate design must reconcile performance and security, as required by today's software, i.e., it must:
 \begin{enumerate*}
 	\item allow heterogeneous applications to achieve satisfiable performance,
-	\item take into account modern deployment paradigms, e.g., Cloud services, and 
+	\item take into account modern deployment paradigms, e.g., cloud services, and 
 	\item allow bi-directional isolation between a host and a guest to address present-day security and privacy concerns
 \end{enumerate*}.
 As others before us \cite{DBLP:conf/sosp/EnglerKO95,DBLP:conf/hotos/EnglerK95,DBLP:conf/sosp/KaashoekEGBHMPGM97,DBLP:journals/tocs/CaoFKL96,DBLP:journals/sigops/HartyC92}, we believe this can be achieved by re-distributing the responsibilities between the application and the kernel, and allowing application-specific specialization of resource management.

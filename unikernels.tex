@@ -1,19 +1,19 @@
 \section{Unikernels: Library Operating Systems for the Cloud}
-Traditionally, applications are deployed in the Cloud as virtual machines (VM).
+Traditionally, applications are deployed in the cloud as virtual machines (VM).
 A VM packs a complete operating system, such as Linux or Windows, that allows to run unmodified application processes.
-Typically, a VM deployed in the Cloud can be viewed as a single-purpose appliance, i.e., it consists of a guest operating system running a main application that relies on smaller services running in parallel.
+Typically, a VM deployed in the cloud can be viewed as a single-purpose appliance, i.e., it consists of a guest operating system running a main application that relies on smaller services running in parallel.
 Due to the lack of standards for application configuration, VMs often run custom scripts as glue code to initialize the execution environment.
 
-Although destined to execute a single main application, Cloud VMs are insufficiently specialized.
+Although destined to execute a single main application, cloud VMs are insufficiently specialized.
 They contain an entire operating system image, distributed with some default services.
 Apart from unnecessarily increasing the disk image's size for this single-purpose appliance, hence requiring more resources to deploy and run the VM, the presence of unwanted default services increases the potential attack surface exposed to a malicious entity and threatens the VM's integrity.
 
-The unikernel paper \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} presents a new model to deploy applications in the Cloud that addresses the above-mentioned issues by radically specializing the Cloud application's image.
-\emph{Unikernels} are small-size, sealed, single-purpose appliances entirely written in a high-level programming language, that can easily be configured and deployed over Cloud platforms.
+The unikernel paper \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} presents a new model to deploy applications in the cloud that addresses the above-mentioned issues by radically specializing the cloud application's image.
+\emph{Unikernels} are small-size, sealed, single-purpose appliances entirely written in a high-level programming language, that can easily be configured and deployed over cloud platforms.
 
 \subsection{Design}
-The unikernel revisits the idea of library operating systems (LibOS) by applying it to Cloud platforms.
-A unikernel is a standalone kernel that encapsulates a single-purpose application destined to be deployed over the Cloud.
+The unikernel revisits the idea of library operating systems (LibOS) by applying it to cloud platforms.
+A unikernel is a standalone kernel that encapsulates a single-purpose application destined to be deployed over the cloud.
 As such, unikernels execute on top of a VM hypervisor, e.g., Xen \cite{DBLP:conf/sosp/BarhamDFHHHN03}.
 The advantages of targeting a virtualization platform instead of a custom kernel are twofold.
 First, the hypervisor provides a fixed virtual hardware abstraction that alleviates the need to take into account heterogeneous hardware devices.
@@ -39,7 +39,7 @@ Build parameters passed to the compiler enable static configuration, while dynam
 Unikernels are small size highly compact binaries.
 Since all the libraries are linked and compiled against the application itself, static analysis techniques such as dead-code elimination (DCE) can be applied to reduce the final image's size.
 The authors claim that in most cases, the final binary's size is on the order of kilobytes, and hence easily deployable across the Internet.
-Furthermore, in the context of Cloud platforms, where resources are rented, small size binaries consume less resources to host the program's code and data, and hence minimize expenses.
+Furthermore, in the context of cloud platforms, where resources are rented, small size binaries consume less resources to host the program's code and data, and hence minimize expenses.
 
 Unikernels leverage type-safety and static analysis and verification tools to improve the application's security.
 %By eschewing backward compatibility and requiring the entire stack to be written in a single high-level typed programming language, unikernels can leverage type-safety as well as static analysis and verification tools to improve the application's security.
@@ -64,7 +64,7 @@ Unfortunately, this technique increases resource usage, does not provide type-sa
 \subsection{Prototype and Evaluation}
 
 A common argument against type-safe and memory managed programming languages is the overhead incurred by type checks and garbage collection.
-Performance is crucial to Cloud services tenants to achieve their service level objectives.
+Performance is crucial to cloud services tenants to achieve their service level objectives.
 According to the authors, a unikernel's performance is comparable to that of a standard VM.
 
 The authors evaluate a prototype unikernel implementation, called Mirage, that leverages OCaml system programming and static type system to produce appliances running on top of a Xen hypervisor \cite{DBLP:conf/sosp/BarhamDFHHHN03}.
@@ -81,7 +81,7 @@ Mirage main features are evaluated against a set of microbenchmarks.
 Compared to a Linux kernel running as a paravirtualized Xen domU, a Mirage appliance boots more than two times faster, enables the creation of 20 million threads twice as fast, incurs less jitter in thread timers thanks to the absence of user/kernel crossings, and performs network and storage I/O without significant overheads.
 
 Mirage is also evaluated on more realistic applications, namely, a DNS server, an OpenFlow controller appliance, and a web server backed by a database.
-In the remainder of this section, we focus on the DNS server evaluation that exhibits the advantages of relying on Mirage to deploy Cloud applications.
+In the remainder of this section, we focus on the DNS server evaluation that exhibits the advantages of relying on Mirage to deploy cloud applications.
 We note, however, that in all experiments, Mirage's performance is close to, and occasionally better than, state-of-the-art implementations.
 
 The Mirage DNS server application includes libraries for the network stack and an in-memory filesystem.

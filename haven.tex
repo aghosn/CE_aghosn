@@ -4,7 +4,7 @@ Cloud computing service providers enable even small organizations to deploy web-
 On a machine, the cloud service provider's host divides physical resources among co-located applications from different origins.
 While attractive for their simplicity and adaptability, such services raise important confidentiality and integrity concerns that limit their adoption \cite{mining,NSAYahoo}.
 Cloud services implement a unidirectional isolation model where privileged code (the host) is protected from the unprivileged one (the guest), and retains unrestricted access to the application's data.
-In other words, Cloud users are forced to trust the entire Cloud privileged management software stack with their sensitive data and intellectual property.
+In other words, cloud users are forced to trust the entire cloud privileged management software stack with their sensitive data and intellectual property.
 As privacy and confidentiality are growing concerns, new techniques need to be devised to protect the application's data from a potentially compromised or malicious host.
 
 Haven \cite{DBLP:journals/tocs/BaumannPH15} is a system that leverages Intel Software Guard Extension (SGX) \cite{SGXManual} to provide shielded execution of unmodified legacy applications on a commodity OS (Windows).
@@ -63,8 +63,8 @@ This module also acts as a bootstrap to create the enclave and load the shield.
 
 The host OS interacts with the enclave via the Drawbridge ABI and provides services relating to memory management, such as, changing memory access rights or allocating untrusted virtual memory, thread signaling, and access to untrusted external devices and to the system time.
 
-Applications are deployed in the Cloud as encrypted disk images that contain both the application and the LibOS binaries.
-The Cloud service provider is responsible for creating the picoprocess and loading the untrusted runtime, which in turn creates the enclave and loads the shield module.
+Applications are deployed in the cloud as encrypted disk images that contain both the application and the LibOS binaries.
+The cloud service provider is responsible for creating the picoprocess and loading the untrusted runtime, which in turn creates the enclave and loads the shield module.
 SGX remote attestation mechanism is used to compute a quote of the shield and verify its integrity as well as the enclave's environment.
 Subsequently, the shield generates asymmetric cryptography keys, securely sends its public key to a machine controlled by the user along with the quote.
 The user verifies the shield's integrity, encrypts the disk image with the public key, and sends it to the shield.
