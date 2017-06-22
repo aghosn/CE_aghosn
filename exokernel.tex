@@ -13,7 +13,6 @@ In the following sections, we focus on the design principles that are at the hea
 \subsection{Design Principles}
 The main challenge in designing an exokernel is to enforce a clean separation between resource protection and management.
 The kernel avoids resource management up to the extent required by protection.
-This can be achieved by relying on a form of policy/mechanism separation \cite{DBLP:journals/cacm/LampsonS76}.
 It is responsible for securely multiplexing hardware resources and allowing different library operating systems (and applications) to coexist on the same machine.
 It must do so with little overhead and without imposing design restrictions that might hurt the application's performance.
 
@@ -38,6 +37,7 @@ Due to the heterogeneity of the multiplexed resources, the exokernel relies on d
 	\item software caching, and
 	\item downloading application code in the kernel
 \end{enumerate*}.
+The multiplicity of mechanisms for secure bindings enables a flexible implementation of resource protection and pushes towards a policy/mechanism separation \cite{DBLP:journals/cacm/LampsonS76}.
 Ideally, specific hardware features should be leveraged whenever possible to implement protection and access time checks.
 For example, if a hardware memory TLB is available to software, the kernel first validates a virtual-to-physical memory mapping, e.g., by performing authorization checks on the physical page, and then installs an entry inside the hardware TLB (bind time), which subsequently performs efficient access time checks.
 When hardware support is not possible, or to improve the overall system performance, secure bindings can be implemented as a software TLB, i.e., the kernel can cache bindings.
