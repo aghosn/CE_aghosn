@@ -12,7 +12,7 @@ By cross-referencing Haven's reported results with a recent performance evaluati
 
 The first evaluation relies on two real-world applications, namely, a TPC-E benchmark running on a Microsoft SQL server, and an Apache HTTP server benchmark.
 Haven's performance is compared with the one achieved by running the same experiments natively, in a hyper-V VM, and in Drawbridge.
-As a general result, Haven's throughput is smaller than in all other configurations for both applications.
+As a general result, Haven's throughput is lower than in all other configurations for both applications.
 On the database benchmark, it incurs a 13\% slowdown compared to Drawbridge, which itself is comparable to the VM deployment.
 On the HTTP server, Haven exhibits 40\% and 55\% slowdowns compared to Drawbridge and the VM solutions.
 We note however that Haven running with a dedicated filesystem outperforms Drawbridge, due to the read-intensive nature of the workload that accesses cached enclave pages.
@@ -29,5 +29,5 @@ For the HTTP server, the actual slowdown due to enclave crossings is of the orde
 
 More generally, Haven's authors predicted a 31\% to 54\% slowdown in performance compared to a virtual machine solution.
 As mentioned above, memory operations on EPC pages were largely underestimated.
-A thorough experiment on real hardware is needed to better understand how Haven really compares to VM based solutions.
+A thorough experiment on real hardware is needed to better understand how Haven really compares to VM-based solutions.
 We also note that, while targeting Cloud services, Haven does not provide the same flexibility as VMs in terms of deployment and migration of applications.

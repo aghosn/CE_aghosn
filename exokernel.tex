@@ -1,8 +1,8 @@
 \section{Exokernel: An Operating System Architecture for Application-Level Resource Management}
 
 In traditional operating systems, applications interact with the kernel via interfaces that hide machine resources behind fixed high-level abstractions such as processes, files, virtual memory, and interprocess communications (IPC).
-Unfortunately, as these abstraction cannot be replaced by untrusted user code, their implementations need to be general enough to serve heterogeneous applications.
-Consequently, applications that do not need certain features still incur its associated overhead.
+Unfortunately, as these abstractions cannot be replaced by untrusted user code, their implementations need to be general enough to serve heterogeneous applications.
+Consequently, applications that do not need certain features still incur their associated overheads.
 More generally, the lack of flexibility imposed by fixed kernel abstractions impedes an application's performance, flexibility, and functionality, by preventing domain-specific optimizations of resource management, the modification of existing abstractions, and requiring new ones to be inefficiently emulated on top of a rigid high-level kernel interface.
 
 Guided by the \emph{end-to-end} principle \cite{DBLP:journals/tocs/SaltzerRC84}, the authors of the exokernel paper \cite{DBLP:conf/sosp/EnglerKO95} present a novel operating system architecture that provides application-level management of physical resources.
@@ -26,7 +26,7 @@ Guided by these goals, the authors made the design choice to rely on physical na
 
 The use of physical names in allocation and revocation is a central design choice that has several benefits.
 First, physical names allow the kernel interface to be as close as possible to the hardware.
-Second, it avoids adding an additional level of indirection, e.g., virtual names, that would introduce overheads and force the kernel to perform complex management of resources.
+Second, it avoids adding an additional level of indirection, e.g., virtual names, that would introduce overheads and force the kernel to perform a complex management of resources.
 Third, it preserves the application's ability to take full advantage of the underlying hardware, e.g., by requesting particular physical resources.
 
 To securely expose resources and track ownership, the exokernel relies on \emph{secure bindings}.

@@ -63,7 +63,7 @@ This module also acts as a bootstrap to create the enclave and load the shield.
 
 The host OS interacts with the enclave via the Drawbridge ABI and provides services relating to memory management, such as, changing memory access rights or allocating untrusted virtual memory, thread signaling, and access to untrusted external devices and to the system time.
 
-Applications are deployed on the Cloud as encrypted disk images that contain both the application and the LibOS binaries.
+Applications are deployed in the Cloud as encrypted disk images that contain both the application and the LibOS binaries.
 The Cloud service provider is responsible for creating the picoprocess and loading the untrusted runtime, which in turn creates the enclave and loads the shield module.
 SGX remote attestation mechanism is used to compute a quote of the shield and verify its integrity as well as the enclave's environment.
 Subsequently, the shield generates asymmetric cryptography keys, securely sends its public key to a machine controlled by the user along with the quote.

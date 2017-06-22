@@ -20,12 +20,12 @@ This research proposal aims at the study of modern systems, designed to address 
 A modern design must:
 \begin{enumerate*}
 	\item allow heterogeneous applications to achieve satisfiable performances,
-	\item take into account modern deployment paradigms, e.g., Cloud services, and 
+	\item take into account modern deployment paradigms and hardware setups, e.g., Cloud services, and 
 	\item allow bi-directional isolation between a host and a guest to address present-day security and privacy concerns
 \end{enumerate*}.
 To do so, we need to explore the design space between a low level interface, as in the exokernel, and virtualized environments, as for unikernels.
 The ideal solution would be a hybrid design that strikes the sweet spot between exposing raw hardware resources and providing a stable and portable abstraction.
-Modern hardware support for virtualization, such as Intel VT-x \cite{DBLP:journals/computer/UhligNRSMABKLS05} and Intel VT-d \cite{intelVTD}, present interesting opportunities to study how virtualization can be leveraged without sacrificing flexibility.
+Modern hardware support for virtualization, such as Intel VT-x \cite{DBLP:journals/computer/UhligNRSMABKLS05} and Intel VT-d \cite{intelVTD}, presents interesting opportunities to study how virtualization can be leveraged without sacrificing flexibility.
 
 This design would act as a foundation for further exploration of new solutions on higher-level components. 
 More precisely, new abstractions could easily be created to leverage the latest hardware features, such as Intel SGX, and create modern execution environments that answer present-day security requirements.

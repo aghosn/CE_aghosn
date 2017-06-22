@@ -19,7 +19,7 @@ For system calls, the authors report that Ultrix's \lstinline{getpid} (one of th
 
 In accord with the exokernel's design principles, Aegis dispatches all exceptions to applications.
 After handling an exception, the application is not required to re-enter the kernel before resuming its execution.
-As a result, Aegis's exception mechanism is more than five times faster than the state-of-the-art fastest implementation at the time \cite{DBLP:conf/asplos/ThekkathL94}.
+As a result, Aegis's exception mechanism is more than five times faster than the state-of-the-art fastest implementation at that time \cite{DBLP:conf/asplos/ThekkathL94}.
 
 Aegis provides primitives for synchronous and asynchronous protected control transfer, a mechanism that can be relied upon to implement efficient IPC abstractions.
 Compared with the then fastest published implementation \cite{DBLP:conf/sosp/Liedtke93}, Aegis mechanism is 6.6 times faster.
@@ -31,6 +31,6 @@ A simple pipe implementation is 10 times faster than in Ultrix, while a LRPC is 
 This discrepancy is due to the fact that Ultrix needs to emulate new abstractions, such as LRPC, on top of existing ones, e.g., pipes or signals.
 
 The authors then proceed with a comparison between the unoptimized implementation of virtual memory management in ExOS to the one provided in Ultrix.
-First, a simple benchmarks allows to show that a standard implementation that does not leverage the exokernel features and Ultrix perform indistinguishably.
+First, a simple benchmark allows to show that a standard implementation that does not leverage the exokernel features and Ultrix perform indistinguishably.
 A set of microbenchmarks shows that ExOS performs reasonably, i.e., 1.1 to 1.6 times slower, compared to Ultrix on tests that change access rights to contiguous address ranges.
 At the same time, ExOS outperforms Ultrix on page-protection traps and more heterogeneous benchmarks by being at least an order of magnitude faster.

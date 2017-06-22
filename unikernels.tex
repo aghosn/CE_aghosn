@@ -6,7 +6,7 @@ Due to the lack of standards for application configuration, VMs often run custom
 
 Although destined to execute a single main application, Cloud VMs are insufficiently specialized.
 They contain an entire operating system image, distributed with some default services.
-Apart from unnecessarily increasing the disk image size for this single-purpose appliance, hence requiring more resources to deploy and run the VM, the presence of unwanted default services increases the potential attack surface exposed to a malicious entity and threatens the VM's integrity.
+Apart from unnecessarily increasing the disk image's size for this single-purpose appliance, hence requiring more resources to deploy and run the VM, the presence of unwanted default services increases the potential attack surface exposed to a malicious entity and threatens the VM's integrity.
 
 The unikernel paper \cite{DBLP:conf/asplos/MadhavapeddyMRSSGSHC13} presents a new model to deploy applications in the Cloud that addresses the above-mentioned issues by radically specializing the Cloud application's image.
 \emph{Unikernels} are small-size, sealed, single-purpose appliances entirely written in a high-level programming language, that can easily be configured and deployed over Cloud platforms.
@@ -65,7 +65,7 @@ Unfortunately, this technique increases resource usage, does not provide type-sa
 
 A common argument against type-safe and memory managed programming languages is the overhead incurred by type checks and garbage collection.
 Performance is crucial to Cloud services tenants to achieve their service level objectives.
-According to the authors, unikernels performances are comparable to that of standard VMs.
+According to the authors, a unikernel's performance is comparable to that of a standard VM.
 
 The authors evaluate a prototype unikernel implementation, called Mirage, that leverages OCaml system programming and static type system to produce appliances running on top of a Xen hypervisor \cite{DBLP:conf/sosp/BarhamDFHHHN03}.
 A Mirage application is a standalone kernel, encapsulating a single process running in a 64-bits address space.
@@ -75,7 +75,7 @@ Lightweight threads enable the implementation of I/O protocols in a type-safe, n
 Network processing as well as storage I/Os are implemented as unikernel libraries under the control of the application and rely on a unified device driver model to read/write from/to a device.
 Mirage applications contain a guest VM driver implemented in OCaml that communicates with a Xen backend driver via events and a shared memory page that holds requests and responses for device operations.
 This shared memory ring is at the heart of every I/O in Mirage and allows device drivers to be implemented as OCaml libraries linked against the application.
-The Mirage runtime memory management was specialized to dedicate a segment to these external I/O pages.
+%The Mirage runtime memory management was specialized to dedicate a segment to these external I/O pages.
 
 Mirage main features are evaluated against a set of microbenchmarks.
 Compared to a Linux kernel running as a paravirtualized Xen domU, a Mirage appliance boots more than two times faster, enables the creation of 20 million threads twice as fast, incurs less jitter in thread timers thanks to the absence of user/kernel crossings, and performs network and storage I/O without significant overheads.
@@ -90,7 +90,7 @@ Adding memorization of responses enabled the Mirage appliance to reach a through
 In comparison, NSD reaches a maximal throughput of 70 kqueries/s.
 Apart from the performance evaluation, the authors highlight the benefits of having a type-safe implementation of a DNS server.
 Reportedly, the Bind software (a mature and popular DNS server) suffered from 40 important vulnerabilities in the past 10 years, mostly related to memory management errors and poor handling of exceptional cases.
-Mirage's type-safety prevents this kind of error by design.
+Mirage's type-safety prevents this kind of errors by design.
 The DNS server Mirage appliance is a good example showing that type-safety, and more generally improved security, do not preclude performance. 
 
 Finally, Mirage yields small size binary images, even for realistic applications.

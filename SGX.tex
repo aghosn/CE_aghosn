@@ -16,7 +16,7 @@ While cache resident data is protected by the translation lookaside buffer (TLB)
 Main memory, i.e., DRAM, is not part of the trusted computing base (TCB).
 As a result, in enclave mode, all traffic between the CPU and main memory needs to be encrypted and integrity protected.
 SGX relies on a dedicated hardware unit, called \emph{Memory Encryption Engine} (MEE), that is part of the TCB and operates as an extension of the Memory Controller (MC).
-The MEE is in charge of a portion of the physical memory, i.e., the \emph{protected region}, determined at boot time, that holds enclave pages, the processor's metadata used to handle them, and the region's integrity tree.
+The MEE is in charge of a portion of the physical memory, called the \emph{protected region}, determined at boot time, that holds enclave pages, the processor's metadata used to handle them, and the region's integrity tree.
 The MEE implements and enforces the encryption and integrity protection schemes for enclave resident data.
 More specifically, it decrypts and verifies the integrity of enclaves' data loaded from main memory, and encrypts and computes MAC tags and version attributes to protect the integrity of (and prevent replay attacks on) data written to main memory.
 A failure to verify an enclave's data integrity results in a fault that blocks the processor's MC and requires a system reboot.
@@ -41,6 +41,6 @@ Remote attestation relies on asymmetric cryptography to produce a report.
 First, the local attestation is used with a special \emph{quoting enclave}.
 The quoting enclave then generates and inserts a MAC in the report computed with a private, device specific key and sends the report to the remote entity.
 The known public key can at that time be used to verify the authenticity of the MAC contained within the report.
-A remote attestation report is called a \emph{quote} to differentiate it from local attestation reports.
+A remote attestation report is called a \emph{quote}.
 
 The next section presents Haven's design and how it leverages Intel SGX to provide shielded execution of unmodified legacy applications.
