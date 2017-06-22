@@ -4,7 +4,7 @@ While Moore's law is coming to an end \cite{DBLP:journals/cse/TheisW17,DBLP:jour
 Modern hardware setups harvest the cumulative power of dozens of machines to achieve their computations in a timely fashion.
 New hardware appliances are leveraged to off-load parts of the computation and decrease the overall processing time: GPGPUs \cite{DBLP:journals/pvldb/YuanL013,DBLP:conf/damon/KaldeweyLMV12,DBLP:journals/pvldb/Ailamaki15}, FPGAs \cite{DBLP:journals/cacm/PutnamCCCCDEFGG16}, and new types of processing units, e.g., GAP \cite{DARPAGAP} and Google's Tensor Processing Units (TPU) \cite{GoogleTPU}, appear in datacenters.
 
-Meanwhile, the monolithic architecture of popular operating systems is becoming more and more of a burden.
+Meanwhile, the high-level interface exposed by conventional operating systems is becoming more and more of a burden.
 Based on rigid abstractions devised decades ago, it often fails to answer today's challenges in terms of performance and security.
 Researchers and developers are forced to rely on kernel bypasses, virtualization, or software frameworks, to achieve higher throughput, greater flexibility, or improved security.
 For example, providing a new system abstraction, such as light-weight contexts \cite{DBLP:conf/osdi/LittonVE0BD16}, requires to either modify an existing kernel, inefficiently emulate it on top of existing abstractions, or rely on virtualization techniques.
