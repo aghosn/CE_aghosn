@@ -11,8 +11,9 @@ Library operating systems are then free to implement their own efficient system 
 In the following sections, we focus on the design principles that are at the heart of the exokernel architecture and report the evaluation of Aegis, a prototype exokernel.
 
 \subsection{Design Principles}
-The main challenge in designing an exokernel is to enforce a clean separation between protection and mechanisms \cite{DBLP:journals/cacm/LampsonS76}.
+The main challenge in designing an exokernel is to enforce a clean separation between resource protection and management.
 The kernel avoids resource management up to the extent required by protection.
+This can be achieved by relying on a form of policy/mechanism separation \cite{DBLP:journals/cacm/LampsonS76}.
 It is responsible for securely multiplexing hardware resources and allowing different library operating systems (and applications) to coexist on the same machine.
 It must do so with little overhead and without imposing design restrictions that might hurt the application's performance.
 
